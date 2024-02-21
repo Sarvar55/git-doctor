@@ -10,7 +10,8 @@
 	"scripts": {
 		"start": "node build/index.js",
 		"build": "tsc",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"prepare": "husky install"
 	},
 	"type": "module",
 	"release": {
@@ -21,7 +22,12 @@
 	"author": "Sarvar55",
 	"license": "ISC",
 	"devDependencies": {
+		"husky": "^9.0.11",
+		"lint-staged": "^15.2.2",
 		"prettier": "3.2.5",
 		"typescript": "^5.3.3"
+	},
+	"lint-staged": {
+		"**/*": "prettier --write --ignore-unknown"
 	}
 }
