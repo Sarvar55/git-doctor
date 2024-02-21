@@ -6,14 +6,7 @@
   "repository": {
     "url": "https://github.com/Sarvar55/git-doctor"
   },
-  "keywords": [
-    "gitdoctor",
-    "doctorcommit",
-    "git",
-    "gpt",
-    "ai",
-    "commit"
-  ],
+  "keywords": [],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,7 +16,9 @@
       "master"
     ]
   },
-  "keywords": [],
   "author": "Sarvar55",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
 }
