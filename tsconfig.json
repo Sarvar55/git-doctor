@@ -1,23 +1,23 @@
 {
-  "compilerOptions": {
-    "lib": ["ESNext", "DOM"],
-    "strict": true,
-    "alwaysStrict": true,
-    "importsNotUsedAsValues": "remove",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "rootDir": "src",
-    "outDir": "build",
-    "skipLibCheck": true,
-    "target": "ES6",
-    "declaration": true,
-    "declarationDir": "build/types",
-    "declarationMap": true,
-    "module": "ESNext",
-    "forceConsistentCasingInFileNames": true,
-    "strictFunctionTypes": true
-  },
-  "exclude": ["node_modules"]
+	"compilerOptions": {
+		"lib": ["ESNext", "DOM"],
+		"strict": true,
+		"alwaysStrict": true,
+		"importsNotUsedAsValues": "remove",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"moduleResolution": "Node",
+		"esModuleInterop": true,
+		"rootDir": "src",
+		"outDir": "build",
+		"skipLibCheck": true,
+		"target": "ES6",
+		"declaration": true,
+		"declarationDir": "build/types",
+		"declarationMap": true,
+		"module": "ESNext",
+		"forceConsistentCasingInFileNames": true,
+		"strictFunctionTypes": true
+	},
+	"exclude": ["node_modules", "build"]
 }

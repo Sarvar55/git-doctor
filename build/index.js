@@ -1,2 +1,4 @@
 "use strict";
-console.log("merhaba");
+const denee = () => {
+    console.log('fkjsdkfjkjsdfkjnsdf');
+};
