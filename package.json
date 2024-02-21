@@ -1,25 +1,27 @@
 {
-  "name": "git-doctor",
-  "version": "0.0.0",
-  "description": "GitDoctor, a TypeScript-powered command-line marvel, revolutionizes your Git experience with a range of unique features tailored for efficient version control.",
-  "main": "src/index.ts",
-  "repository": {
-    "url": "https://github.com/Sarvar55/git-doctor"
-  },
-  "keywords": [],
-  "scripts": {
-    "start": "node build/index.js",
-    "build": "tsc"
-  },
-  "type": "module",
-  "release": {
-    "branches": [
-      "master"
-    ]
-  },
-  "author": "Sarvar55",
-  "license": "ISC",
-  "devDependencies": {
-    "typescript": "^5.3.3"
-  }
+	"name": "git-doctor",
+	"version": "0.0.0",
+	"description": "GitDoctor, a TypeScript-powered command-line marvel, revolutionizes your Git experience with a range of unique features tailored for efficient version control.",
+	"main": "src/index.ts",
+	"repository": {
+		"url": "https://github.com/Sarvar55/git-doctor"
+	},
+	"keywords": [],
+	"scripts": {
+		"start": "node build/index.js",
+		"build": "tsc",
+		"format": "prettier --write ."
+	},
+	"type": "module",
+	"release": {
+		"branches": [
+			"master"
+		]
+	},
+	"author": "Sarvar55",
+	"license": "ISC",
+	"devDependencies": {
+		"prettier": "3.2.5",
+		"typescript": "^5.3.3"
+	}
 }
