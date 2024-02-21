@@ -4,6 +4,7 @@
 		"strict": true,
 		"alwaysStrict": true,
 		"importsNotUsedAsValues": "remove",
+		"allowJs": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"moduleResolution": "Node",
@@ -14,7 +15,6 @@
 		"target": "ES6",
 		"declaration": true,
 		"declarationDir": "build/types",
-		"declarationMap": true,
 		"module": "ESNext",
 		"forceConsistentCasingInFileNames": true,
 		"strictFunctionTypes": true
