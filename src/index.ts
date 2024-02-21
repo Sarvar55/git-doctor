@@ -1,3 +1,5 @@
-const denee = () => {
-	console.log('fkjsdkfjkjsdfkjnsdf')
+const greating = (name: string) => {
+	console.log(name)
 }
+
+greating('sarvar')
