@@ -22,6 +22,9 @@
 	"author": "Sarvar55",
 	"license": "ISC",
 	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^7.0.2",
+		"@typescript-eslint/parser": "^7.0.2",
+		"eslint": "^8.56.0",
 		"husky": "^9.0.11",
 		"lint-staged": "^15.2.2",
 		"prettier": "3.2.5",
