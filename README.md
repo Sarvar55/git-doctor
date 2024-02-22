@@ -11,7 +11,7 @@ GitDoctor, Git kullanımınızı kolaylaştıran ve verimli hale getiren bir Typ
 
 ## Nasıl Kullanılır?
 
-1. **Çeviri Yardımcısı**: Commit mesajlarınızı Türkçe yazın ve GitDoctor, bu mesajları otomatik olarak Rusça'ya çevirir.
+1. **Çeviri Yardımcısı**: Commit mesajlarınızı Türkçe yazın ve GitDoctor, bu mesajları otomatik olarak sizin istediğiniz dile çevirsin.
 2. **Emoji Destekli Commit Mesajları**: Commit mesajlarınızın başına emoji ekleyin ve GitDoctor, bu emojiyi kullanarak commit mesajınızı daha anlaşılır hale getirir.
 3. **AI Destekli Commit Mesajları**: Commit mesajlarınızın içeriğine göre otomatik olarak uygun bir commit mesajı oluşturur.
 4. **Otomatik Commit ve Push**: Commit mesajınızı ve değişikliklerinizi otomatik olarak belirlenen bir brancha push eder.
@@ -50,7 +50,7 @@ GitDoctor'ın davranışını özelleştirmek için `config.json` dosyasını d�
 ## Örnek Kullanım
 
 ```bash
-git commit -m "Yeni bir dosya eklendi"
+
 ```
 
 GitDoctor, bu commit mesajını otomatik olarak çevirir ve emoji ekler.
