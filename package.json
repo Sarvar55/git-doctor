@@ -9,7 +9,7 @@
 	"keywords": [],
 	"scripts": {
 		"start": "node build/index.js",
-		"build": "tsc",
+		"build": "tsc-esm",
 		"lint": "eslint . --max-warnings 0 --report-unused-disable-directives",
 		"lint:fix": "npm run lint -- --fix",
 		"format": "prettier --write .",
@@ -26,22 +26,25 @@
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^7.0.2",
 		"@typescript-eslint/parser": "^7.0.2",
+		"axios": "^1.6.7",
 		"eslint": "^8.56.0",
 		"husky": "^9.0.11",
 		"lint-staged": "^15.2.2",
 		"prettier": "3.2.5",
-		"ts-dotenv": "^0.9.1",
-		"axios": "^1.6.7",
-		"typescript": "^5.3.3"
+		"ts-node": "^10.9.1",
+		"typescript": "^5.3.3",
+		"zod": "^3.22.4"
 	},
 	"lint-staged": {
 		"**/*": "prettier --write --ignore-unknown"
 	},
 	"dependencies": {
 		"@clack/prompts": "^0.7.0",
+		"@digitak/tsc-esm": "^3.1.4",
 		"@types/execa": "^2.0.0",
 		"chalk": "^5.3.0",
 		"cli-select": "^1.1.2",
+		"dotenv": "^16.4.5",
 		"execa": "^8.0.1",
 		"timers-promises": "^1.0.1"
 	}

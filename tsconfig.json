@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"lib": ["ESNext", "DOM"],
+		"lib": ["ESNext", "DOM", "ES2016"],
 		"strict": true,
 		"alwaysStrict": true,
 		"importsNotUsedAsValues": "remove",
@@ -16,8 +16,12 @@
 		"declaration": true,
 		"declarationDir": "build/types",
 		"module": "ESNext",
-		"forceConsistentCasingInFileNames": true,
 		"strictFunctionTypes": true
 	},
+	"ts-node": {
+		"esm": true,
+		"experimentalSpecifierResolution": "node"
+	},
+	"include": ["src/**/*", ".env"],
 	"exclude": ["node_modules", "build"]
 }

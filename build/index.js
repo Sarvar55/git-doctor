@@ -7,21 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import axios from 'axios';
-function translateText() {
+import { translateCommit } from './utils/translate-commit.js';
+function de() {
     return __awaiter(this, void 0, void 0, function* () {
-        const sourceText = 'Merhaba Dünya!'; // Burada gerçekleştirmek istediğiniz çeviri metni
-        const sourceLang = 'tr';
-        const targetLang = 'ru';
-        try {
-            const response = yield axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURI(sourceText)}`);
-            const translatedText = response.data[0][0][0];
-            console.log('Çevrilen Metin:', translatedText);
-            // İstersen başka bir işlem yapabilirsin, örneğin çevrilen metni bir dosyaya yazabilirsin.
-        }
-        catch (error) {
-            console.error('Çeviri hatası:', error);
-        }
+        const commit = yield translateCommit('yeni bir dosya eklendi');
+        console.log(commit);
     });
 }
-translateText();
+de();
