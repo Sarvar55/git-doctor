@@ -11,6 +11,7 @@
 		"start": "node build/index.js",
 		"build": "tsc-esm",
 		"lint": "eslint . --max-warnings 0 --report-unused-disable-directives",
+		"build:push": "npm run build && git add . && git commit -m 'build' && git push",
 		"lint:fix": "npm run lint -- --fix",
 		"format": "prettier --write .",
 		"prepare": "husky install"
