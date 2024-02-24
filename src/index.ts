@@ -1,6 +1,8 @@
+import chalk from 'chalk'
 import { APP_CONSTANTS, ConfigManager } from './config/config'
 import { askToAi } from './utils/ask-to-ai'
-import { gitDiff } from './utils/git'
+import { gitDiff, gitGetModifiedFiles } from './utils/git'
+import { outro } from '@clack/prompts'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, true)
@@ -9,6 +11,12 @@ config.set(APP_CONSTANTS.hasEmoji, true)
 
 async function main() {
 	const message: string = await gitDiff()
+	const changedFiles = await gitGetModifiedFiles()
+
+	if (changedFiles.length === 0) {
+		outro(`${chalk.red('✖')}  commit için herhangi bir değişiklik yok.`)
+		process.exit(1)
+	}
 	await askToAi(message)
 }
 
