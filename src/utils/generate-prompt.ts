@@ -15,16 +15,15 @@ export const generatePrompt = (request: GenerateCommitRequest): string => {
         - Use imperative mood (e.g., 'Fix', 'Add', 'Update').
         - Avoid using the word 'commit' in the message.
         - Do not include words like 'fixes', 'fixing', 'bug', 'bugs', 'issue', 'issues', 'error', 'errors', 'problem', 'problems', 'solution', 'solutions', 'patch', 'patches'.
-        - The commit message tense must be present tense.
-        - Keep lines under  100 characters.
-        - Provide the answer in JSON format only.
-        - The commit message you write must be in this language ${
+        - !The commit message must be in present tense, you need to be very careful about this. 
+        - Keep lines under 100 characters.
+        - This language (${
 			config.has(APP_CONSTANTS.translate_auto_to_target_lang)
 				? config.has(APP_CONSTANTS.targetLang)
 					? config.get(APP_CONSTANTS.targetLang)
 					: 'en'
 				: 'en'
-		}. Be very careful about it. 
+		}) determines the language in which the values of your json data will be, pay attention to this.
         - ${
 			config.get(APP_CONSTANTS.hasEmoji)
 				? 'Optionally, use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'

@@ -7,17 +7,18 @@ import { outro } from '@clack/prompts'
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, true)
 // config.set(APP_CONSTANTS.translate_auto_to_target_lang, true)
-// config.set(APP_CONSTANTS.targetLang, 'en')
+// config.set(APP_CONSTANTS.targetLang, 'CN')
 
 async function main() {
-	const message: string = await gitDiff()
+	const diff: string = await gitDiff()
 	const changedFiles = await gitGetModifiedFiles()
 
 	if (changedFiles.length === 0) {
 		outro(`${chalk.red('✖')}  commit için herhangi bir değişiklik yok.`)
 		process.exit(1)
 	}
-	await askToAi(message)
+
+	await askToAi(diff)
 }
 
 main()

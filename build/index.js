@@ -15,16 +15,16 @@ import { outro } from '@clack/prompts';
 const config = new ConfigManager();
 config.set(APP_CONSTANTS.hasEmoji, true);
 // config.set(APP_CONSTANTS.translate_auto_to_target_lang, true)
-// config.set(APP_CONSTANTS.targetLang, 'en')
+// config.set(APP_CONSTANTS.targetLang, 'CN')
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const message = yield gitDiff();
+        const diff = yield gitDiff();
         const changedFiles = yield gitGetModifiedFiles();
         if (changedFiles.length === 0) {
             outro(`${chalk.red('✖')}  commit için herhangi bir değişiklik yok.`);
             process.exit(1);
         }
-        yield askToAi(message);
+        yield askToAi(diff);
     });
 }
 main();

@@ -7,7 +7,7 @@ export const createAIModel = (): GenerativeModel => {
 			'API_KEY is not set in the environment variables.'
 		)
 
-	return new GoogleGenerativeAI(process.env.API_KEY).getGenerativeModel({
+	return new GoogleGenerativeAI(env.API_KEY).getGenerativeModel({
 		model: 'gemini-pro',
 	})
 }
