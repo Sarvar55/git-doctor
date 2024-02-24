@@ -1,40 +1,60 @@
 import { GenerateCommitRequest } from '../types/types'
+
 export const generatePrompt = (request: GenerateCommitRequest): string => {
 	return `
-    Your mission is to craft clear and concise commit messages that adhere to the conventional commit convention. Ensure that the commit message:
-    Your task is to create the most appropriate commir message according to the git diff file I gave you. 
-    The parts with + are added to the code and the parts with - are deleted.
+    Your mission is to craft clear and concise commit messages that adhere to the conventional commit convention. Your task is to create the most appropriate commit message based on the git diff file I provided. The parts with + are additions to the code, and the parts with - are deletions.
+
+    Example Input:
+    diff --git a/build/index.js b/build/index.js
+    index  2994376..f1075b5  100644
+    --- a/build/index.js
+    +++ b/build/index.js
+    @@ -6,10 +6,16 @@ index ec7c5aa..210daa3  100644
+    --- a/src/app/chef/page.tsx
+    +++ b/src/app/chef/page.tsx
+    @@ -6,6 +6,7 @@ export default function page({}: Props) {
+    +
+    + const names=["Sarvar","Ilkin","Omer"]
+    +
+    + const filter=()=>{
+    +  return names.filter(name=>name.equals("Sarvar"))
+    +}
+    +
+    return (
+      <div>
+          <h1>merhaba</h1>
+    - jhsbjhsbfjb
+      </div>
+    )
+  }
+
     Rules:
-        - Response must be in JSON format.
-        - The message should be concise and descriptive
+        - The response must be in JSON format.
+        - The commit message should be concise and descriptive.
+        - I want you to create a commit message for me according to this ${request.diff} change.
         - Use imperative mood (e.g., 'Fix', 'Add', 'Update').
-        - Do not include the word 'commit' in the message.
-        - Do not include the word 'fixes' or 'fixing' in the message.
-        - Do not include the word 'bug' or 'bugs' in the message.
-        - Do not include the word 'issue' or 'issues' in the message.
-        - Do not include the word 'error' or 'errors' in the message.
-        - Do not include the word 'problem' or 'problems' in the message.
-        - Do not include the word 'solution' or 'solutions' in the message.
-        - Do not include the word 'patch' or 'patches' in the message.
-        - Commit message tense must be present tense.
-        - As an answer markdown donme just don json.
+        - Avoid using the word 'commit' in the message.
+        - Do not include words like 'fixes', 'fixing', 'bug', 'bugs', 'issue', 'issues', 'error', 'errors', 'problem', 'problems', 'solution', 'solutions', 'patch', 'patches'.
+        - The commit message tense must be present tense.
+        - Keep lines under  100 characters.
+        - Provide the answer in JSON format only.
         - ${
 			request?.hasEmoji
-				? 'Use GitMoji convention to preface the commit.'
-				: 'Do not preface the commit with anything.'
+				? 'Optionally, use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'
+				: 'Do not preface the commit with any emoji or symbol.'
 		}
 
-        The JSON object must include the following fields:
-        -"commit":"[string]"
+    The JSON object must include the following field:
+        - "commit": "[string]"
 
-        Example Output:
-          {
-            "commit": ${request.hasEmoji ? ':art:' : ''} Update frontend dependencies"
-          }
+    Example Output:
+      {
+        "commit": "${request.hasEmoji ? '🐛' : ''} Update frontend dependencies"
+      }
 
-        Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
+    Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
 
-        Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing. JSON.parse()
-        It should not cause any errors when used and should be parsed directly.
+    Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing. JSON.parse()
+    It should not cause any errors when used and should be parsed directly.
     `.trim()
 }
