@@ -6,16 +6,20 @@
 	"repository": {
 		"url": "https://github.com/Sarvar55/git-doctor"
 	},
-	"keywords": [],
+	"keywords": [
+		"git",
+		"command-line",
+		"typescript",
+		"cli"
+	],
 	"scripts": {
 		"start": "node build/index.js",
-		"build": "tsc-esm",
-		"lint": "eslint . --max-warnings 0 --report-unused-disable-directives",
-		"build:push": "npm run build && git add . && git commit -m 'build' && git push",
-		"lint:fix": "npm run lint -- --fix",
+		"build": "rimraf build && tsc",
+		"lint": "eslint . --ext ts --max-warnings  0 --report-unused-disable-directives",
+		"lint:fix": "eslint . --ext ts --fix",
 		"format": "prettier --write .",
-		"prepare": "husky install",
-		"watch": "tsc-watch --onSuccess \"tsc-esm && npm run start\""
+		"build:push": "npm run build && git add . && git commit -m 'build' && git push",
+		"prepare": "husky install"
 	},
 	"type": "module",
 	"release": {
@@ -26,6 +30,7 @@
 	"author": "Sarvar55",
 	"license": "ISC",
 	"devDependencies": {
+		"@types/config": "^3.3.3",
 		"@typescript-eslint/eslint-plugin": "^7.0.2",
 		"@typescript-eslint/parser": "^7.0.2",
 		"axios": "^1.6.7",
@@ -34,6 +39,7 @@
 		"lint-staged": "^15.2.2",
 		"prettier": "3.2.5",
 		"ts-node": "^10.9.2",
+		"ts-node-dev": "^2.0.0",
 		"typescript": "^5.3.3",
 		"zod": "^3.22.4"
 	},
@@ -46,6 +52,8 @@
 		"@types/execa": "^2.0.0",
 		"chalk": "^5.3.0",
 		"cli-select": "^1.1.2",
+		"commander": "^12.0.0",
+		"config": "^3.3.11",
 		"dotenv": "^16.4.5",
 		"execa": "^8.0.1",
 		"timers-promises": "^1.0.1"

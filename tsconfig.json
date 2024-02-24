@@ -12,16 +12,16 @@
 		"rootDir": "src",
 		"outDir": "build",
 		"skipLibCheck": true,
-		"target": "ES6",
+		"target": "ESNext",
 		"declaration": true,
 		"declarationDir": "build/types",
 		"module": "ESNext",
 		"strictFunctionTypes": true
 	},
 	"ts-node": {
-		"esm": true,
-		"experimentalSpecifierResolution": "node"
+		"esm": true
 	},
+
 	"include": ["src/**/*", ".env"],
 	"exclude": ["node_modules", "build"]
 }
