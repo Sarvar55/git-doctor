@@ -15,10 +15,12 @@ class AIManager {
 
 	public async generateCommitMessage(message: string): Promise<string> {
 		const chat = this.prepareChat()
+
 		const prompt = generatePrompt({
-			hasEmoji: true,
 			diff: message,
 		})
+
+		outro(chalk.green(prompt))
 		try {
 			const { response } = await chat.sendMessage(prompt)
 			const jsonCommit = this.parseJsonFromMarkdown(response.text())

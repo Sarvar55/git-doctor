@@ -1,45 +1,32 @@
+import { APP_CONSTANTS, ConfigManager } from '../config/config'
 import { GenerateCommitRequest } from '../types/types'
 
 export const generatePrompt = (request: GenerateCommitRequest): string => {
+	const config = new ConfigManager()
 	return `
     Your mission is to craft clear and concise commit messages that adhere to the conventional commit convention. Your task is to create the most appropriate commit message based on the git diff file I provided. The parts with + are additions to the code, and the parts with - are deletions.
-
-    Example Input:
-    diff --git a/build/index.js b/build/index.js
-    index  2994376..f1075b5  100644
-    --- a/build/index.js
-    +++ b/build/index.js
-    @@ -6,10 +6,16 @@ index ec7c5aa..210daa3  100644
-    --- a/src/app/chef/page.tsx
-    +++ b/src/app/chef/page.tsx
-    @@ -6,6 +6,7 @@ export default function page({}: Props) {
-    +
-    + const names=["Sarvar","Ilkin","Omer"]
-    +
-    + const filter=()=>{
-    +  return names.filter(name=>name.equals("Sarvar"))
-    +}
-    +
-    return (
-      <div>
-          <h1>merhaba</h1>
-    - jhsbjhsbfjb
-      </div>
-    )
-  }
 
     Rules:
         - The response must be in JSON format.
         - The commit message should be concise and descriptive.
         - I want you to create a commit message for me according to this ${request.diff} change.
+        - The commit message should also include information such as why it was done and what to do.
+        - The commit message you need to write should not be something very specific, it should be something general, that is, it should resemble all the changes made.
         - Use imperative mood (e.g., 'Fix', 'Add', 'Update').
         - Avoid using the word 'commit' in the message.
         - Do not include words like 'fixes', 'fixing', 'bug', 'bugs', 'issue', 'issues', 'error', 'errors', 'problem', 'problems', 'solution', 'solutions', 'patch', 'patches'.
         - The commit message tense must be present tense.
         - Keep lines under  100 characters.
         - Provide the answer in JSON format only.
+        - The commit message you write must be in this language ${
+			config.has(APP_CONSTANTS.translate_auto_to_target_lang)
+				? config.has(APP_CONSTANTS.targetLang)
+					? config.get(APP_CONSTANTS.targetLang)
+					: 'en'
+				: 'en'
+		}. Be very careful about it. 
         - ${
-			request?.hasEmoji
+			config.get(APP_CONSTANTS.hasEmoji)
 				? 'Optionally, use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'
 				: 'Do not preface the commit with any emoji or symbol.'
 		}
@@ -49,7 +36,7 @@ export const generatePrompt = (request: GenerateCommitRequest): string => {
 
     Example Output:
       {
-        "commit": "${request.hasEmoji ? '🐛' : ''} Update frontend dependencies"
+        "commit": "${config.get(APP_CONSTANTS.hasEmoji) ? '🐛' : ''} Update frontend dependencies"
       }
 
     Format the response as a valid JSON object with all fields filled. Here is the structure for reference:

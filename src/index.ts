@@ -1,23 +1,15 @@
+import { APP_CONSTANTS, ConfigManager } from './config/config'
 import { askToAi } from './utils/ask-to-ai'
+import { gitDiff } from './utils/git'
 
-askToAi(`
+const config = new ConfigManager()
+config.set(APP_CONSTANTS.hasEmoji, true)
+// config.set(APP_CONSTANTS.translate_auto_to_target_lang, true)
+// config.set(APP_CONSTANTS.targetLang, 'en')
 
-diff --git a/src/app/chef/page.tsx b/src/app/chef/page.tsx
-index ec7c5aa..210daa3 100644
---- a/src/app/chef/page.tsx
-+++ b/src/app/chef/page.tsx
-@@ -6,6 +6,7 @@ export default function page({}: Props) {
+async function main() {
+	const message: string = await gitDiff()
+	await askToAi(message)
+}
 
-+	const names=["Sarvar","Ilkin","Omer"]
-
-+	 const filter=()=>{
-+	  return names.filter(name=>name.equals("Sarvar"))
-+	}
-
-   return (
-     <div>
-         <h1>merhaba</h1>
-     </div>
-   )
- }
--    `)
+main()

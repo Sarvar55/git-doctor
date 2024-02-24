@@ -1,9 +1,9 @@
 import Configstore from 'configstore'
-import pkg from '../../package.json'
+import pkg from '../../package.json' assert { type: 'json' }
 import { outro } from '@clack/prompts'
 import chalk from 'chalk'
 
-enum APP_CONSTANTS {
+export enum APP_CONSTANTS {
 	api_key = 'api_key',
 	source_lang = 'source_lang',
 	hasEmoji = 'hasEmoji',
@@ -11,10 +11,7 @@ enum APP_CONSTANTS {
 	translate_auto_to_target_lang = 'translate_auto_to_target_lang',
 }
 
-interface Config {
-	[key: string]: string | boolean
-}
-class ConfigManager {
+export class ConfigManager {
 	private config: Configstore
 	private validkeys: APP_CONSTANTS[]
 

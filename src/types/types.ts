@@ -5,7 +5,6 @@ export interface ErrorAPIKey extends Error {
 
 export interface GenerateCommitRequest {
 	diff: string
-	hasEmoji: boolean
 }
 
 export interface CommitMessage {
