@@ -1,18 +1,17 @@
-import { translateCommit } from './utils/translate-commit'
+import { askToAi } from './utils/ask-to-ai'
 
-async function de() {
-	const commit = await translateCommit('yeni bir dosya eklendi')
+askToAi(`
 
-	// lo
-
-	localStorage.setItem()
-
-	///
-
-	for (let index = 0; index < array.length; index++) {
-		const element = array[index]
-	}
-	console.log(commit)
-}
-
-de()
+diff --git a/src/app/chef/page.tsx b/src/app/chef/page.tsx
+index ec7c5aa..210daa3 100644
+--- a/src/app/chef/page.tsx
++++ b/src/app/chef/page.tsx
+@@ -6,6 +6,7 @@ export default function page({}: Props) {
+   return (
+     <div>
+         <h1>merhaba</h1>
++        jhsbjhsbfjb
+     </div>
+   )
+ }
+-        `)

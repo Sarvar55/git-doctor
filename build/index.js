@@ -1,17 +1,16 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-import { translateCommit } from './utils/translate-commit.js';
-function de() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const commit = yield translateCommit('yeni bir dosya eklendi');
-        console.log(commit);
-    });
-}
-de();
+import { askToAi } from './utils/ask-to-ai.js';
+askToAi(`
+
+diff --git a/src/app/chef/page.tsx b/src/app/chef/page.tsx
+index ec7c5aa..210daa3 100644
+--- a/src/app/chef/page.tsx
++++ b/src/app/chef/page.tsx
+@@ -6,6 +6,7 @@ export default function page({}: Props) {
+   return (
+     <div>
+         <h1>merhaba</h1>
++        jhsbjhsbfjb
+     </div>
+   )
+ }
+-        `);
