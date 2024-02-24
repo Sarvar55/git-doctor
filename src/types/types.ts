@@ -7,6 +7,7 @@ export interface GenerateCommitRequest {
 	diff: string
 	hasEmoji: boolean
 }
+
 export interface CommitMessage {
 	commit: string
 }

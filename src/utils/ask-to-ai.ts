@@ -6,45 +6,55 @@ import { CommitMessage } from '../types/types'
 import { outro } from '@clack/prompts'
 import chalk from 'chalk'
 
-export const askToAi = async (message: string): Promise<void> => {
-	const model = createAIModel()
+class AIManager {
+	private model: GenerativeModel
 
-	const chat = prepareChat(model)
+	constructor() {
+		this.model = createAIModel()
+	}
 
-	const prompt = generatePrompt({
-		hasEmoji: true,
-		diff: message,
-	})
+	public async generateCommitMessage(message: string): Promise<string> {
+		const chat = this.prepareChat()
+		const prompt = generatePrompt({
+			hasEmoji: true,
+			diff: message,
+		})
+		try {
+			const { response } = await chat.sendMessage(prompt)
+			const jsonCommit = this.parseJsonFromMarkdown(response.text())
+			const commitMessage: CommitMessage = JSON.parse(jsonCommit)
 
-	try {
-		const { response } = await chat.sendMessage(prompt)
+			return commitMessage.commit
+		} catch (error) {
+			this.handleError(error)
+			process.exit(1)
+		}
+	}
 
-		const commitJson = parseJsonFromMarkdown(response.text())
+	private prepareChat = (): ChatSession => {
+		const {
+			safetySettings,
+			generationConfig: { maxOutputTokens, temperature },
+		} = modelConfig
+		return this.model.startChat({
+			generationConfig: { temperature, maxOutputTokens },
+			safetySettings,
+		})
+	}
+	private parseJsonFromMarkdown(markdownString: string): string {
+		const pattern = /```json([\s\S]*?)```/
+		const match = markdownString.match(pattern)
 
-		const commitMessge: CommitMessage = JSON.parse(commitJson)
+		return match ? match[1].trim() : ''
+	}
 
-		console.log(chalk.green(commitMessge.commit))
-	} catch (error) {
+	private handleError(error: string | unknown): void {
 		outro(`${chalk.red('✖')} ${error}`)
-		process.exit(1)
 	}
 }
 
-const prepareChat = (model: GenerativeModel): ChatSession => {
-	const {
-		safetySettings,
-		generationConfig: { maxOutputTokens, temperature },
-	} = modelConfig
-
-	return model.startChat({
-		generationConfig: { temperature, maxOutputTokens },
-		safetySettings,
-	})
-}
-
-const parseJsonFromMarkdown = (markdownString: string): string => {
-	const pattern = /```json([\s\S]*?)```/
-	const match = markdownString.match(pattern)
-
-	return match ? match[1].trim() : ''
+export const askToAi = async (diff: string): Promise<void> => {
+	const aiManager = new AIManager()
+	const commitMessage = await aiManager.generateCommitMessage(diff)
+	console.log(chalk.green(commitMessage))
 }

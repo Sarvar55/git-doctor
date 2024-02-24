@@ -12,7 +12,7 @@
 		"build": "tsc-esm",
 		"lint": "eslint . --max-warnings 0 --report-unused-disable-directives",
 		"build:push": "npm run build && git add . && git commit -m 'build' && git push",
-		"lint:fix": "npm run lint -- --fix",
+		"lint:fix": "eslint . --ext .ts --fix",
 		"format": "prettier --write .",
 		"prepare": "husky install"
 	},
@@ -29,6 +29,7 @@
 		"@typescript-eslint/parser": "^7.0.2",
 		"axios": "^1.6.7",
 		"eslint": "^8.56.0",
+		"eslint-plugin-unused-imports": "^3.1.0",
 		"husky": "^9.0.11",
 		"lint-staged": "^15.2.2",
 		"prettier": "3.2.5",
