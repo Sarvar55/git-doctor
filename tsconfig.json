@@ -16,6 +16,7 @@
 		"declaration": true,
 		"declarationDir": "build/types",
 		"module": "ESNext",
+		"resolveJsonModule": true,
 		"strictFunctionTypes": true
 	},
 	"ts-node": {
