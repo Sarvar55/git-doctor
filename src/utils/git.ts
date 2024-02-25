@@ -20,17 +20,6 @@ export const getLocalBranches = async (): Promise<string> => {
 	return stdout
 }
 
-export const gitGetModifiedFiles = async (): Promise<string[]> => {
-	const { stdout: modified } = await baseExeca([
-		'ls-files',
-		'--modified',
-		'--others',
-		'--exclude-standard',
-	])
-	if (!modified) return []
-	return [...modified.split('\n').sort()]
-}
-
 export const gitGetRemoteUrl = async (origin = 'origin'): Promise<string> => {
 	const { stdout } = await execa('git', ['remote', 'get-url', origin])
 	return stdout
@@ -51,4 +40,15 @@ export const gitDiff = async (): Promise<string> => {
 
 const baseExeca = (commands: string[]): ExecaChildProcess<string> => {
 	return execa('git', [...commands])
+}
+
+export const gitGetModifiedFiles = async (): Promise<string[]> => {
+	const { stdout: modified } = await baseExeca([
+		'ls-files',
+		'--modified',
+		'--others',
+		'--exclude-standard',
+	])
+	if (!modified) return []
+	return [...modified.split('\n').sort()]
 }
