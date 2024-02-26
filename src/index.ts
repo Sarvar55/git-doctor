@@ -1,6 +1,7 @@
 import { APP_CONSTANTS, ConfigManager } from './config/config'
 import { askToAi } from './utils/ask-to-ai'
 import {
+	gitDiff,
 	gitDiffStaged,
 	gitGetModifiedFiles,
 	gitaddFilesToStagedArea,
@@ -16,17 +17,20 @@ async function main() {
 	const changedFiles = await gitGetModifiedFiles()
 
 	if (changedFiles.length === 0) {
-		logger.error(`✖ commit için herhangi bir değişiklik yok.`)
-		process.exit(1)
+		return logger.error(`✖ commit için herhangi bir değişiklik yok.`)
 	}
 	if (stagedFromDiff.trim() == '') {
-		logger.warning('buradayım')
 		const modifiedFiles = await gitGetModifiedFiles()
-		logger.info('modified files' + modifiedFiles)
+		logger.info('modified files ' + modifiedFiles)
 		await gitaddFilesToStagedArea(modifiedFiles)
-		stagedFromDiff = await gitDiffStaged()
+		stagedFromDiff = await gitDiff()
+		logger.info('stagedfrom' + stagedFromDiff)
+		if (stagedFromDiff.trim() == '') {
+			return logger.error(
+				'Diff string cannot be empty or only contain whitespace.'
+			)
+		}
 		await askToAi(stagedFromDiff)
 	}
 }
-
 main()

@@ -1,4 +1,5 @@
 import { ExecaChildProcess, execa } from 'execa'
+import { logger } from './logger'
 
 /**
  * Executes the 'git status' command and returns the output.
@@ -63,7 +64,7 @@ export const gitCommit = async (message: string): Promise<string> => {
  * @param {string} origin - The name of the remote repository to push to.
  * @returns {Promise<string>} A promise that resolves to the output of the 'git push' command.
  */
-export const gitPush = async (origin: string) => {
+export const gitPush = async (origin: string): Promise<string> => {
 	const { stdout } = await baseExeca(['push', '--verbose', origin])
 	return stdout
 }
@@ -73,8 +74,13 @@ export const gitPush = async (origin: string) => {
  * @returns {Promise<string>} A promise that resolves to the output of the 'git diff' command.
  */
 export const gitDiffStaged = async (): Promise<string> => {
-	const { stdout } = await baseExeca(['diff', '--', 'staged'])
-	return stdout
+	try {
+		const { stdout } = await baseExeca(['diff', '--', 'staged'])
+		return stdout
+	} catch (error) {
+		logger.error('Error executing git diff --staged:' + error)
+		return ''
+	}
 }
 
 /**
