@@ -33,7 +33,7 @@ const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (request: GenerateCommitRequest) => {
 			: 'Do not preface the commit with any emoji or symbol.'
 	}
 
-    Commit message must be in present tense. Use This  ${language} for the commit message.
+    Commit message must be in present tense.  Use this language ${language} for the commit message. This language determines the language in which the values of your json data will be, pay attention to this.
     `
 }
 

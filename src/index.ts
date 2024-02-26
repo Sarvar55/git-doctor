@@ -1,25 +1,29 @@
-import chalk from 'chalk'
 import { APP_CONSTANTS, ConfigManager } from './config/config'
 import { askToAi } from './utils/ask-to-ai'
-import { gitDiff, gitGetModifiedFiles } from './utils/git'
-import { outro } from '@clack/prompts'
+import { gitDiff, gitDiffStaged, gitGetModifiedFiles } from './utils/git'
 import { logger } from './utils/logger'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, true)
-// config.set(APP_CONSTANTS.translate_auto_to_target_lang, true)
-// config.set(APP_CONSTANTS.targetLang, 'CN')
+config.set(APP_CONSTANTS.targetLang, 'ru')
 
 async function main() {
-	const diff: string | null = await gitDiff()
+	const stagedFromDiff: string = await gitDiffStaged()
 	const changedFiles = await gitGetModifiedFiles()
 
-	if (changedFiles.length === 0 && diff == null) {
+	if (changedFiles.length === 0) {
 		logger.error(`✖ commit için herhangi bir değişiklik yok.`)
 		process.exit(1)
 	}
-	if (diff != null) {
-		await askToAi(diff)
+	if (stagedFromDiff.trim() == '') {
+		const diff: string = await gitDiff()
+		if (diff.trim() == '') {
+			logger.info('git diff için bir değişiklik yok')
+			process.exit(1)
+		} else {
+			await askToAi(diff)
+			logger.success('askToAi methodu çalıştı')
+		}
 	}
 }
 
