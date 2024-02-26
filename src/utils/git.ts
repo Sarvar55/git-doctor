@@ -34,7 +34,7 @@ export const gitPush = async (origin: string) => {
 }
 
 export const gitDiff = async (): Promise<string> => {
-	const { stdout } = await baseExeca(['diff', '.', ':!*.js'])
+	const { stdout } = await baseExeca(['diff', '--', 'staged'])
 	return stdout
 }
 

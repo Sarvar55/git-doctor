@@ -1,7 +1,8 @@
 class ErrorApiKey extends Error {
-	name: string = "'ErrorAPIKey"
+	name: string
 
 	constructor(message: string) {
 		super(message)
+		this.name = "'ErrorAPIKey"
 	}
 }
