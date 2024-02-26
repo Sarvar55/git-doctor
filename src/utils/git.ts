@@ -5,8 +5,8 @@ import { logger } from './logger'
  * Executes the 'git status' command and returns the output.
  * @returns {string} The output of the 'git status' command.
  */
-export const gitStatus = () => {
-	const { stdout } = baseExeca(['status', '--porcelain'])
+export const gitStatus = async () => {
+	const { stdout } = await baseExeca(['status', '--porcelain'])
 	return stdout
 }
 
