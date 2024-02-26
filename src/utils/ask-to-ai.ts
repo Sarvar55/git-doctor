@@ -5,6 +5,7 @@ import { generatePrompt } from './prompts'
 import { CommitMessage } from '../types/types'
 import { outro } from '@clack/prompts'
 import chalk from 'chalk'
+import { logger } from './logger'
 
 class AIManager {
 	private model: GenerativeModel
@@ -18,11 +19,11 @@ class AIManager {
 
 		const prompt = generatePrompt(message)
 
-		outro(chalk.green(prompt))
+		logger.info(prompt)
 		try {
 			const { response } = await chat.sendMessage(prompt)
 			const jsonCommit = this.parseJsonFromMarkdown(response.text())
-			outro(chalk.red(jsonCommit))
+			logger.success(jsonCommit)
 			const commitMessage: CommitMessage = JSON.parse(jsonCommit)
 
 			return commitMessage.commit
@@ -50,12 +51,12 @@ class AIManager {
 	}
 
 	private handleError(error: string | unknown): void {
-		outro(`${chalk.red('✖')} ${error}`)
+		logger.error(`✖ ${error}`)
 	}
 }
 
 export const askToAi = async (diff: string): Promise<void> => {
 	const aiManager = new AIManager()
 	const commitMessage = await aiManager.generateCommitMessage(diff)
-	console.log(chalk.green(commitMessage))
+	console.log(logger.success(commitMessage))
 }
