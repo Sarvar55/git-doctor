@@ -1,11 +1,10 @@
-import { outro } from '@clack/prompts'
 import axios from 'axios'
-import chalk from 'chalk'
 import { logger } from './logger'
-
+import { APP_CONSTANTS, ConfigManager } from '../config/config'
+const config = new ConfigManager()
 export const translateCommit = async (commitmessage: string) => {
-	const sourceLang = 'tr'
-	const targetLang = 'ru'
+	const sourceLang = config.get(APP_CONSTANTS.source_lang) ?? 'tr'
+	const targetLang = config.get(APP_CONSTANTS.targetLang) ?? 'en'
 
 	try {
 		const response = await axios.get(
