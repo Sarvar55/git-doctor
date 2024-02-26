@@ -1,7 +1,7 @@
 import { ChatSession, GenerativeModel } from '@google/generative-ai'
 import { modelConfig } from '../ai/config/model-config'
 import { createAIModel } from '../ai/create-ai-model'
-import { generatePrompt } from './generate-prompt'
+import { generatePrompt } from './prompts'
 import { CommitMessage } from '../types/types'
 import { outro } from '@clack/prompts'
 import chalk from 'chalk'
@@ -16,14 +16,13 @@ class AIManager {
 	public async generateCommitMessage(message: string): Promise<string> {
 		const chat = this.prepareChat()
 
-		const prompt = generatePrompt({
-			diff: message,
-		})
+		const prompt = generatePrompt(message)
 
 		outro(chalk.green(prompt))
 		try {
 			const { response } = await chat.sendMessage(prompt)
 			const jsonCommit = this.parseJsonFromMarkdown(response.text())
+			outro(chalk.red(jsonCommit))
 			const commitMessage: CommitMessage = JSON.parse(jsonCommit)
 
 			return commitMessage.commit
