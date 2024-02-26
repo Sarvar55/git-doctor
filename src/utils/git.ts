@@ -33,7 +33,7 @@ export const gitPush = async (origin: string) => {
 	return stdout
 }
 
-export const gitDiff = async (): Promise<string> => {
+export const gitDiff = async (): Promise<string | null> => {
 	const { stdout } = await baseExeca(['diff', '--', 'staged'])
 	return stdout
 }
