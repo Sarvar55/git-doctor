@@ -1,19 +1,51 @@
 import { APP_CONSTANTS, ConfigManager } from '../config/config'
 import { GenerateCommitRequest } from '../types/types'
+import { logger } from './logger'
 
 const config = new ConfigManager()
+
+/**
+ * Generates a prompt for creating a commit message based on the given git diff.
+ * @param {string} diff - The git diff string.
+ * @returns {string} The generated prompt.
+ */
+export const generatePrompt = (diff: string): string => {
+	if (!diff.trim()) {
+		logger.error('Diff string cannot be empty or only contain whitespace.')
+		throw new Error(
+			'Diff string cannot be empty or only contain whitespace.'
+		)
+	}
+
+	const hasEmoji = config.get(APP_CONSTANTS.targetLang) ?? false
+	const language = config.get(APP_CONSTANTS.targetLang) ?? 'en'
+
+	const mission = DEFINE_MISSION_PROMPT
+	const rules = RULES_FOR_COMMIT_MESSAGE
+	const diffPrompt = DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)
+	const responseStructurePrompt = PROMPT_FOR_RESPONSE_STRUCTURE
+
+	const mainPrompt = MAIN_PROMPT_FOR_COMMIT_MESSAGE({
+		hasEmoji,
+		diff,
+		language,
+	} as GenerateCommitRequest)
+
+	return `${mission}\n\n${rules}\n\n${diffPrompt} \n\n ${mainPrompt}\n\n${responseStructurePrompt}`
+}
 
 export const DEFINE_MISSION_PROMPT = `
 You are a very good software developer and you know very well how to write git commit messages. You will also write a git commit message.
 `
 
 export const RULES_FOR_COMMIT_MESSAGE = `
-- Separate subject from body with a blank line
-- Limit the subject line to 50 characters
-- Capitalize the subject line
-- Do not end the subject line with a period
-- Use the imperative mood in the subject line
-- Wrap the body at 72 characters
+- Response must be in JSON format.
+- Separate subject from body with a blank line.
+- Limit the subject line to 50 characters.
+- Capitalize the subject line.
+- Do not end the subject line with a period.
+- Use the imperative mood in the subject line.
+- Wrap the body at 72 characters.
 - Use the body to explain what and why vs.
 - Specify the file or property that Commit affects. For example, "Fix bug in user login feature".
 - State why the commit is being made. For example, "Fix bug to improve user experience".
@@ -33,7 +65,7 @@ const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (request: GenerateCommitRequest) => {
 			: 'Do not preface the commit with any emoji or symbol.'
 	}
 
-    Commit message must be in present tense.  Use this language ${language} for the commit message. This language determines the language in which the values of your json data will be, pay attention to this.
+    Commit message must be in present tense. Use this language ${language} for the commit message. This language ${language} determines the language in which the values of your json data will be, pay attention to this.
     `
 }
 
@@ -56,26 +88,6 @@ const PROMPT_FOR_RESPONSE_STRUCTURE = `
      "commit":  /* details */
    }
 
-  Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing. JSON.parse()
-  It should not cause any errors when used and should be parsed directly.
+   Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing. JSON.parse()
+   It should not cause any errors when used and should be parsed directly. 
 `
-
-export const generatePrompt = (diff: string): string => {
-	const hasEmoji = config.has(APP_CONSTANTS.targetLang)
-	const language = config.has(APP_CONSTANTS.targetLang)
-		? config.get(APP_CONSTANTS.targetLang)
-		: 'en'
-
-	const mission = DEFINE_MISSION_PROMPT
-	const rules = RULES_FOR_COMMIT_MESSAGE
-	const diffPrompt = DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)
-	const responseStructurePrompt = PROMPT_FOR_RESPONSE_STRUCTURE
-
-	const mainPrompt = MAIN_PROMPT_FOR_COMMIT_MESSAGE({
-		hasEmoji,
-		diff,
-		language,
-	} as GenerateCommitRequest)
-
-	return `${mission}\n\n${rules}\n\n${diffPrompt}\n\n${responseStructurePrompt}\n\n${mainPrompt}`
-}

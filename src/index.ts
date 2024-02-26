@@ -1,14 +1,18 @@
 import { APP_CONSTANTS, ConfigManager } from './config/config'
 import { askToAi } from './utils/ask-to-ai'
-import { gitDiff, gitDiffStaged, gitGetModifiedFiles } from './utils/git'
+import {
+	gitDiffStaged,
+	gitGetModifiedFiles,
+	gitaddFilesToStagedArea,
+} from './utils/git'
 import { logger } from './utils/logger'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, true)
-config.set(APP_CONSTANTS.targetLang, 'ru')
+config.set(APP_CONSTANTS.targetLang, 'en')
 
 async function main() {
-	const stagedFromDiff: string = await gitDiffStaged()
+	let stagedFromDiff: string = await gitDiffStaged()
 	const changedFiles = await gitGetModifiedFiles()
 
 	if (changedFiles.length === 0) {
@@ -16,14 +20,12 @@ async function main() {
 		process.exit(1)
 	}
 	if (stagedFromDiff.trim() == '') {
-		const diff: string = await gitDiff()
-		if (diff.trim() == '') {
-			logger.info('git diff için bir değişiklik yok')
-			process.exit(1)
-		} else {
-			await askToAi(diff)
-			logger.success('askToAi methodu çalıştı')
-		}
+		logger.warning('buradayım')
+		const modifiedFiles = await gitGetModifiedFiles()
+		logger.info('modified files' + modifiedFiles)
+		await gitaddFilesToStagedArea(modifiedFiles)
+		stagedFromDiff = await gitDiffStaged()
+		await askToAi(stagedFromDiff)
 	}
 }
 

@@ -3,8 +3,6 @@ import { modelConfig } from '../ai/config/model-config'
 import { createAIModel } from '../ai/create-ai-model'
 import { generatePrompt } from './prompts'
 import { CommitMessage } from '../types/types'
-import { outro } from '@clack/prompts'
-import chalk from 'chalk'
 import { logger } from './logger'
 
 class AIManager {
@@ -22,6 +20,7 @@ class AIManager {
 		logger.info(prompt)
 		try {
 			const { response } = await chat.sendMessage(prompt)
+			logger.info(response.text())
 			const jsonCommit = this.parseJsonFromMarkdown(response.text())
 			logger.success(jsonCommit)
 			const commitMessage: CommitMessage = JSON.parse(jsonCommit)
@@ -36,10 +35,10 @@ class AIManager {
 	private prepareChat = (): ChatSession => {
 		const {
 			safetySettings,
-			generationConfig: { maxOutputTokens, temperature },
+			generationConfig: { maxOutputTokens, temperature, topP },
 		} = modelConfig
 		return this.model.startChat({
-			generationConfig: { temperature, maxOutputTokens },
+			generationConfig: { temperature, maxOutputTokens, topP },
 			safetySettings,
 		})
 	}
