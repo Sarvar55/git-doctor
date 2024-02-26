@@ -1,7 +1,6 @@
 import Configstore from 'configstore'
 import pkg from '../../package.json' assert { type: 'json' }
-import { outro } from '@clack/prompts'
-import chalk from 'chalk'
+import { logger } from '../utils/logger'
 
 export enum APP_CONSTANTS {
 	api_key = 'api_key',
@@ -24,10 +23,8 @@ export class ConfigManager {
 		if (this.validkeys.includes(key)) {
 			this.config.set(key, value)
 		} else {
-			outro(
-				chalk.red(
-					`Invalid key "${key}". Please use one of the following keys: ${this.validkeys.join(', ')}`
-				)
+			logger.error(
+				`Invalid key "${key}". Please use one of the following keys: ${this.validkeys.join(', ')}`
 			)
 		}
 	}
@@ -43,7 +40,7 @@ export class ConfigManager {
 		if (this.has(key)) {
 			this.config.delete(key)
 		} else {
-			outro(chalk.red(`Key "${key}" not found in the configuration.`))
+			logger.error(`Key "${key}" not found in the configuration.`)
 		}
 	}
 }

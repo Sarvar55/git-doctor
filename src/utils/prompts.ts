@@ -29,7 +29,7 @@ const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (request: GenerateCommitRequest) => {
     ${DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)}
     ${
 		hasEmoji
-			? 'Optionally, use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'
+			? 'Use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'
 			: 'Do not preface the commit with any emoji or symbol.'
 	}
 
