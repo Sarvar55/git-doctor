@@ -1,6 +1,7 @@
 import { outro } from '@clack/prompts'
 import axios from 'axios'
 import chalk from 'chalk'
+import { logger } from './logger'
 
 export const translateCommit = async (commitmessage: string) => {
 	const sourceLang = 'tr'
@@ -12,6 +13,6 @@ export const translateCommit = async (commitmessage: string) => {
 		)
 		return response.data[0][0][0]
 	} catch (error) {
-		return outro(chalk.red('Error:') + `${error}`)
+		return logger.error(error)
 	}
 }
