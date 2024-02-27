@@ -16,7 +16,9 @@ export const generatePrompt = (diff: string): string => {
 	}
 
 	const hasEmoji = config.get(APP_CONSTANTS.targetLang) ?? false
-	const language = config.get(APP_CONSTANTS.targetLang) ?? 'en'
+	const language = config.get(APP_CONSTANTS.targetLang)
+		? config.get(APP_CONSTANTS.targetLang)
+		: 'en'
 
 	const mission = DEFINE_MISSION_PROMPT
 	const rules = RULES_FOR_COMMIT_MESSAGE
@@ -29,61 +31,63 @@ export const generatePrompt = (diff: string): string => {
 		language,
 	} as GenerateCommitRequest)
 
-	return `${mission}\n\n${rules}\n\n${diffPrompt}\n\n${mainPrompt}\n\n${responseStructurePrompt}`
+	return `${mission}\n\n${rules}\n\n${diffPrompt}\n\n ${mainPrompt}\n\n${responseStructurePrompt}`
 }
 
 export const DEFINE_MISSION_PROMPT = `
-You are a highly skilled software developer proficient in writing effective git commit messages. Your task is to craft a git commit message based on the provided git diff file.
+You are a very good software developer and you know very well how to write git commit messages. You will also write a git commit message.
 `
 
 export const RULES_FOR_COMMIT_MESSAGE = `
-- Responses must be in JSON format.
-- Separate the subject from the body with a blank line.
+- Response must be in JSON format.
+- Separate subject from body with a blank line.
 - Limit the subject line to 50 characters.
 - Capitalize the subject line.
 - Do not end the subject line with a period.
 - Use the imperative mood in the subject line.
 - Wrap the body at 72 characters.
-- Specify the file or property that the commit affects. For example, "Fix bug in user login feature."
-- Clearly state why the commit is being made. For example, "Fix bug to improve user experience."
-- Use an action word (e.g., "Add," "Fix," "Update") at the beginning of the commit message.
-- Clearly explain the problem that this commit is solving, focusing on why rather than how (the code explains that).
+- Use the body to explain what and why vs.
+- Specify the file or property that Commit affects. For example, "Fix bug in user login feature".
+- State why the commit is being made. For example, "Fix bug to improve user experience".
+- Use an action word (for example, "Add", "Fix", "Update") at the beginning of the commit message. This immediately states what the commit does.
+- Explain the problem that this commit is solving. Focus on why you are making this change as opposed to how (the code explains that).
 `
 
 const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (request: GenerateCommitRequest) => {
 	const { hasEmoji, diff, language } = request
 
 	return `
-Your task is to create a concise commit message based on the provided git diff file.
-${DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)}
-${
-	hasEmoji
-		? 'Utilize the GitMoji convention to prefix the commit. Ensure the emojis used are supported on GitHub.'
-		: 'Do not use any emoji or symbol as a prefix for the commit.'
-}
+    Your task is to create a clear commit message according to the git diff file I gave you.
+    ${DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)}
+    ${
+		hasEmoji
+			? 'Use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'
+			: 'Do not preface the commit with any emoji or symbol.'
+	}
 
-The commit message must be in the present tense. Use the ${language} language for the commit message, as it determines the language for the JSON data values.
-`
+    Commit message must be in present tense. Use this language ${language} for the write commit message pay attention to this.
+    `
 }
 
 const DIFF_PROMPT_FOR_COMMIT_MESSAGE = (diff: string): string => {
 	return `
-When composing a commit, provide a commit message for each file indicating the changes made and the reasons behind them.
-Remember, this commit will serve as an automation tool, so ensure the output is accurate and understandable.
-Pay close attention to the provided git diff file below while crafting these messages.
-${diff}
-`
+    When writing a commit, there will be a commit message for each file showing the changes made and the reason for these changes.
+    Remember, this commit will be an automation tool, so make sure the output is accurate and understandable.
+    And while writing these, it is very important that you look at this git diff file below.
+    ${diff}
+    `
 }
 
 const PROMPT_FOR_RESPONSE_STRUCTURE = `
-The JSON object must include the following field:
-  - "commit": "[string]"
+  The JSON object must include the following field:
+    - "commit": "[string]"
 
-Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
+    Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
 
-{
-  "commit":  /* details */
-}
+   {
+     "commit":  /* details */
+   }
 
-Reply only with the completed JSON object, without additional explanatory text. The JSON should be complete and ready for parsing using JSON.parse(). It should not cause any errors when used and should be parsed directly.
+   Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing. JSON.parse()
+   It should not cause any errors when used and should be parsed directly. 
 `
