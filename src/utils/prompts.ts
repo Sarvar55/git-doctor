@@ -16,7 +16,7 @@ export const generatePrompt = (diff: string): string => {
 
 	const language = config.get(APP_CONSTANTS.targetLang) ?? 'en'
 
-	return buildPrompt(hasEmoji, diff, '' + language)
+	return buildPrompt({ hasEmoji, diff, language } as GenerateCommitRequest)
 }
 
 const validateDiff = (diff: string): void => {
@@ -25,28 +25,23 @@ const validateDiff = (diff: string): void => {
 		process.exit(1)
 	}
 }
-const buildPrompt = (
-	hasEmoji: boolean,
-	diff: string,
-	language: string
-): string => {
+
+const buildPrompt = (request: GenerateCommitRequest): string => {
+	const { diff, hasEmoji, language } = request
 	const mission = DEFINE_MISSION_PROMPT
 	const rules = RULES_FOR_COMMIT_MESSAGE
 	const responseStructurePrompt = PROMPT_FOR_RESPONSE_STRUCTURE
 
-	const mainPrompt = MAIN_PROMPT_FOR_COMMIT_MESSAGE({
-		hasEmoji,
-		diff,
-		language,
-	} as GenerateCommitRequest)
+	const mainPrompt = MAIN_PROMPT_FOR_COMMIT_MESSAGE(diff)
 
 	return generateOrderForPrompts([
 		mission,
-		rules,
+		rules(hasEmoji, language),
 		mainPrompt,
 		responseStructurePrompt,
 	])
 }
+
 const generateOrderForPrompts = (porompts: string[]) => {
 	return porompts
 		.map(prompt => {
@@ -59,7 +54,8 @@ const DEFINE_MISSION_PROMPT = `
 You are a very good software developer and you know very well how to write git commit messages. You will also write a git commit message.
 `
 
-const RULES_FOR_COMMIT_MESSAGE = `
+const RULES_FOR_COMMIT_MESSAGE = (hasEmoji: boolean, language: string) => {
+	return `
 - Response must be in JSON format.
 - Separate subject from body with a blank line.
 - Limit the subject line to 50 characters.
@@ -72,21 +68,19 @@ const RULES_FOR_COMMIT_MESSAGE = `
 - State why the commit is being made. For example, "Fix bug to improve user experience".
 - Use an action word (for example, "Add", "Fix", "Update") at the beginning of the commit message. This immediately states what the commit does.
 - Explain the problem that this commit is solving. Focus on why you are making this change as opposed to how (the code explains that).
+${
+	hasEmoji
+		? '- Use GitHub-supported emojis at the beginning of your commit message. This ensures that your commit message is clear and effective.'
+		: '- Do not preface the commit with any emoji or symbol.'
+}
+- Commit message must be in present tense. Use this language ${language} for the write commit message pay attention to this.
 `
+}
 
-const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (request: GenerateCommitRequest) => {
-	const { hasEmoji, diff, language } = request
-
+const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (diff: string) => {
 	return `
     Your task is to create a clear commit message according to the git diff file I gave you.
     ${DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)}
-    ${
-		hasEmoji
-			? 'Utilize the GitMoji convention to prefix the commit. Ensure the emojis used are supported on GitHub.'
-			: 'Do not preface the commit with any emoji or symbol.'
-	}
-
-    Commit message must be in present tense. Use this language ${language} for the write commit message pay attention to this.
     `
 }
 
@@ -95,7 +89,6 @@ const DIFF_PROMPT_FOR_COMMIT_MESSAGE = (diff: string): string => {
 	You need to create your commit message according to all changes in the project. Create a commit message containing the following changes:
 	Changes:
     ${diff}
-	
     `
 }
 
@@ -109,7 +102,6 @@ const PROMPT_FOR_RESPONSE_STRUCTURE = `
 	Important: Compose your Commit message in only 1 line.
 	Important: The 'Content-Type' header of your response is 'application/json; It should be set to 'charset=utf-8'.
 
-	
    The JSON object must include the following field:
     - "commit": "[string]"
 

@@ -16,9 +16,11 @@ config.set(APP_CONSTANTS.hasEmoji, true)
 async function main() {
 	let diff: string = ''
 	const status = await gitStatus()
+
 	if (!has(status)) {
 		return logger.info('commit için her hangibir değişiklik yok')
 	}
+
 	const diffFromStagedArea = await logAsyncMethodResult(
 		() => gitDiffStaged(),
 		'gitDiffStaged'
@@ -31,6 +33,7 @@ async function main() {
 		)
 
 		await gitaddFilesToStagedArea(modifiedFiles)
+		logger.success('d')
 
 		const diffFromStagedArea = await gitDiffStaged()
 
