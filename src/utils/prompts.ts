@@ -82,7 +82,7 @@ const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (request: GenerateCommitRequest) => {
     ${DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)}
     ${
 		hasEmoji
-			? 'Important Use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'
+			? 'Important: Start your commit message using GitMoji convention. There may be some emojis that are not supported on GitHub, so make sure that the emojis you use are supported on GitHub. Using emojis makes your commit message clear and effective.'
 			: 'Do not preface the commit with any emoji or symbol.'
 	}
 
@@ -101,13 +101,15 @@ const DIFF_PROMPT_FOR_COMMIT_MESSAGE = (diff: string): string => {
 
 const PROMPT_FOR_RESPONSE_STRUCTURE = `
    - This JSON object indicates that your commit message is a legal format. However, this should only be used as a basis. You need to create your commit message according to the changes in the project.
+   - The 'Content-Type' header of the incoming response should be 'application/json; Specify that it will be 'charset=utf-8'.
 	{
 		"commit": "The commit message will be placed here according to all changes in the project."
 	}
 
 	Important: Compose your Commit message in only 1 line.
+	Important: The 'Content-Type' header of your response is 'application/json; It should be set to 'charset=utf-8'.
 
-		
+	
    The JSON object must include the following field:
     - "commit": "[string]"
 
