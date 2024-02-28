@@ -19,6 +19,7 @@ export const gitaddFilesToStagedArea = async (
 	files: string[]
 ): Promise<void> => {
 	logger.info('runing:gitaddFilesToStagedArea with' + JSON.stringify(files))
+
 	await baseExeca(['add', ...files])
 }
 
