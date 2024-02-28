@@ -18,6 +18,7 @@ export const gitStatus = async () => {
 export const gitaddFilesToStagedArea = async (
 	files: string[]
 ): Promise<void> => {
+	logger.info('runing:gitaddFilesToStagedArea with' + JSON.stringify(files))
 	await baseExeca(['add', ...files])
 }
 
@@ -75,7 +76,7 @@ export const gitPush = async (origin: string): Promise<string> => {
  */
 export const gitDiffStaged = async (): Promise<string> => {
 	try {
-		const { stdout } = await baseExeca(['diff', '--', 'staged'])
+		const { stdout } = await baseExeca(['diff', '--staged'])
 		return stdout
 	} catch (error) {
 		logger.error('Error executing git diff --staged:' + error)

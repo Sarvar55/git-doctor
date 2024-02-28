@@ -14,7 +14,8 @@
 		"build:push": "npm run build && git add . && git commit -m 'build' && git push",
 		"lint:fix": "eslint . --ext .ts --fix",
 		"format": "prettier --write .",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"build:start": "npm run build && npm run start"
 	},
 	"type": "module",
 	"release": {

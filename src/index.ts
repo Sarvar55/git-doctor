@@ -1,5 +1,6 @@
 import { APP_CONSTANTS, ConfigManager } from './config/config'
 import { askToAi } from './utils/ask-to-ai'
+import { has, logAsyncMethodResult } from './utils/commons'
 import {
 	gitDiff,
 	gitDiffStaged,
@@ -13,29 +14,40 @@ const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, true)
 
 async function main() {
-	let diff: string | null = null
+	let diff: string = ''
 	const status = await gitStatus()
-	if (!status.trim()) {
+	if (!has(status)) {
 		return logger.info('commit için her hangibir değişiklik yok')
 	}
-	const diffFromStagedArea = await gitDiffStaged()
-	if (!diffFromStagedArea.trim()) {
-		const modifiedFiles = await gitGetModifiedFiles()
+	const diffFromStagedArea = await logAsyncMethodResult(
+		() => gitDiffStaged(),
+		'gitDiffStaged'
+	)
 
-		logger.info(JSON.stringify(modifiedFiles))
+	if (!has(diffFromStagedArea)) {
+		const modifiedFiles = await logAsyncMethodResult(
+			() => gitGetModifiedFiles(),
+			'gitGetModifiedFiles'
+		)
+
 		await gitaddFilesToStagedArea(modifiedFiles)
 
 		const diffFromStagedArea = await gitDiffStaged()
 
-		if (!diffFromStagedArea.trim()) {
+		if (has(diffFromStagedArea)) {
+			logger.info(diffFromStagedArea)
 			diff = diffFromStagedArea
 		} else {
 			diff = await gitDiff()
 		}
-	} else {
+	} else if (has(diffFromStagedArea)) {
 		diff = diffFromStagedArea
+	} else {
+		logger.info(diffFromStagedArea)
+		diff = await gitDiff()
 	}
-	if (diff != null) {
+	if (has(diff)) {
+		logger.info(diff)
 		askToAi(diff)
 	}
 }

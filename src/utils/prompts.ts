@@ -9,7 +9,6 @@ const config = new ConfigManager()
  * @param {string} diff - The git diff string.
  * @returns {string} The generated prompt.
  */
-
 export const generatePrompt = (diff: string): string => {
 	validateDiff(diff)
 
@@ -83,7 +82,7 @@ const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (request: GenerateCommitRequest) => {
     ${DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)}
     ${
 		hasEmoji
-			? 'Use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'
+			? 'Important Use the GitMoji convention to preface the commit. Note that some emojis are not supported on GitHub. Ensure the emojis you use are supported on GitHub.'
 			: 'Do not preface the commit with any emoji or symbol.'
 	}
 
@@ -105,7 +104,10 @@ const PROMPT_FOR_RESPONSE_STRUCTURE = `
 	{
 		"commit": "The commit message will be placed here according to all changes in the project."
 	}
-		  
+
+	Important: Compose your Commit message in only 1 line.
+
+		
    The JSON object must include the following field:
     - "commit": "[string]"
 

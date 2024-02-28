@@ -21,9 +21,11 @@ class AIManager {
 		try {
 			const { response } = await chat.sendMessage(prompt)
 			logger.info(response.text())
-			const jsonCommit = this.parseJsonFromMarkdown(response.text())
+			const jsonCommit = response.text()
 			logger.success(jsonCommit)
-			const commitMessage: CommitMessage = JSON.parse(jsonCommit)
+			const commitMessage: CommitMessage = JSON.parse(
+				this.parseJsonFromMarkdown(jsonCommit)
+			)
 
 			return commitMessage.commit
 		} catch (error) {
