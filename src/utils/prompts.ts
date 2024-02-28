@@ -29,33 +29,31 @@ const validateDiff = (diff: string): void => {
 const buildPrompt = (request: GenerateCommitRequest): string => {
 	const { diff, hasEmoji, language } = request
 	const mission = DEFINE_MISSION_PROMPT
-	const rules = RULES_FOR_COMMIT_MESSAGE
+	const rules = RULES_FOR_COMMIT_MESSAGE(hasEmoji, language)
 	const responseStructurePrompt = PROMPT_FOR_RESPONSE_STRUCTURE
 
 	const mainPrompt = MAIN_PROMPT_FOR_COMMIT_MESSAGE(diff)
 
 	return generateOrderForPrompts([
 		mission,
-		rules(hasEmoji, language),
+		rules,
 		mainPrompt,
 		responseStructurePrompt,
 	])
 }
 
-const generateOrderForPrompts = (porompts: string[]) => {
-	return porompts
-		.map(prompt => {
-			return `${prompt}\n\n`
-		})
-		.join('')
+const generateOrderForPrompts = (prompts: string[]): string => {
+	return prompts.join('\n\n')
 }
 
 const DEFINE_MISSION_PROMPT = `
-You are a very good software developer and you know very well how to write git commit messages. You will also write a git commit message.
+You are a skilled software developer who excels in writing git commit messages. Your task is to create a clear commit message based on the given git diff file.
 `
 
-const RULES_FOR_COMMIT_MESSAGE = (hasEmoji: boolean, language: string) => {
-	return `
+const RULES_FOR_COMMIT_MESSAGE = (
+	hasEmoji: boolean,
+	language: string
+): string => `
 - Response must be in JSON format.
 - Separate subject from body with a blank line.
 - Limit the subject line to 50 characters.
@@ -64,62 +62,45 @@ const RULES_FOR_COMMIT_MESSAGE = (hasEmoji: boolean, language: string) => {
 - Use the imperative mood in the subject line.
 - Wrap the body at 72 characters.
 - Use the body to explain what and why vs.
-- Specify the file or property that Commit affects. For example, "Fix bug in user login feature".
-- State why the commit is being made. For example, "Fix bug to improve user experience".
-- Use an action word (for example, "Add", "Fix", "Update") at the beginning of the commit message. This immediately states what the commit does.
-- Explain the problem that this commit is solving. Focus on why you are making this change as opposed to how (the code explains that).
+- Explain the problem that this commit is solving. Focus on why you are making this change rather than how (the code explains that).
 ${
 	hasEmoji
-		? '- Use GitHub-supported emojis at the beginning of your commit message. This ensures that your commit message is clear and effective.'
+		? '- Use GitHub-supported emojis at the beginning of your commit message for clarity and effectiveness.'
 		: '- Do not preface the commit with any emoji or symbol.'
 }
-- Commit message must be in present tense. Use this language ${language} for the write commit message pay attention to this.
+- Commit message must be in the present tense. Use ${language} for writing commit messages.
 `
-}
 
-const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (diff: string) => {
-	return `
-    Your task is to create a clear commit message according to the git diff file I gave you.
-    ${DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)}
-    `
-}
+const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (diff: string): string => `
+Your task is to create a clear commit message based on the given git diff file.
+${DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)}
+`
 
-const DIFF_PROMPT_FOR_COMMIT_MESSAGE = (diff: string): string => {
-	return `
-	You need to create your commit message according to all changes in the project. Create a commit message containing the following changes:
-	Changes:
-    ${diff}
-    `
-}
+const DIFF_PROMPT_FOR_COMMIT_MESSAGE = (diff: string): string => `
+You need to create a commit message based on all changes in the project. Create a commit message containing the following changes:
+Changes:
+${diff}
+`
 
 const PROMPT_FOR_RESPONSE_STRUCTURE = `
    - This JSON object indicates that your commit message is a legal format. However, this should only be used as a basis. You need to create your commit message according to the changes in the project.
-   - The 'Content-Type' header of the incoming response should be 'application/json; Specify that it will be 'charset=utf-8'.
+   - The 'Content-Type' header of the incoming response should be 'application/json; charset=utf-8'.
 	{
-		"commit": "The commit message will be placed here according to all changes in the project."
+		"commit": "The commit message will be placed here based on all changes in the project."
 	}
 
-	Important: Compose your Commit message in only 1 line.
-	Important: The 'Content-Type' header of your response is 'application/json; It should be set to 'charset=utf-8'.
+	Important: Compose your commit message in only 1 line.
+	Important: The 'Content-Type' header of your response should be 'application/json; charset=utf-8'.
 
    The JSON object must include the following field:
     - "commit": "[string]"
 
    Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
 
-	Examples:1
+	Examples:
     {
-     "commit":  /* details */
-    },
-   Example:2
-    {
-	 "commit":"The commit message you created will be written here"
-    },
-   Example:3
-    {
-	 "commit":"This is the location of the commit message"
+        "commit": "The commit message you created will be written here."
     }
 
-   Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing. JSON.parse()
-   It should not cause any errors when used and should be parsed directly. 
+   Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing using JSON.parse().
 `
