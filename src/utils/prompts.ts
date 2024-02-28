@@ -9,20 +9,30 @@ const config = new ConfigManager()
  * @param {string} diff - The git diff string.
  * @returns {string} The generated prompt.
  */
+
 export const generatePrompt = (diff: string): string => {
+	validateDiff(diff)
+
+	const hasEmoji: boolean = !!config.get(APP_CONSTANTS.hasEmoji) || false
+
+	const language = config.get(APP_CONSTANTS.targetLang) ?? 'en'
+
+	return buildPrompt(hasEmoji, diff, '' + language)
+}
+
+const validateDiff = (diff: string): void => {
 	if (!diff.trim()) {
 		logger.error('Diff string cannot be empty or only contain whitespace.')
 		process.exit(1)
 	}
-
-	const hasEmoji = config.get(APP_CONSTANTS.targetLang) ?? false
-	const language = config.get(APP_CONSTANTS.targetLang)
-		? config.get(APP_CONSTANTS.targetLang)
-		: 'en'
-
+}
+const buildPrompt = (
+	hasEmoji: boolean,
+	diff: string,
+	language: string
+): string => {
 	const mission = DEFINE_MISSION_PROMPT
 	const rules = RULES_FOR_COMMIT_MESSAGE
-	const diffPrompt = DIFF_PROMPT_FOR_COMMIT_MESSAGE(diff)
 	const responseStructurePrompt = PROMPT_FOR_RESPONSE_STRUCTURE
 
 	const mainPrompt = MAIN_PROMPT_FOR_COMMIT_MESSAGE({
@@ -31,14 +41,26 @@ export const generatePrompt = (diff: string): string => {
 		language,
 	} as GenerateCommitRequest)
 
-	return `${mission}\n\n${rules}\n\n${diffPrompt}\n\n ${mainPrompt}\n\n${responseStructurePrompt}`
+	return generateOrderForPrompts([
+		mission,
+		rules,
+		mainPrompt,
+		responseStructurePrompt,
+	])
+}
+const generateOrderForPrompts = (porompts: string[]) => {
+	return porompts
+		.map(prompt => {
+			return `${prompt}\n\n`
+		})
+		.join('')
 }
 
-export const DEFINE_MISSION_PROMPT = `
+const DEFINE_MISSION_PROMPT = `
 You are a very good software developer and you know very well how to write git commit messages. You will also write a git commit message.
 `
 
-export const RULES_FOR_COMMIT_MESSAGE = `
+const RULES_FOR_COMMIT_MESSAGE = `
 - Response must be in JSON format.
 - Separate subject from body with a blank line.
 - Limit the subject line to 50 characters.
@@ -71,22 +93,36 @@ const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (request: GenerateCommitRequest) => {
 
 const DIFF_PROMPT_FOR_COMMIT_MESSAGE = (diff: string): string => {
 	return `
-    When writing a commit, there will be a commit message for each file showing the changes made and the reason for these changes.
-    Remember, this commit will be an automation tool, so make sure the output is accurate and understandable.
-    And while writing these, it is very important that you look at this git diff file below.
+	You need to create your commit message according to all changes in the project. Create a commit message containing the following changes:
+	Changes:
     ${diff}
+	
     `
 }
 
 const PROMPT_FOR_RESPONSE_STRUCTURE = `
-  The JSON object must include the following field:
+   - This JSON object indicates that your commit message is a legal format. However, this should only be used as a basis. You need to create your commit message according to the changes in the project.
+	{
+		"commit": "The commit message will be placed here according to all changes in the project."
+	}
+		  
+   The JSON object must include the following field:
     - "commit": "[string]"
 
-    Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
+   Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
 
-   {
+	Examples:1
+    {
      "commit":  /* details */
-   }
+    },
+   Example:2
+    {
+	 "commit":"The commit message you created will be written here"
+    },
+   Example:3
+    {
+	 "commit":"This is the location of the commit message"
+    }
 
    Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing. JSON.parse()
    It should not cause any errors when used and should be parsed directly. 
