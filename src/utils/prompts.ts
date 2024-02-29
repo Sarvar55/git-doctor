@@ -8,7 +8,7 @@ const hasEmoji: boolean = !!config.get(APP_CONSTANTS.hasEmoji) || false
 
 export const generatePrompt = (diff: string) => {
 	const emojiPrompt = `
-	- Write a commit message for this change. Use GitHub-supported emojis at the beginning of your commit message.
+	- Use GitHub-supported emojis at the beginning of your commit message.
 	  ${commitTypesWithDesc()}
 	`
 	const prompt = `
@@ -26,14 +26,13 @@ export const generatePrompt = (diff: string) => {
 	 ${diff}
 	-  The JSON object must include the following field:
 	    "commit": "[string]"
+		
 	-  Format the response as a valid JSON object with all fields filled. Here is the structure for reference:	
-	   {
-		"commit":  /* details */
-	   },
+	   { "commit": "Your commit message here" }
 	   
 	-  Do not write any explanations or other words, just reply with the commit message.  
-	-  Respond only with the completed JSON object, without any additional explanatory or descriptive text.
-	-  The JSON should be complete and ready for parsing. JSON.parse() ,It should not cause any errors when used and should be parsed directly. 
+	-  Generate a commit message in JSON format. The JSON object must include a "commit" field with the message.
+	-  Do not include any additional text or explanations.
 	`
 	return prompt
 }

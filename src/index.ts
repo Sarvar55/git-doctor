@@ -11,7 +11,7 @@ import {
 import { logger } from './utils/logger'
 
 const config = new ConfigManager()
-config.set(APP_CONSTANTS.hasEmoji, true)
+config.set(APP_CONSTANTS.hasEmoji, false)
 config.set(APP_CONSTANTS.targetLang, 'english')
 
 async function main() {
@@ -30,9 +30,7 @@ async function main() {
 	if (has(diff)) {
 		logger.info(diff)
 		askToAi(diff)
-	} else {
-		return logger.info('git diff için her hangi bir değişiklik yok')
-	}
+	} else return logger.info('git diff için her hangi bir değişiklik yok')
 }
 
 const gitGetModifiedFilesAndTostgaedArea = async () => {
