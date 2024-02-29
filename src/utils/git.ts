@@ -36,7 +36,7 @@ export const gitDir = async (): Promise<string> => {
  * Lists all local branches in the current Git repository.
  * @returns {Promise<string>} A promise that resolves to the list of local branches.
  */
-export const getLocalBranches = async (): Promise<string> => {
+export const gitGetLocalBranches = async (): Promise<string> => {
 	const { stdout } = await baseExeca(['branch', '-r'])
 	return stdout
 }
@@ -66,8 +66,11 @@ export const gitCommit = async (message: string): Promise<string> => {
  * @param {string} origin - The name of the remote repository to push to.
  * @returns {Promise<string>} A promise that resolves to the output of the 'git push' command.
  */
-export const gitPush = async (origin: string): Promise<string> => {
-	const { stdout } = await baseExeca(['push', '--verbose', origin])
+export const gitPush = async (
+	origin: string,
+	branch: string
+): Promise<string> => {
+	const { stdout } = await baseExeca(['push', '--verbose', origin, branch])
 	return stdout
 }
 
