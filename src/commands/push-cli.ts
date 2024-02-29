@@ -1,6 +1,6 @@
 import { isCancel } from 'axios'
 import { customCliSelect, isConfirm } from '../utils/commons'
-import { gitGetLocalBranches, gitPush } from '../utils/git'
+import { gitGetLocalBranches, gitGetRemoteUrl, gitPush } from '../utils/git'
 import { outro, spinner } from '@clack/prompts'
 import chalk from 'chalk'
 import { logger } from '../utils/logger'
@@ -28,7 +28,7 @@ export const push = async () => {
 
 			logger.info(selectedBranch)
 			logger.error('jdj')
-			const origin = await gitGetLocalBranches()
+			const origin = await gitGetRemoteUrl()
 			const stdout = await gitPush(origin, selectedBranch)
 
 			pushProgress.stop(
