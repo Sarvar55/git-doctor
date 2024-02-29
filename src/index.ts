@@ -15,7 +15,7 @@ import { push } from './commands/push-cli'
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, false)
 config.set(APP_CONSTANTS.source_lang, 'en')
-config.set(APP_CONSTANTS.targetLang, 'ru')
+config.set(APP_CONSTANTS.targetLang, 'en')
 
 async function main() {
 	let diff: string = ''
@@ -33,7 +33,6 @@ async function main() {
 	if (has(diff)) {
 		logger.info(diff)
 		const commitMessage = await generateCommitWithAi(diff)
-		logger.info('commit' + commitMessage)
 		const isCommit = await commitWithAi(commitMessage)
 		if (isCommit) {
 			await push()

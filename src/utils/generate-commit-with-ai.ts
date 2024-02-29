@@ -16,7 +16,7 @@ class AIManager {
 
 		const prompt = generatePrompt(message)
 
-		logger.info(prompt)
+		logger.success('send prompt to ai \n' + prompt)
 		try {
 			const { response } = await chat.sendMessage(prompt)
 			logger.info(response.text())
@@ -37,7 +37,6 @@ class AIManager {
 			safetySettings,
 		})
 	}
-
 	private handleError(error: string | unknown): void {
 		logger.error(`✖ ${error}`)
 	}
@@ -46,6 +45,6 @@ class AIManager {
 export const generateCommitWithAi = async (diff: string): Promise<string> => {
 	const aiManager = new AIManager()
 	const commitMessage = await aiManager.generateCommitMessage(diff)
-	logger.success('commt' + commitMessage)
+	logger.success('commit message:' + commitMessage)
 	return commitMessage
 }
