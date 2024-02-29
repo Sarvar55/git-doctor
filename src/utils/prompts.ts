@@ -1,4 +1,5 @@
 import { APP_CONSTANTS, ConfigManager } from '../config/config'
+import { commitTypesWithDesc } from './constants'
 
 const config = new ConfigManager()
 const language: string =
@@ -6,12 +7,17 @@ const language: string =
 const hasEmoji: boolean = !!config.get(APP_CONSTANTS.hasEmoji) || false
 
 export const generatePrompt = (diff: string) => {
+	const emojiPrompt = `
+	- Write a commit message for this change. Use GitHub-supported emojis at the beginning of your commit message.
+	  ${commitTypesWithDesc()}
+	`
 	const prompt = `
 	- I want you to act as a commit message generator.
-	- I will give you git diff file, and your job is to convert it into useful commit message in this ${language} language.
+	- I will give you git diff file, and your job is to convert it into useful commit message .
+	- Use this language ${language} for the write commit message pay attention to this.
 	- ${
 		hasEmoji
-			? '- Write a commit message for this change. Use GitHub-supported emojis at the beginning of your commit message.  For example, if you are adding a new feature, you can use the ✨  emoji.'
+			? emojiPrompt
 			: '- Do not preface the commit with any emoji or symbol.'
 	}
 	- Do not preface the commit with anything, use the present tense, return the full sentence, and use the conventional commits specification.

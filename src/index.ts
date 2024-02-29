@@ -18,8 +18,7 @@ async function main() {
 	let diff: string = ''
 	const status = await gitStatus()
 
-	if (!has(status))
-		return logger.info('commit için her hangi bir değişiklik yok')
+	if (!has(status)) return logger.info('No changes to commit')
 
 	diff = await getDiff()
 

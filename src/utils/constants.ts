@@ -11,7 +11,7 @@ const types = [
 	{ value: 'security', label: 'Security' },
 ]
 
-const emojis = {
+export const emojis = {
 	build: '🔨',
 	chore: '🔧',
 	ci: '🔬',
@@ -27,7 +27,11 @@ const emojis = {
 export const commitTypes = types.map(commitType => {
 	return commitType.value
 })
-
+// if you are adding a new feature, you can use the ✨  emoji.
 export const commitTypesWithEmoji = types.map(commitType => {
 	return `${emojis[commitType.value as keyof typeof emojis]} ${commitType.value}`
 })
+export const commitTypesWithDesc = () =>
+	types.map(commitType => {
+		return `\n	- For example , if this is the commit type ${commitType?.label?.toLowerCase()} then use this emoji ${emojis[commitType.value as keyof typeof emojis]}.\n`
+	})
