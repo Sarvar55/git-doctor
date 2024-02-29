@@ -13,7 +13,11 @@ export const push = async () => {
 	try {
 		let selectedBranch: string = ''
 		if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
-			const branches = (await gitGetLocalBranches()).split('\n')
+			const branches = (await gitGetLocalBranches())
+				.split('\n')
+				.map(branch => {
+					return branch.split('/')[1]
+				})
 			selectedBranch = await customCliSelect(branches)
 		}
 		if (isPushConfirmed && !isCancel(isPushConfirmed)) {
