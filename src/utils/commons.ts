@@ -1,4 +1,4 @@
-import { confirm } from '@clack/prompts'
+import { confirm, text } from '@clack/prompts'
 import { logger } from './logger'
 import cliSelect from 'cli-select'
 import chalk from 'chalk'
@@ -43,4 +43,21 @@ async function logAsyncMethodResult<T>(
 		throw error
 	}
 }
-export { logAsyncMethodResult, isConfirm, has, customCliSelect }
+const getCommitSubject = async () => {
+	return await text({
+		message: 'Enter commit subject:',
+		validate(value) {
+			if (value.length === 0) {
+				return logger.error('commit is required')
+			}
+		},
+	})
+}
+
+export {
+	logAsyncMethodResult,
+	isConfirm,
+	has,
+	customCliSelect,
+	getCommitSubject,
+}
