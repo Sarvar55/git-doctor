@@ -70,6 +70,8 @@ export const gitPush = async (
 	origin: string,
 	branch: string
 ): Promise<string> => {
+	logger.info('branch' + branch)
+	logger.warning('origin' + origin)
 	const { stdout } = await baseExeca(['push', '--verbose', origin, branch])
 	return stdout
 }
