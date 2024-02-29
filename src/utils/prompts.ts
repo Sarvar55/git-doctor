@@ -23,15 +23,13 @@ export const generatePrompt = (diff: string) => {
 	- Do not preface the commit with anything, use the present tense, return the full sentence, and use the conventional commits specification.
 	- Changes:
 	- Summarize this git diff into a useful, 10 words commit message.
-	 ${diff}	
-	- Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
+	 ${diff}
     Examples:
-     {
-     "commit":  "The commit message will be placed here according to all changes in the project."
-     },
-	   
+      "The commit message will be placed here according to all changes in the project."
+    
 	-  Do not write any explanations or other words, just reply with the commit message.  
 	-  Do not include any additional text or explanations.
+	-  You must return the commit message to me as a string.
 	`
 	return prompt
 }

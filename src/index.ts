@@ -9,6 +9,7 @@ import {
 	gitaddFilesToStagedArea,
 } from './utils/git'
 import { logger } from './utils/logger'
+import { commitWithAi } from './commands/commit-cli'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, false)
@@ -30,6 +31,8 @@ async function main() {
 	if (has(diff)) {
 		logger.info(diff)
 		const commitMessage = await generateCommitWithAi(diff)
+		logger.info('commit' + commitMessage)
+		await commitWithAi(commitMessage)
 	} else return logger.info('git diff için her hangi bir değişiklik yok')
 }
 

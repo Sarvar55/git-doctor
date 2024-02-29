@@ -2,7 +2,6 @@ import { ChatSession, GenerativeModel } from '@google/generative-ai'
 import { modelConfig } from '../ai/config/model-config'
 import { createAIModel } from '../ai/create-ai-model'
 import { generatePrompt } from './prompts'
-import { CommitMessage } from '../types/types'
 import { logger } from './logger'
 
 class AIManager {
@@ -21,13 +20,7 @@ class AIManager {
 		try {
 			const { response } = await chat.sendMessage(prompt)
 			logger.info(response.text())
-			const jsonCommit = response.text()
-			logger.success(jsonCommit)
-			const commitMessage: CommitMessage = JSON.parse(
-				this.parseJsonFromMarkdown(jsonCommit)
-			)
-
-			return commitMessage.commit
+			return response.text()
 		} catch (error) {
 			this.handleError(error)
 			process.exit(1)
@@ -59,6 +52,6 @@ class AIManager {
 export const generateCommitWithAi = async (diff: string): Promise<string> => {
 	const aiManager = new AIManager()
 	const commitMessage = await aiManager.generateCommitMessage(diff)
-	console.log(logger.success(commitMessage))
+	logger.success('commt' + commitMessage)
 	return commitMessage
 }

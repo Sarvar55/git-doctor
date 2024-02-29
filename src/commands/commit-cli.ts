@@ -17,7 +17,7 @@ import { logger } from '../utils/logger'
 
 const config = new ConfigManager()
 
-export const manuelCommit = async () => {
+const manuelCommit = async () => {
 	const changedFiles = await gitGetModifiedFiles()
 
 	if (changedFiles.length == 0)
@@ -57,3 +57,37 @@ export const manuelCommit = async () => {
 		process.exit(1)
 	}
 }
+
+const commitWithAi = async (commitMessage: string) => {
+	if (!has(commitMessage)) {
+		logger.info(commitMessage)
+		logger.warning('commit mesajı boş olamaz.')
+		process.exit(1)
+	}
+	const changedFiles = await gitGetModifiedFiles()
+
+	if (changedFiles.length == 0)
+		return logger.info('commit için herhangi bir değişiklik yok.')
+
+	try {
+		logger.info(commitMessage)
+		const isConfirmedCommit = await isConfirm('Commit mesajını onaylayın?')
+
+		if (!isConfirmedCommit || isCancel(isConfirmedCommit)) {
+			return logger.error(' commit mesajı iptal edildi')
+		}
+
+		await gitaddFilesToStagedArea(changedFiles)
+
+		const commitOutput = await gitCommit(commitMessage)
+		logger.success('✔ commit başarılı.')
+		logger.info(commitOutput)
+
+		return true
+	} catch (error) {
+		logger.error(error)
+		return false
+	}
+}
+
+export { commitWithAi, manuelCommit }
