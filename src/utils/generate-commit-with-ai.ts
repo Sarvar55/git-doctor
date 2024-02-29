@@ -37,12 +37,6 @@ class AIManager {
 			safetySettings,
 		})
 	}
-	private parseJsonFromMarkdown(markdownString: string): string {
-		const pattern = /```json([\s\S]*?)```/
-		const match = markdownString.match(pattern)
-
-		return match ? match[1].trim() : ''
-	}
 
 	private handleError(error: string | unknown): void {
 		logger.error(`✖ ${error}`)

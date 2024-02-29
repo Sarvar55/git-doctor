@@ -13,7 +13,8 @@ import { commitWithAi } from './commands/commit-cli'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, false)
-config.set(APP_CONSTANTS.targetLang, 'english')
+config.set(APP_CONSTANTS.source_lang, 'en')
+config.set(APP_CONSTANTS.targetLang, 'ru')
 
 async function main() {
 	let diff: string = ''

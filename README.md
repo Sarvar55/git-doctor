@@ -73,6 +73,19 @@ Eğer GitDoctor'ı beğenmişseniz, lütfen projeye yıldız vermeyi ve [GitHub]
 
 ## Geliştiriciler
 
+## Dil destekleri
+
+-   Türkçe: tr
+-   Azerbaycanca: az
+-   İngilizce: en
+-   Rusça: ru
+-   Almanca: de
+-   Fransızca: fr
+-   İspanyolca: es
+-   Çince: zh
+-   Japonca: ja
+-   Arapça: ar
+
 -   [Sarvar55](https://github.com/Sarvar55)
 
 ## Katkıda Bulunanlar
