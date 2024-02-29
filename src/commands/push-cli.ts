@@ -26,6 +26,7 @@ export const push = async () => {
 
 			pushProgress.start('push işlemi gerceklesiyor')
 
+			logger.info(selectedBranch)
 			const origin = await gitGetLocalBranches()
 			const stdout = await gitPush(origin, selectedBranch)
 
