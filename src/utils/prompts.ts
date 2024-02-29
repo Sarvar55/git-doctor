@@ -53,23 +53,20 @@ You are a skilled software developer who excels in writing git commit messages. 
 const RULES_FOR_COMMIT_MESSAGE = (
 	hasEmoji: boolean,
 	language: string
-): string => `
-- Response must be in JSON format.
-- Separate subject from body with a blank line.
-- Limit the subject line to 50 characters.
-- Capitalize the subject line.
-- Do not end the subject line with a period.
-- Use the imperative mood in the subject line.
-- Wrap the body at 72 characters.
-- Use the body to explain what and why vs.
-- Explain the problem that this commit is solving. Focus on why you are making this change rather than how (the code explains that).
-${
-	hasEmoji
-		? '- Use GitHub-supported emojis at the beginning of your commit message for clarity and effectiveness.'
-		: '- Do not preface the commit with any emoji or symbol.'
+): string => {
+	return `
+	- Response must be in JSON format.
+	- Capitalize the subject line.
+	- Use the imperative mood in the subject line.
+	- Use the body to explain what and why vs.
+	${
+		hasEmoji
+			? '- Use GitHub or Gitmoji convention. This convention allows you to quickly understand the commit type and content by using specific emojis at the beginning of your commit messages.'
+			: '- Do not preface the commit with any emoji or symbol.'
+	}
+	- Commit message must be in the present tense. Use ${language} for writing commit messages.
+	`
 }
-- Commit message must be in the present tense. Use ${language} for writing commit messages.
-`
 
 const MAIN_PROMPT_FOR_COMMIT_MESSAGE = (diff: string): string => `
 Your task is to create a clear commit message based on the given git diff file.
@@ -83,24 +80,13 @@ ${diff}
 `
 
 const PROMPT_FOR_RESPONSE_STRUCTURE = `
-   - This JSON object indicates that your commit message is a legal format. However, this should only be used as a basis. You need to create your commit message according to the changes in the project.
-   - The 'Content-Type' header of the incoming response should be 'application/json; charset=utf-8'.
-	{
-		"commit": "The commit message will be placed here based on all changes in the project."
-	}
+- Compose a 1-line commit message following GitHub/Gitmoji convention based on project changes. 
+- Respond with a valid JSON object containing the "commit" field.
+- This JSON object indicates that your commit message is a legal format. However, this should only be used as a basis. 
+- You need to create your commit message according to the changes in the project.
 
-	Important: Compose your commit message in only 1 line.
-	Important: The 'Content-Type' header of your response should be 'application/json; charset=utf-8'.
+Example: {
+	"commit":"The commit message will be placed here based on all changes in the project."
+}
 
-   The JSON object must include the following field:
-    - "commit": "[string]"
-
-   Format the response as a valid JSON object with all fields filled. Here is the structure for reference:
-
-	Examples:
-    {
-        "commit": "The commit message you created will be written here."
-    }
-
-   Respond only with the completed JSON object, without any additional explanatory or descriptive text. The JSON should be complete and ready for parsing using JSON.parse().
-`
+Response format: JSON object with "commit" field. No additional text.`

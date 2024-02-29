@@ -12,46 +12,45 @@ import { logger } from './utils/logger'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, true)
+config.set(APP_CONSTANTS.targetLang, 'english')
 
 async function main() {
 	let diff: string = ''
 	const status = await gitStatus()
 
-	if (!has(status)) {
-		return logger.info('commit için her hangibir değişiklik yok')
+	if (!has(status))
+		return logger.info('commit için her hangi bir değişiklik yok')
+
+	diff = await getDiff()
+
+	if (!has(diff)) {
+		await gitGetModifiedFilesAndTostgaedArea()
+		diff = await gitDiffStaged()
 	}
 
+	if (has(diff)) {
+		logger.info(diff)
+		askToAi(diff)
+	} else {
+		return logger.info('git diff için her hangi bir değişiklik yok')
+	}
+}
+
+const gitGetModifiedFilesAndTostgaedArea = async () => {
+	const modifiedFiles = await logAsyncMethodResult(
+		() => gitGetModifiedFiles(),
+		'gitGetModifiedFiles'
+	)
+	await gitaddFilesToStagedArea(modifiedFiles)
+	return modifiedFiles
+}
+
+const getDiff = async () => {
 	const diffFromStagedArea = await logAsyncMethodResult(
 		() => gitDiffStaged(),
 		'gitDiffStaged'
 	)
-
-	if (!has(diffFromStagedArea)) {
-		const modifiedFiles = await logAsyncMethodResult(
-			() => gitGetModifiedFiles(),
-			'gitGetModifiedFiles'
-		)
-
-		await gitaddFilesToStagedArea(modifiedFiles)
-		logger.success('d')
-
-		const diffFromStagedArea = await gitDiffStaged()
-
-		if (has(diffFromStagedArea)) {
-			logger.info(diffFromStagedArea)
-			diff = diffFromStagedArea
-		} else {
-			diff = await gitDiff()
-		}
-	} else if (has(diffFromStagedArea)) {
-		diff = diffFromStagedArea
-	} else {
-		logger.info(diffFromStagedArea)
-		diff = await gitDiff()
-	}
-	if (has(diff)) {
-		logger.info(diff)
-		askToAi(diff)
-	}
+	return has(diffFromStagedArea) ? diffFromStagedArea : await gitDiff()
 }
+
 main()
