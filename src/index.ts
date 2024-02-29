@@ -10,6 +10,7 @@ import {
 } from './utils/git'
 import { logger } from './utils/logger'
 import { commitWithAi } from './commands/commit-cli'
+import { push } from './commands/push-cli'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, false)
@@ -33,7 +34,10 @@ async function main() {
 		logger.info(diff)
 		const commitMessage = await generateCommitWithAi(diff)
 		logger.info('commit' + commitMessage)
-		await commitWithAi(commitMessage)
+		const isCommit = await commitWithAi(commitMessage)
+		if (isCommit) {
+			await push()
+		}
 	} else return logger.info('git diff için her hangi bir değişiklik yok')
 }
 
