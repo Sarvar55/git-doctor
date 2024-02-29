@@ -11,7 +11,7 @@ export const generatePrompt = (diff: string) => {
 	- I will give you git diff file, and your job is to convert it into useful commit message in this ${language} language.
 	- ${
 		hasEmoji
-			? '- Use Use GitHub-supported emojis at the beginning of your commit message. This ensures that your commit message is clear and effective.'
+			? '- Write a commit message for this change. Use GitHub-supported emojis at the beginning of your commit message.  For example, if you are adding a new feature, you can use the ✨  emoji.'
 			: '- Do not preface the commit with any emoji or symbol.'
 	}
 	- Do not preface the commit with anything, use the present tense, return the full sentence, and use the conventional commits specification.
