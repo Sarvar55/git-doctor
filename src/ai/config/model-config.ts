@@ -4,7 +4,7 @@ export const modelConfig = {
 	generationConfig: {
 		maxOutputTokens: 300,
 		temperature: 0.9,
-		topP: 0.3,
+		topP: 0.8,
 	},
 	safetySettings: [
 		{

@@ -56,8 +56,9 @@ class AIManager {
 	}
 }
 
-export const askToAi = async (diff: string): Promise<void> => {
+export const generateCommitWithAi = async (diff: string): Promise<string> => {
 	const aiManager = new AIManager()
 	const commitMessage = await aiManager.generateCommitMessage(diff)
 	console.log(logger.success(commitMessage))
+	return commitMessage
 }

@@ -1,6 +1,9 @@
+import { confirm } from '@clack/prompts'
 import { logger } from './logger'
+import cliSelect from 'cli-select'
+import chalk from 'chalk'
 
-export const has = (str: string | unknown | undefined): boolean => {
+const has = (str: string | unknown | undefined): boolean => {
 	if (str == undefined || str == 'unknown') return false
 	if (typeof str === 'string') {
 		return str.trim() !== ''
@@ -8,8 +11,26 @@ export const has = (str: string | unknown | undefined): boolean => {
 		return false
 	}
 }
+const isConfirm = async (message: string) => {
+	return await confirm({
+		message,
+	})
+}
 
-export async function logAsyncMethodResult<T>(
+const customCliSelect = async (values: string[]): Promise<string> => {
+	const { value } = await cliSelect({
+		values,
+		valueRenderer: (value: string, selected: boolean) => {
+			if (selected) {
+				return chalk.underline(value)
+			}
+			return value
+		},
+	})
+	return value
+}
+
+async function logAsyncMethodResult<T>(
 	method: () => Promise<T>,
 	methodName: string
 ): Promise<T> {
@@ -22,3 +43,4 @@ export async function logAsyncMethodResult<T>(
 		throw error
 	}
 }
+export { logAsyncMethodResult, isConfirm, has, customCliSelect }

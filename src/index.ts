@@ -1,5 +1,5 @@
 import { APP_CONSTANTS, ConfigManager } from './config/config'
-import { askToAi } from './utils/ask-to-ai'
+import { generateCommitWithAi } from './utils/generate-commit-with-ai'
 import { has, logAsyncMethodResult } from './utils/commons'
 import {
 	gitDiff,
@@ -29,7 +29,7 @@ async function main() {
 
 	if (has(diff)) {
 		logger.info(diff)
-		askToAi(diff)
+		const commitMessage = await generateCommitWithAi(diff)
 	} else return logger.info('git diff için her hangi bir değişiklik yok')
 }
 
