@@ -18,6 +18,7 @@ export const push = async () => {
 				.map(branch => {
 					return branch.split('/')[1]
 				})
+			logger.info(JSON.stringify(branches))
 			selectedBranch = await customCliSelect(branches)
 		}
 		if (isPushConfirmed && !isCancel(isPushConfirmed)) {
