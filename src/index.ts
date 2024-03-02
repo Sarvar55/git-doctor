@@ -20,7 +20,6 @@ config.set(APP_CONSTANTS.targetLang, 'ru')
 async function main() {
 	let diff: string = ''
 	const status = await gitStatus()
-
 	if (!has(status)) return logger.info('No changes to commit')
 
 	diff = await getDiff()
@@ -29,7 +28,6 @@ async function main() {
 		await gitGetModifiedFilesAndTostgaedArea()
 		diff = await gitDiffStaged()
 	}
-
 	if (has(diff)) {
 		logger.info(diff)
 		const commitMessage = await generateCommitWithAi(diff)
