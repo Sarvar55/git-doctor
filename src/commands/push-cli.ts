@@ -13,8 +13,7 @@ export const push = async () => {
 	const isPushConfirmed = await isConfirm('Do you want to run `git push`🚀?')
 
 	if (isPushConfirmed && isCancel(isPushConfirmed)) {
-		logger.warning('✖ push  canceled')
-		process.exit(1)
+		return logger.warning('✖ push  canceled')
 	}
 
 	const shouldPushToBranch = await isConfirm(
