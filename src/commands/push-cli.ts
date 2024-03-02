@@ -1,5 +1,5 @@
 import { isCancel } from 'axios'
-import { customCliSelect, isConfirm } from '../utils/commons'
+import { customCliSelect, has, isConfirm } from '../utils/commons'
 import {
 	gitGetCurrentBranch,
 	gitGetLocalBranches,
@@ -23,13 +23,13 @@ export const push = async () => {
 	)
 
 	console.log('shouldPushToBranch' + !!shouldPushToBranch)
-	console.log('iscalcel' + isCancel(shouldPushToBranch))
+	console.log('iscalcel' + !isCancel(shouldPushToBranch))
 
 	try {
 		let selectedBranch: string = ''
 		if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
 			selectedBranch = await getBranchMenuInCli()
-			if (!isCancel(isPushConfirmed)) {
+			if (!isCancel(isPushConfirmed) && has(selectedBranch)) {
 				processPush(selectedBranch)
 			}
 		} else if (shouldPushToBranch && isCancel(shouldPushToBranch)) {
