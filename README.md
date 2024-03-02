@@ -73,6 +73,8 @@ Eğer GitDoctor'ı beğenmişseniz, lütfen projeye yıldız vermeyi ve [GitHub]
 
 ## Geliştiriciler
 
+-   [Sarvar55](https://github.com/Sarvar55)
+
 ## Dil destekleri
 
 -   Türkçe: tr
@@ -85,8 +87,6 @@ Eğer GitDoctor'ı beğenmişseniz, lütfen projeye yıldız vermeyi ve [GitHub]
 -   Çince: zh
 -   Japonca: ja
 -   Arapça: ar
-
--   [Sarvar55](https://github.com/Sarvar55)
 
 ## Katkıda Bulunanlar
 
