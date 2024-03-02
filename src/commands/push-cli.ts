@@ -15,7 +15,7 @@ export const push = async () => {
 	console.log('is', isPushConfirmed)
 	console.log('is0' + isCancel(isPushConfirmed))
 
-	if (!isPushConfirmed && isCancel(isPushConfirmed)) {
+	if (!isPushConfirmed && !isCancel(isPushConfirmed)) {
 		logger.warning('✖ push  canceled')
 		process.exit(0)
 	}
