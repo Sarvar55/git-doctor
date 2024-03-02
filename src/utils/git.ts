@@ -1,6 +1,5 @@
 import { ExecaChildProcess, execa } from 'execa'
 import { logger } from './logger'
-import { has } from './commons'
 
 /**
  * Utility functions for interacting with Git repositories.
@@ -41,18 +40,21 @@ export const gitaddFilesToStagedArea = async (
 	logger.info('running:gitaddFilesToStagedArea with' + JSON.stringify(files))
 
 	/**Ancak, asenkron bir işlem içeriyorsa, map fonksiyonu tamamlanmadan önce işlemleri beklemek için Promise.all kullanman gerekebilir. */
-	const validFiles = await Promise.all(
-		files.map(async file => {
-			const isIgnored = await checkIfFileIsIgnored(file)
-			return has(isIgnored) ? null : file
-		})
-	)
+	// const validFiles = await Promise.all(
+	// 	files.map(async file => {
+	// 		const isIgnored = await checkIfFileIsIgnored(file)
+	// 		return has(isIgnored) ? null : file
+	// 	})
+	// )
 	//base execa tarafı benden string [] istiyor ama ben ona string|null veriyorum o yuzden içinde olanların hepsi string turunde oldugunu garanti ettdim
-	const filesToAdd = validFiles.filter(
-		(file): file is string => file !== null
-	)
+	// const filesToAdd = validFiles.filter(
+	// 	(file): file is string => file !== null
+	// )
 
-	logger.info('filesToAdd' + JSON.stringify(filesToAdd))
+	//logger.info('filesToAdd' + JSON.stringify(filesToAdd))
+
+	const filesToAdd = files
+	await checkIfFileIsIgnored()
 
 	await baseExeca(['add', ...filesToAdd])
 }
@@ -180,13 +182,19 @@ const baseExeca = (commands: string[]): ExecaChildProcess<string> => {
  * @param {string} filePath - The path of the file to check.
  * @returns {Promise<boolean>} A promise that resolves to true if the file is ignored, false otherwise.
  */
-const checkIfFileIsIgnored = async (filePath: string): Promise<string> => {
+const checkIfFileIsIgnored = async (): Promise<boolean> => {
 	try {
-		const { stdout } = await baseExeca(['check-ignore', '-v', filePath])
+		const { stdout } = await baseExeca([
+			'ls-files',
+			'--exclude-from',
+			'.gitignore',
+		])
 
-		return stdout
+		logger.success(stdout)
+
+		return true
 	} catch (error) {
 		console.error('Error checking file ignore status:', error)
-		return ''
+		return false
 	}
 }
