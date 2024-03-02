@@ -22,7 +22,7 @@ export const push = async () => {
 		let selectedBranch: string = ''
 		if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
 			selectedBranch = await getBranchMenuInCli()
-		} else if (shouldPushToBranch && isCancel(selectedBranch)) {
+		} else if (!shouldPushToBranch && isCancel(selectedBranch)) {
 			const currentBranch = await gitGetCurrentBranch()
 			await processPush(currentBranch)
 		}
