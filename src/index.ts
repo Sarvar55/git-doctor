@@ -1,6 +1,10 @@
 import { APP_CONSTANTS, ConfigManager } from './config/config'
 import { generateCommitWithAi } from './utils/generate-commit-with-ai'
-import { has, logAsyncMethodResult } from './utils/commons'
+import {
+	checkIsGitRepository,
+	has,
+	logAsyncMethodResult,
+} from './utils/commons'
 import {
 	gitDiff,
 	gitDiffStaged,
@@ -17,6 +21,10 @@ config.set(APP_CONSTANTS.hasEmoji, false)
 config.set(APP_CONSTANTS.targetLang, 'es')
 
 async function main() {
+	const isGitRepo = checkIsGitRepository()
+
+	if (!isGitRepo) return logger.error('This is not a git repository       😔')
+
 	let diff: string = ''
 	const status = await gitStatus()
 	if (!has(status)) return logger.info('No changes to commit')

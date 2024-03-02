@@ -1,6 +1,7 @@
 import { confirm, text } from '@clack/prompts'
 import { logger } from './logger'
 import cliSelect from 'cli-select'
+import { execSync } from 'child_process'
 import chalk from 'chalk'
 
 /**
@@ -80,10 +81,22 @@ const getCommitSubject = async () => {
 	})
 }
 
+const checkIsGitRepository = () => {
+	try {
+		const output = execSync('git rev-parse --is-inside-work-tree', {
+			encoding: 'utf-8',
+		})
+		return output.trim() === 'true'
+	} catch (err) {
+		return false
+	}
+}
+
 export {
 	logAsyncMethodResult,
 	isConfirm,
 	has,
 	customCliSelect,
 	getCommitSubject,
+	checkIsGitRepository,
 }

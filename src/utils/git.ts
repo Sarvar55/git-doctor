@@ -43,7 +43,7 @@ export const gitaddFilesToStagedArea = async (
 	const trackingFiles = await Promise.all(
 		files.filter(async file => {
 			const isIgnored = await checkIfFileIsIgnored(file)
-			return isIgnored && file
+			return isIgnored
 		})
 	)
 
