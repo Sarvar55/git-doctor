@@ -12,27 +12,30 @@ import { logger } from '../utils/logger'
 export const push = async () => {
 	const isPushConfirmed = await isConfirm('Do you want to run `git push`🚀?')
 
-	if (isCancel(isPushConfirmed)) {
-		return logger.warning('✖ push  canceled')
-	} else if (!isCancel(isPushConfirmed)) {
-		const shouldPushToBranch = await isConfirm(
-			'Is there a branch you want to `push specifically`?'
-		)
+	console.log('is', isPushConfirmed)
 
-		try {
-			if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
-				const selectedBranch = await getBranchMenuInCli()
-				if (!isCancel(isPushConfirmed) && has(selectedBranch))
-					processPush(selectedBranch)
-			} else {
-				const currentBranch = await gitGetCurrentBranch()
-				logger.info('current branch:' + currentBranch)
-				await processPush(currentBranch)
-			}
-		} catch (error) {
-			logger.error(`✖ push error: ${error}`)
-			process.exit(1)
+	if (isCancel(isPushConfirmed)) {
+		logger.warning('✖ push  canceled')
+		process.exit(0)
+	}
+
+	const shouldPushToBranch = await isConfirm(
+		'Is there a branch you want to `push specifically`?'
+	)
+
+	try {
+		if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
+			const selectedBranch = await getBranchMenuInCli()
+			if (!isCancel(isPushConfirmed) && has(selectedBranch))
+				processPush(selectedBranch)
+		} else {
+			const currentBranch = await gitGetCurrentBranch()
+			logger.info('current branch:' + currentBranch)
+			await processPush(currentBranch)
 		}
+	} catch (error) {
+		logger.error(`✖ push error: ${error}`)
+		process.exit(1)
 	}
 }
 
