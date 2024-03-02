@@ -22,7 +22,7 @@ const has = (str: string | unknown | undefined): boolean => {
  * @param {string} message - The message to display to the user.
  * @returns {Promise<boolean>} A promise that resolves to true if the user confirms, false otherwise.
  */
-const isConfirm = async (message: string): Promise<symbol> => {
+const isConfirm = async (message: string): Promise<boolean | symbol> => {
 	return await confirm({
 		message,
 	})

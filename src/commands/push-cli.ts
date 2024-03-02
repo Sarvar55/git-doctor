@@ -29,7 +29,6 @@ export const push = async () => {
 	const shouldPushToBranch = await isConfirm(
 		'Is there a branch you want to `push specifically`?'
 	)
-
 	try {
 		if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
 			const selectedBranch = await getBranchMenuInCli()
@@ -37,11 +36,10 @@ export const push = async () => {
 				processPush(selectedBranch)
 		} else {
 			const currentBranch = await gitGetCurrentBranch()
-			logger.info('current branch:' + currentBranch)
 			await processPush(currentBranch)
 		}
 	} catch (error) {
-		logger.error(`✖ push error: ${error}`)
+		logger.error(`✖ Push error: ${error}`)
 		process.exit(1)
 	}
 }
