@@ -15,6 +15,12 @@ export const push = async () => {
 	console.log('is', isPushConfirmed)
 	console.log('is' + isCancel(isPushConfirmed))
 
+	/**
+	 * isPushConfirmed true gelir
+	 * isCancel(true) iptal deyil
+	 * isCancel(false) iptal
+	 */
+
 	if (!isPushConfirmed && !isCancel(isPushConfirmed)) {
 		logger.warning('✖ push  canceled')
 		process.exit(0)
@@ -25,7 +31,7 @@ export const push = async () => {
 	)
 
 	try {
-		if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
+		if (shouldPushToBranch && isCancel(shouldPushToBranch)) {
 			const selectedBranch = await getBranchMenuInCli()
 			if (!isCancel(isPushConfirmed) && has(selectedBranch))
 				processPush(selectedBranch)
