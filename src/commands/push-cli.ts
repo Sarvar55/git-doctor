@@ -31,7 +31,7 @@ export const push = async () => {
 			if (!isCancel(isPushConfirmed) && has(selectedBranch)) {
 				processPush(selectedBranch)
 			}
-		} else if (shouldPushToBranch && isCancel(shouldPushToBranch)) {
+		} else {
 			const currentBranch = await gitGetCurrentBranch()
 			logger.info('current branch:' + currentBranch)
 			await processPush(currentBranch)
