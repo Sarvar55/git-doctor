@@ -128,12 +128,12 @@ export const gitDiffStaged = async (): Promise<string> => {
  */
 export const gitGetCurrentBranch = async (): Promise<string> => {
 	try {
-		const { stdout } = await execa('git', [
+		const { stdout } = await baseExeca([
 			'rev-parse',
 			'--abbrev-ref',
 			'HEAD',
 		])
-		return stdout.trim() // Trim to remove any leading/trailing whitespace
+		return stdout
 	} catch (error) {
 		console.error('Error retrieving current branch:', error)
 		throw error
