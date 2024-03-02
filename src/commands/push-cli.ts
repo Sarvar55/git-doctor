@@ -1,4 +1,3 @@
-import { isCancel } from 'axios'
 import { customCliSelect, has, isConfirm } from '../utils/commons'
 import {
 	gitGetCurrentBranch,
@@ -6,7 +5,7 @@ import {
 	gitGetRemoteUrl,
 	gitPush,
 } from '../utils/git'
-import { outro, spinner } from '@clack/prompts'
+import { outro, spinner, isCancel } from '@clack/prompts'
 import chalk from 'chalk'
 import { logger } from '../utils/logger'
 
