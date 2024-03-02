@@ -22,7 +22,7 @@ export const push = async () => {
 		'Is there a branch you want to `push specifically`?'
 	)
 
-	console.log('shouldPushToBranch' + shouldPushToBranch.valueOf)
+	console.log('shouldPushToBranch' + !!shouldPushToBranch)
 	console.log('iscalcel' + isCancel(shouldPushToBranch))
 
 	try {
