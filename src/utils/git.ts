@@ -39,24 +39,21 @@ export const gitaddFilesToStagedArea = async (
 ): Promise<void> => {
 	logger.info('running:gitaddFilesToStagedArea with' + JSON.stringify(files))
 
-	/**Ancak, asenkron bir işlem içeriyorsa, map fonksiyonu tamamlanmadan önce işlemleri beklemek için Promise.all kullanman gerekebilir. */
-	// const validFiles = await Promise.all(
-	// 	files.map(async file => {
-	// 		const isIgnored = await checkIfFileIsIgnored(file)
-	// 		return has(isIgnored) ? null : file
-	// 	})
-	// )
-	//base execa tarafı benden string [] istiyor ama ben ona string|null veriyorum o yuzden içinde olanların hepsi string turunde oldugunu garanti ettdim
-	// const filesToAdd = validFiles.filter(
-	// 	(file): file is string => file !== null
-	// )
+	/**Ancak, asenkron bir işlem içeriyorsa, map,filter fonksiyonu tamamlanmadan önce işlemleri beklemek için Promise.all kullanman gerekebilir. */
+	const trackingFiles = await Promise.all(
+		files.filter(async file => {
+			const isIgnored = await checkIfFileIsIgnored(file)
+			return isIgnored && file
+		})
+	)
 
-	//logger.info('filesToAdd' + JSON.stringify(filesToAdd))
+	logger.info('filesToAdd ' + JSON.stringify(trackingFiles))
 
-	const filesToAdd = files
-	await checkIfFileIsIgnored()
-
-	await baseExeca(['add', ...filesToAdd])
+	if (trackingFiles.length > 0) {
+		await baseExeca(['add', ...trackingFiles])
+	} else {
+		logger.info('No files to add to the staged area.')
+	}
 }
 
 /**
@@ -182,19 +179,18 @@ const baseExeca = (commands: string[]): ExecaChildProcess<string> => {
  * @param {string} filePath - The path of the file to check.
  * @returns {Promise<boolean>} A promise that resolves to true if the file is ignored, false otherwise.
  */
-const checkIfFileIsIgnored = async (): Promise<boolean> => {
+const checkIfFileIsIgnored = async (filePath: string): Promise<boolean> => {
 	try {
 		const { stdout } = await baseExeca([
 			'ls-files',
 			'--exclude-from',
 			'.gitignore',
 		])
+		const ignoredFiles = stdout.split('\n')
 
-		logger.success(stdout)
-
-		return true
+		return ignoredFiles.includes(filePath)
 	} catch (error) {
-		console.error('Error checking file ignore status:', error)
+		console.error('Error checking file poll status:', error)
 		return false
 	}
 }
