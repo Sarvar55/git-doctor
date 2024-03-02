@@ -8,7 +8,7 @@ import { push } from './commands/push-cli.js';
 const config = new ConfigManager();
 config.set(APP_CONSTANTS.hasEmoji, false);
 config.set(APP_CONSTANTS.source_lang, 'en');
-config.set(APP_CONSTANTS.targetLang, 'en');
+config.set(APP_CONSTANTS.targetLang, 'ru');
 async function main() {
     let diff = '';
     const status = await gitStatus();

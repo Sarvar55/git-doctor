@@ -52,6 +52,8 @@ export const gitaddFilesToStagedArea = async (
 		(file): file is string => file !== null
 	)
 
+	logger.info('filesToAdd' + JSON.stringify(filesToAdd))
+
 	await baseExeca(['add', ...filesToAdd])
 }
 
