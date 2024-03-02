@@ -6,7 +6,7 @@ import chalk from 'chalk'
 import { logger } from '../utils/logger'
 
 export const push = async () => {
-	const isPushConfirmed = await isConfirm('Do you want to run `git push`?')
+	const isPushConfirmed = await isConfirm('Do you want to run `git push`🚀?')
 
 	if (!isPushConfirmed && !isCancel(isPushConfirmed)) process.exit(1)
 
@@ -28,7 +28,7 @@ export const push = async () => {
 		if (isPushConfirmed && !isCancel(isPushConfirmed)) {
 			const pushProgress = spinner()
 
-			pushProgress.start('push işlemi gerceklesiyor')
+			pushProgress.start('⏰push operation is taking place')
 
 			logger.info(selectedBranch)
 			const origin = await gitGetRemoteUrl()
