@@ -13,7 +13,10 @@ import { logger } from '../utils/logger'
 export const push = async () => {
 	const isPushConfirmed = await isConfirm('Do you want to run `git push`🚀?')
 
-	if (isCancel(isPushConfirmed)) process.exit(1)
+	if (isCancel(isPushConfirmed)) {
+		logger.warning('✖ push  canceled')
+		process.exit(1)
+	}
 
 	const shouldPushToBranch = await isConfirm(
 		'Is there a branch you want to `push specifically`?'
@@ -23,15 +26,13 @@ export const push = async () => {
 		let selectedBranch: string = ''
 		if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
 			selectedBranch = await getBranchMenuInCli()
+			if (!isCancel(isPushConfirmed)) {
+				processPush(selectedBranch)
+			}
 		} else if (shouldPushToBranch && isCancel(shouldPushToBranch)) {
 			const currentBranch = await gitGetCurrentBranch()
 			logger.info('current branch:' + currentBranch)
 			await processPush(currentBranch)
-		}
-		if (!isCancel(isPushConfirmed)) {
-			processPush(selectedBranch)
-		} else {
-			outro(`${chalk.red('✖')} push  canceled`)
 		}
 	} catch (error) {
 		logger.error(`✖ push error: ${error}`)
