@@ -25,6 +25,7 @@ export const push = async () => {
 			selectedBranch = await getBranchMenuInCli()
 		} else if (shouldPushToBranch && isCancel(shouldPushToBranch)) {
 			const currentBranch = await gitGetCurrentBranch()
+			logger.info('current branch:' + currentBranch)
 			await processPush(currentBranch)
 		}
 		if (!isCancel(isPushConfirmed)) {
@@ -41,7 +42,7 @@ export const push = async () => {
 const processPush = async (branch: string) => {
 	const pushProgress = spinner()
 	try {
-		logger.info(branch)
+		logger.info('branch:' + branch)
 		pushProgress.start('⏰ Push operation is taking place')
 
 		const origin = await gitGetRemoteUrl()
