@@ -16,12 +16,13 @@ const has = (str: string | unknown | undefined): boolean => {
 		return false
 	}
 }
+
 /**
  * Prompts the user for confirmation with a given message.
  * @param {string} message - The message to display to the user.
  * @returns {Promise<boolean>} A promise that resolves to true if the user confirms, false otherwise.
  */
-const isConfirm = async (message: string) => {
+const isConfirm = async (message: string): Promise<boolean | symbol> => {
 	return await confirm({
 		message,
 	})

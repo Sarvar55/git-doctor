@@ -12,7 +12,7 @@ import { logger } from '../utils/logger'
 export const push = async () => {
 	const isPushConfirmed = await isConfirm('Do you want to run `git push`🚀?')
 
-	if (isPushConfirmed && isCancel(isPushConfirmed)) {
+	if (isCancel(isPushConfirmed)) {
 		return logger.warning('✖ push  canceled')
 	}
 
