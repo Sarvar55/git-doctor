@@ -1,4 +1,5 @@
 import { ExecaChildProcess, execa } from 'execa'
+import { readFileSync } from 'fs'
 import { logger } from './logger'
 
 /**
@@ -20,7 +21,19 @@ export const gitaddFilesToStagedArea = async (
 ): Promise<void> => {
 	logger.info('runing:gitaddFilesToStagedArea with' + JSON.stringify(files))
 
-	await baseExeca(['add', ...files])
+	/**Ancak, asenkron bir işlem içeriyorsa, map fonksiyonu tamamlanmadan önce işlemleri beklemek için Promise.all kullanman gerekebilir. */
+	const validFiles = await Promise.all(
+		files.map(async file => {
+			const isIgnored = await checkIfFileIsIgnored(file)
+			return isIgnored ? null : file
+		})
+	)
+	//base execa tarafı benden string [] istiyor ama ben ona string|null veriyorum o yuzden içinde olanların hepsi string turunde oldugunu garanti ettdim
+	const filesToAdd = validFiles.filter(
+		(file): file is string => file !== null
+	)
+
+	await baseExeca(['add', ...filesToAdd])
 }
 
 /**
@@ -121,4 +134,19 @@ export const gitGetModifiedFiles = async (): Promise<string[]> => {
  */
 const baseExeca = (commands: string[]): ExecaChildProcess<string> => {
 	return execa('git', [...commands])
+}
+
+const checkIfFileIsIgnored = async (filePath: string): Promise<boolean> => {
+	try {
+		// .gitignore dosyasını okur
+		const gitignoreContent = readFileSync('.gitignore', 'utf8')
+
+		const normalizedFilePath = filePath.replace(/\\/g, '/')
+		const isIgnored = gitignoreContent.includes(normalizedFilePath)
+
+		return isIgnored
+	} catch (error) {
+		console.error('Error reading .gitignore file:', error)
+		return false
+	}
 }

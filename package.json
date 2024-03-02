@@ -14,7 +14,7 @@
 	],
 	"scripts": {
 		"start": "node build/index.js",
-		"build": "rimraf build && tsc",
+		"build": "tsc-esm",
 		"lint": "eslint . --ext ts --max-warnings  0 --report-unused-disable-directives",
 		"lint:fix": "eslint . --ext .ts --fix",
 		"format": "prettier --write .",
