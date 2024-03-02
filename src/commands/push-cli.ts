@@ -26,13 +26,12 @@ export const push = async () => {
 	console.log('iscalcel' + !isCancel(shouldPushToBranch))
 
 	try {
-		let selectedBranch: string = ''
-		if (!isCancel(shouldPushToBranch)) {
-			selectedBranch = await getBranchMenuInCli()
+		if (shouldPushToBranch && isCancel(shouldPushToBranch)) {
+			const selectedBranch = await getBranchMenuInCli()
 			if (!isCancel(isPushConfirmed) && has(selectedBranch)) {
 				processPush(selectedBranch)
 			}
-		} else if (isCancel(shouldPushToBranch)) {
+		} else if (shouldPushToBranch && !isCancel(shouldPushToBranch)) {
 			const currentBranch = await gitGetCurrentBranch()
 			logger.info('current branch:' + currentBranch)
 			await processPush(currentBranch)
