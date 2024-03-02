@@ -13,7 +13,7 @@ export const push = async () => {
 	const isPushConfirmed = await isConfirm('Do you want to run `git push`🚀?')
 
 	console.log('is', isPushConfirmed)
-	console.log('is0' + isCancel(isPushConfirmed))
+	console.log('is' + isCancel(isPushConfirmed))
 
 	if (!isPushConfirmed && !isCancel(isPushConfirmed)) {
 		logger.warning('✖ push  canceled')
