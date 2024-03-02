@@ -123,6 +123,24 @@ export const gitDiffStaged = async (): Promise<string> => {
 }
 
 /**
+ * Retrieves the name of the current Git branch.
+ * @returns {Promise<string>} A promise that resolves to the name of the current branch.
+ */
+export const gitGetCurrentBranch = async (): Promise<string> => {
+	try {
+		const { stdout } = await execa('git', [
+			'rev-parse',
+			'--abbrev-ref',
+			'HEAD',
+		])
+		return stdout.trim() // Trim to remove any leading/trailing whitespace
+	} catch (error) {
+		console.error('Error retrieving current branch:', error)
+		throw error
+	}
+}
+
+/**
  * Shows the differences between the working directory and the last commit.
  * @returns {Promise<string>} A promise that resolves to the output of the 'git diff' command.
  */
