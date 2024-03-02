@@ -3,6 +3,11 @@ import { logger } from './logger'
 import cliSelect from 'cli-select'
 import chalk from 'chalk'
 
+/**
+ * Checks if a given string is not undefined, not 'unknown', and not an empty string.
+ * @param {string | unknown | undefined} str - The string to check.
+ * @returns {boolean} True if the string is not undefined, not 'unknown', and not an empty string.
+ */
 const has = (str: string | unknown | undefined): boolean => {
 	if (str == undefined || str == 'unknown') return false
 	if (typeof str === 'string') {
@@ -11,12 +16,22 @@ const has = (str: string | unknown | undefined): boolean => {
 		return false
 	}
 }
+/**
+ * Prompts the user for confirmation with a given message.
+ * @param {string} message - The message to display to the user.
+ * @returns {Promise<boolean>} A promise that resolves to true if the user confirms, false otherwise.
+ */
 const isConfirm = async (message: string) => {
 	return await confirm({
 		message,
 	})
 }
 
+/**
+ * Allows the user to select an option from a list of values.
+ * @param {string[]} values - The list of values to display to the user.
+ * @returns {Promise<string>} A promise that resolves to the selected value.
+ */
 const customCliSelect = async (values: string[]): Promise<string> => {
 	const { value } = await cliSelect({
 		values,
@@ -30,6 +45,12 @@ const customCliSelect = async (values: string[]): Promise<string> => {
 	return value
 }
 
+/**
+ * Logs the result of an asynchronous method.
+ * @param {() => Promise<T>} method - The asynchronous method to execute.
+ * @param {string} methodName - The name of the method for logging purposes.
+ * @returns {Promise<T>} A promise that resolves to the result of the method.
+ */
 async function logAsyncMethodResult<T>(
 	method: () => Promise<T>,
 	methodName: string
@@ -43,6 +64,10 @@ async function logAsyncMethodResult<T>(
 		throw error
 	}
 }
+/**
+ * Prompts the user to enter a commit subject.
+ * @returns {Promise<string>} A promise that resolves to the entered commit subject.
+ */
 const getCommitSubject = async () => {
 	return await text({
 		message: 'Enter commit subject:',

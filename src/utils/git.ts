@@ -3,8 +3,27 @@ import { readFileSync } from 'fs'
 import { logger } from './logger'
 
 /**
+ * Utility functions for interacting with Git repositories.
+ *
+ * This module provides a set of functions to perform various Git operations such as
+ * checking the status of a repository, adding files to the staging area, retrieving the
+ * root directory of the repository, listing local branches, getting remote URLs, committing
+ * changes, pushing changes to a remote repository, and more.
+ *
+ * Each function is designed to be used asynchronously and returns promises, allowing for
+ * non-blocking execution in Node.js environments.
+ *
+ * Note: Some functions, like `gitaddFilesToStagedArea`, perform additional checks or
+ * operations before executing the Git command. For example, `gitaddFilesToStagedArea`
+ * checks if files are ignored by `.gitignore` before adding them to the staging area.
+ *
+ * Error handling is implemented within each function to catch and log errors that may
+ * occur during the execution of Git commands.
+ */
+
+/**
  * Executes the 'git status' command and returns the output.
- * @returns {string} The output of the 'git status' command.
+ * @returns {Promise<string>} A promise that resolves to the output of the 'git status' command.
  */
 export const gitStatus = async () => {
 	const { stdout } = await baseExeca(['status', '--porcelain'])
@@ -19,7 +38,7 @@ export const gitStatus = async () => {
 export const gitaddFilesToStagedArea = async (
 	files: string[]
 ): Promise<void> => {
-	logger.info('runing:gitaddFilesToStagedArea with' + JSON.stringify(files))
+	logger.info('running:gitaddFilesToStagedArea with' + JSON.stringify(files))
 
 	/**Ancak, asenkron bir işlem içeriyorsa, map fonksiyonu tamamlanmadan önce işlemleri beklemek için Promise.all kullanman gerekebilir. */
 	const validFiles = await Promise.all(
@@ -53,7 +72,6 @@ export const gitGetLocalBranches = async (): Promise<string> => {
 	const { stdout } = await baseExeca(['branch', '-r'])
 	return stdout
 }
-
 /**
  * Retrieves the remote URL for a given remote name.
  * @param {string} [origin='origin'] - The name of the remote to get the URL for.
@@ -77,6 +95,7 @@ export const gitCommit = async (message: string): Promise<string> => {
 /**
  * Pushes changes to a remote repository.
  * @param {string} origin - The name of the remote repository to push to.
+ * @param {string} branch - The name of the branch to push.
  * @returns {Promise<string>} A promise that resolves to the output of the 'git push' command.
  */
 export const gitPush = async (
@@ -136,6 +155,11 @@ const baseExeca = (commands: string[]): ExecaChildProcess<string> => {
 	return execa('git', [...commands])
 }
 
+/**
+ * Checks if a file is ignored by the .gitignore file.
+ * @param {string} filePath - The path of the file to check.
+ * @returns {Promise<boolean>} A promise that resolves to true if the file is ignored, false otherwise.
+ */
 const checkIfFileIsIgnored = async (filePath: string): Promise<boolean> => {
 	try {
 		// .gitignore dosyasını okur

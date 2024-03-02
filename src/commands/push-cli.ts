@@ -28,7 +28,7 @@ export const push = async () => {
 		if (isPushConfirmed && !isCancel(isPushConfirmed)) {
 			const pushProgress = spinner()
 
-			pushProgress.start('⏰push operation is taking place')
+			pushProgress.start('⏰ Push operation is taking place')
 
 			logger.info(selectedBranch)
 			const origin = await gitGetRemoteUrl()
