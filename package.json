@@ -16,10 +16,11 @@
 		"start": "node build/index.js",
 		"build": "rimraf build && tsc",
 		"lint": "eslint . --ext ts --max-warnings  0 --report-unused-disable-directives",
-		"lint:fix": "eslint . --ext ts --fix",
+		"lint:fix": "eslint . --ext .ts --fix",
 		"format": "prettier --write .",
 		"build:push": "npm run build && git add . && git commit -m 'build' && git push",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"build:start": "npm run build && npm run start"
 	},
 	"type": "module",
 	"release": {
@@ -49,6 +50,8 @@
 	"dependencies": {
 		"@clack/prompts": "^0.7.0",
 		"@digitak/tsc-esm": "^3.1.4",
+		"@google/generative-ai": "^0.2.1",
+		"@langchain/google-genai": "^0.0.10",
 		"@types/execa": "^2.0.0",
 		"chalk": "^5.3.0",
 		"cli-select": "^1.1.2",

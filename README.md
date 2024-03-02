@@ -75,6 +75,19 @@ Eğer GitDoctor'ı beğenmişseniz, lütfen projeye yıldız vermeyi ve [GitHub]
 
 -   [Sarvar55](https://github.com/Sarvar55)
 
+## Dil destekleri
+
+-   Türkçe: tr
+-   Azerbaycanca: az
+-   İngilizce: en
+-   Rusça: ru
+-   Almanca: de
+-   Fransızca: fr
+-   İspanyolca: es
+-   Çince: zh
+-   Japonca: ja
+-   Arapça: ar
+
 ## Katkıda Bulunanlar
 
 Bu projeye katkıda bulunanların listesi [burada](https://github.com/Sarvar55/git-doctor/graphs/contributors) bulunabilir.
