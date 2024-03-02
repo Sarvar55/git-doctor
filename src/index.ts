@@ -14,8 +14,7 @@ import { push } from './commands/push-cli'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, false)
-config.set(APP_CONSTANTS.source_lang, 'en')
-config.set(APP_CONSTANTS.targetLang, 'ru')
+config.set(APP_CONSTANTS.targetLang, 'es')
 
 async function main() {
 	let diff: string = ''
@@ -35,7 +34,7 @@ async function main() {
 		if (isCommit) {
 			await push()
 		}
-	} else return logger.info('git diff için her hangi bir değişiklik yok')
+	} else return logger.info('There are no changes for git diff')
 }
 
 const gitGetModifiedFilesAndTostgaedArea = async () => {

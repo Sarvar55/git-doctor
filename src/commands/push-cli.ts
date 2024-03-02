@@ -56,7 +56,6 @@ const processPush = async (branch: string) => {
 		logger.error(error)
 	}
 }
-
 const getBranchMenuInCli = async () => {
 	const branches = (await gitGetLocalBranches()).split('\n').map(branch => {
 		return branch.split('/')[1]

@@ -1,6 +1,6 @@
 import { ExecaChildProcess, execa } from 'execa'
-import { readFileSync } from 'fs'
 import { logger } from './logger'
+import { has } from './commons'
 
 /**
  * Utility functions for interacting with Git repositories.
@@ -44,7 +44,7 @@ export const gitaddFilesToStagedArea = async (
 	const validFiles = await Promise.all(
 		files.map(async file => {
 			const isIgnored = await checkIfFileIsIgnored(file)
-			return isIgnored ? null : file
+			return has(isIgnored) ? null : file
 		})
 	)
 	//base execa tarafı benden string [] istiyor ama ben ona string|null veriyorum o yuzden içinde olanların hepsi string turunde oldugunu garanti ettdim
@@ -180,17 +180,13 @@ const baseExeca = (commands: string[]): ExecaChildProcess<string> => {
  * @param {string} filePath - The path of the file to check.
  * @returns {Promise<boolean>} A promise that resolves to true if the file is ignored, false otherwise.
  */
-const checkIfFileIsIgnored = async (filePath: string): Promise<boolean> => {
+const checkIfFileIsIgnored = async (filePath: string): Promise<string> => {
 	try {
-		// .gitignore dosyasını okur
-		const gitignoreContent = readFileSync('.gitignore', 'utf8')
+		const { stdout } = await baseExeca(['check-ignore', '-v', filePath])
 
-		const normalizedFilePath = filePath.replace(/\\/g, '/')
-		const isIgnored = gitignoreContent.includes(normalizedFilePath)
-
-		return isIgnored
+		return stdout
 	} catch (error) {
-		console.error('Error reading .gitignore file:', error)
-		return false
+		console.error('Error checking file ignore status:', error)
+		return ''
 	}
 }

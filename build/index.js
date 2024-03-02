@@ -7,8 +7,7 @@ import { commitWithAi } from './commands/commit-cli.js';
 import { push } from './commands/push-cli.js';
 const config = new ConfigManager();
 config.set(APP_CONSTANTS.hasEmoji, false);
-config.set(APP_CONSTANTS.source_lang, 'en');
-config.set(APP_CONSTANTS.targetLang, 'ru');
+config.set(APP_CONSTANTS.targetLang, 'es');
 async function main() {
     let diff = '';
     const status = await gitStatus();
@@ -28,7 +27,7 @@ async function main() {
         }
     }
     else
-        return logger.info('git diff için her hangi bir değişiklik yok');
+        return logger.info('There are no changes for git diff');
 }
 const gitGetModifiedFilesAndTostgaedArea = async () => {
     const modifiedFiles = await logAsyncMethodResult(() => gitGetModifiedFiles(), 'gitGetModifiedFiles');
