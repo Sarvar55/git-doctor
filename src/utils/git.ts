@@ -199,3 +199,7 @@ const checkIfFileIsIgnored = async (filePath: string): Promise<boolean> => {
 		return false
 	}
 }
+
+export const gitInit = async (): Promise<void> => {
+	executeGitCommand(['init', '.'])
+}

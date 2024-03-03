@@ -3,18 +3,21 @@ import { generateCommitWithAi } from './utils/generate-commit-with-ai'
 import {
 	checkIsGitRepository,
 	has,
+	isConfirm,
 	logAsyncMethodResult,
 } from './utils/commons'
 import {
 	gitDiff,
 	gitDiffStaged,
 	gitGetModifiedFiles,
+	gitInit,
 	gitStatus,
 	gitaddFilesToStagedArea,
 } from './utils/git'
 import { logger } from './utils/logger'
 import { commitWithAi } from './commands/commit'
 import { push } from './commands/push'
+import { isCancel } from '@clack/prompts'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.targetLang, 'ru')
@@ -22,7 +25,16 @@ config.set(APP_CONSTANTS.targetLang, 'ru')
 async function main() {
 	const isGitRepo = checkIsGitRepository()
 
-	if (!isGitRepo) return logger.error('This is not a git repository 😔')
+	if (!isGitRepo) {
+		const isConfirimGitInit = isConfirm('Do you want to create a git repo?')
+		if (isConfirimGitInit && isCancel(isConfirimGitInit)) {
+			await gitInit()
+		} else {
+			return logger.info(
+				"If you want create git repo use this command 'git init .'"
+			)
+		}
+	}
 
 	let diff: string = ''
 	const status = await gitStatus()
