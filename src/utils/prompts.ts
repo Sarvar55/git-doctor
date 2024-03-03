@@ -12,7 +12,7 @@ export const generatePrompt = (diff: string) => {
 	- Use this language ${language} for the write commit message pay attention to this.
 	- ${
 		hasEmoji
-			? '- Use GitHub-supported emojis at the beginning of your commit message.'
+			? '- Use GitMoji convention to preface the commit.'
 			: '- Do not preface the commit with any emoji or symbol.'
 	}
 	- Do not preface the commit with anything, use the present tense, return the full sentence, and use the conventional commits specification.
