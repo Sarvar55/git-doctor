@@ -1,8 +1,10 @@
 import { APP_CONSTANTS, ConfigManager } from '../config/config'
 
 const config = new ConfigManager()
+
 const language: string =
 	(config.get(APP_CONSTANTS.targetLang) as string) || 'en'
+
 const hasEmoji: boolean = !!config.get(APP_CONSTANTS.hasEmoji) || false
 
 export const generatePrompt = (diff: string) => {
