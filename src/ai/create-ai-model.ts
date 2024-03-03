@@ -1,6 +1,7 @@
 import { GenerativeModel, GoogleGenerativeAI } from '@google/generative-ai'
 import { env } from '../env'
 import { logger } from '../utils/logger'
+import { ErrorApiKey } from '../types/errors'
 
 export const createAIModel = (): GenerativeModel => {
 	if (!env.API_KEY) {

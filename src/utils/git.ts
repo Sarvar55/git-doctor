@@ -1,5 +1,6 @@
 import { ExecaChildProcess, execa } from 'execa'
 import { logger } from './logger'
+import { GitError } from '../types/errors'
 
 /**
  * Utility functions for interacting with Git repositories.
@@ -23,9 +24,10 @@ import { logger } from './logger'
 /**
  * Executes the 'git status' command and returns the output.
  * @returns {Promise<string>} A promise that resolves to the output of the 'git status' command.
+
  */
-export const gitStatus = async () => {
-	const { stdout } = await baseExeca(['status', '--porcelain'])
+export const gitStatus = async (): Promise<string> => {
+	const { stdout } = await executeGitCommand(['status', '--porcelain'])
 	return stdout
 }
 
@@ -50,7 +52,7 @@ export const gitaddFilesToStagedArea = async (
 	logger.info('filesToAdd ' + JSON.stringify(trackingFiles))
 
 	if (trackingFiles.length > 0) {
-		await baseExeca(['add', ...trackingFiles])
+		await executeGitCommand(['add', ...trackingFiles])
 	} else {
 		logger.info('No files to add to the staged area.')
 	}
@@ -61,7 +63,7 @@ export const gitaddFilesToStagedArea = async (
  * @returns {Promise<string>} A promise that resolves to the root directory path.
  */
 export const gitDir = async (): Promise<string> => {
-	const { stdout } = await baseExeca(['rev-parse', '--show-toplevel'])
+	const { stdout } = await executeGitCommand(['rev-parse', '--show-toplevel'])
 	return stdout
 }
 
@@ -70,7 +72,7 @@ export const gitDir = async (): Promise<string> => {
  * @returns {Promise<string>} A promise that resolves to the list of local branches.
  */
 export const gitGetLocalBranches = async (): Promise<string> => {
-	const { stdout } = await baseExeca(['branch', '-r'])
+	const { stdout } = await executeGitCommand(['branch', '-r'])
 	return stdout
 }
 /**
@@ -89,7 +91,7 @@ export const gitGetRemoteUrl = async (origin = 'origin'): Promise<string> => {
  * @returns {Promise<string>} A promise that resolves to the output of the 'git commit' command.
  */
 export const gitCommit = async (message: string): Promise<string> => {
-	const { stdout } = await baseExeca(['commit', '-m', message])
+	const { stdout } = await executeGitCommand(['commit', '-m', message])
 	return stdout
 }
 
@@ -105,7 +107,12 @@ export const gitPush = async (
 ): Promise<string> => {
 	logger.info('branch' + branch)
 	logger.warning('origin' + origin)
-	const { stdout } = await baseExeca(['push', '--verbose', origin, branch])
+	const { stdout } = await executeGitCommand([
+		'push',
+		'--verbose',
+		origin,
+		branch,
+	])
 	return stdout
 }
 
@@ -114,13 +121,8 @@ export const gitPush = async (
  * @returns {Promise<string>} A promise that resolves to the output of the 'git diff' command.
  */
 export const gitDiffStaged = async (): Promise<string> => {
-	try {
-		const { stdout } = await baseExeca(['diff', '--staged'])
-		return stdout
-	} catch (error) {
-		logger.error('Error executing git diff --staged:' + error)
-		return ''
-	}
+	const { stdout } = await executeGitCommand(['diff', '--staged'])
+	return stdout
 }
 
 /**
@@ -128,17 +130,12 @@ export const gitDiffStaged = async (): Promise<string> => {
  * @returns {Promise<string>} A promise that resolves to the name of the current branch.
  */
 export const gitGetCurrentBranch = async (): Promise<string> => {
-	try {
-		const { stdout } = await baseExeca([
-			'rev-parse',
-			'--abbrev-ref',
-			'HEAD',
-		])
-		return stdout
-	} catch (error) {
-		console.error('Error retrieving current branch:', error)
-		throw error
-	}
+	const { stdout } = await executeGitCommand([
+		'rev-parse',
+		'--abbrev-ref',
+		'HEAD',
+	])
+	return stdout
 }
 
 /**
@@ -146,7 +143,7 @@ export const gitGetCurrentBranch = async (): Promise<string> => {
  * @returns {Promise<string>} A promise that resolves to the output of the 'git diff' command.
  */
 export const gitDiff = async (): Promise<string> => {
-	const { stdout } = await baseExeca(['diff', '.', ':!*.js'])
+	const { stdout } = await executeGitCommand(['diff', '.', ':!*.js'])
 	return stdout
 }
 
@@ -155,7 +152,7 @@ export const gitDiff = async (): Promise<string> => {
  * @returns {Promise<string[]>} A promise that resolves to an array of modified file paths.
  */
 export const gitGetModifiedFiles = async (): Promise<string[]> => {
-	const { stdout: modified } = await baseExeca([
+	const { stdout: modified } = await executeGitCommand([
 		'ls-files',
 		'--modified',
 		'--others',
@@ -168,10 +165,18 @@ export const gitGetModifiedFiles = async (): Promise<string[]> => {
 /**
  * Executes a Git command with the provided arguments.
  * @param {string[]} commands - An array of command arguments to pass to Git.
- * @returns {ExecaChildProcess<string>} An Execa child process instance.
+ * @returns {Promise<ExecaChildProcess<string>>} An Execa child process instance.
+ * @throws Will throw an GitError if the Git command execution fails.
  */
-const baseExeca = (commands: string[]): ExecaChildProcess<string> => {
-	return execa('git', [...commands])
+const executeGitCommand = async (
+	commands: string[]
+): Promise<ExecaChildProcess<string>> => {
+	try {
+		return await execa('git', [...commands])
+	} catch (error) {
+		logger.error('Git command execution failed:' + error)
+		throw new GitError(`Git command execution failed: ${error}`)
+	}
 }
 
 /**
@@ -181,7 +186,7 @@ const baseExeca = (commands: string[]): ExecaChildProcess<string> => {
  */
 const checkIfFileIsIgnored = async (filePath: string): Promise<boolean> => {
 	try {
-		const { stdout } = await baseExeca([
+		const { stdout } = await executeGitCommand([
 			'ls-files',
 			'--exclude-from',
 			'.gitignore',
