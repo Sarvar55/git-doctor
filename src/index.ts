@@ -17,8 +17,7 @@ import { commitWithAi } from './commands/commit'
 import { push } from './commands/push'
 
 const config = new ConfigManager()
-config.set(APP_CONSTANTS.hasEmoji, false)
-config.set(APP_CONSTANTS.targetLang, 'es')
+config.set(APP_CONSTANTS.targetLang, 'ru')
 
 async function main() {
 	const isGitRepo = checkIsGitRepository()
