@@ -20,7 +20,7 @@ export const generatePrompt = (diff: string) => {
 	- Summarize this git diff into a useful, 10 words commit message.
 	 ${diff}
     Examples:
-      "${hasEmoji ? 'for example If you added a new feature, add this emoji ✨feat: If it is something else then add emoji accordingly' : ''} The commit message will be placed here according to all changes in the project."
+      "The commit message will be placed here according to all changes in the project."
 	-  Do not write any explanations or other words, just reply with the commit message.  
 	-  Do not include any additional text or explanations.
 	-  You must return the commit message to me as a string.
