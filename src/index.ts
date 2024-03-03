@@ -13,8 +13,8 @@ import {
 	gitaddFilesToStagedArea,
 } from './utils/git'
 import { logger } from './utils/logger'
-import { commitWithAi } from './commands/commit-cli'
-import { push } from './commands/push-cli'
+import { commitWithAi } from './commands/commit'
+import { push } from './commands/push'
 
 const config = new ConfigManager()
 config.set(APP_CONSTANTS.hasEmoji, false)
@@ -23,7 +23,7 @@ config.set(APP_CONSTANTS.targetLang, 'es')
 async function main() {
 	const isGitRepo = checkIsGitRepository()
 
-	if (!isGitRepo) return logger.error('This is not a git repository       😔')
+	if (!isGitRepo) return logger.error('This is not a git repository 😔')
 
 	let diff: string = ''
 	const status = await gitStatus()
