@@ -6,6 +6,9 @@
 	"repository": {
 		"url": "https://github.com/Sarvar55/git-doctor"
 	},
+	"bin": {
+		"git-doctor": "./src/index.ts"
+	},
 	"keywords": [
 		"git",
 		"command-line",
