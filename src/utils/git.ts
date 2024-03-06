@@ -86,7 +86,7 @@ export const gitGetLocalBranches = async (): Promise<string> => {
  * @returns {Promise<string>} A promise that resolves to the remote URL.
  */
 export const gitGetRemoteUrl = async (origin = 'origin'): Promise<string> => {
-	const { stdout } = await execa('git', ['remote', 'get-url', origin])
+	const { stdout } = await executeGitCommand(['remote', 'get-url', origin])
 	return stdout
 }
 
