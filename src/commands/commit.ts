@@ -14,22 +14,33 @@ import {
 	gitaddFilesToStagedArea,
 } from '../utils/git'
 import { logger } from '../utils/logger'
+import { translateCommit } from '../utils/translate-commit'
 
 const config = new ConfigManager()
 
 const manuelCommit = async () => {
 	const changedFiles = await gitGetModifiedFiles()
 
-	if (changedFiles.length == 0)
-		return logger.info('commit için herhangi bir değişiklik yok.')
+	if (changedFiles.length === 0) {
+		logger.info('Commit için herhangi bir değişiklik yok.')
+		return
+	}
 
-	const hasEmoji: boolean = !!config.get(APP_CONSTANTS.hasEmoji) || false
+	const hasEmoji = config.get(APP_CONSTANTS.hasEmoji) || false
 
 	const commitType = await customCliSelect(
 		hasEmoji ? commitTypesWithEmoji : commitTypes
 	)
 
-	const commitSubject = await getCommitSubject()
+	let commitSubject = await getCommitSubject()
+
+	const isAutoTranslate = config.get(
+		APP_CONSTANTS.translate_auto_to_target_lang
+	)
+
+	if (isAutoTranslate) {
+		commitSubject = await translateCommit(commitSubject?.toString())
+	}
 
 	const message = `${commitType}: ${commitSubject.toString()}`
 
@@ -37,19 +48,21 @@ const manuelCommit = async () => {
 		const isConfirmedCommit = await isConfirm('Commit mesajını onaylayın?')
 
 		if (!isConfirmedCommit || isCancel(isConfirmedCommit)) {
-			return logger.error(' commit mesajı iptal edildi')
+			logger.error('Commit mesajı iptal edildi.')
+			return
 		}
 
 		const status = await gitStatus()
 
 		if (!has(status)) {
-			return logger.error('commit için herhangi bir değişiklik yok.')
+			logger.error('Commit için herhangi bir değişiklik yok.')
+			return
 		}
 
 		await gitaddFilesToStagedArea(changedFiles)
 
 		const commitOutput = await gitCommit(message)
-		logger.success('✔ commit başarılı.')
+		logger.success('✔ Commit başarılı.')
 		logger.info(commitOutput)
 		return true
 	} catch (err) {
