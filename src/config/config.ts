@@ -44,6 +44,6 @@ export class ConfigManager {
 		}
 	}
 	public all() {
-		return this.config.all()
+		return this.config.all
 	}
 }
