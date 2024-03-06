@@ -26,7 +26,7 @@ export class GitManager {
 			const isConfirmGitInit = await isConfirm(
 				'Do you want to create a git repo?'
 			)
-			if (isConfirmGitInit && isCancel(isConfirmGitInit)) {
+			if (isConfirmGitInit && !isCancel(isConfirmGitInit)) {
 				await gitInit()
 			} else {
 				return logger.info(
