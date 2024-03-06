@@ -201,5 +201,5 @@ const checkIfFileIsIgnored = async (filePath: string): Promise<boolean> => {
 }
 
 export const gitInit = async (): Promise<void> => {
-	executeGitCommand(['init', '.'])
+	await execa('git', ['init', '.'], { cwd: process.cwd() })
 }
