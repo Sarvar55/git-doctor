@@ -6,6 +6,7 @@ import {
 	logAsyncMethodResult,
 } from './utils/commons'
 import {
+	checkRemoteUrl,
 	gitDiff,
 	gitDiffStaged,
 	gitGetModifiedFiles,
@@ -82,6 +83,10 @@ export class GitManager {
 			const isCommit = await commitWithAi(commitMessage)
 
 			if (isCommit) {
+				if (!checkRemoteUrl()) {
+					logger.error('There is no remote URL in Git repositories.')
+					process.exit(1)
+				}
 				await push()
 			}
 		} else {

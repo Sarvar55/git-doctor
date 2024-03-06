@@ -221,9 +221,9 @@ const checkIfGitIgnoreExists = (): boolean => {
 		return false
 	}
 }
-const checkRemoteUrl = async (): Promise<boolean> => {
+export const checkRemoteUrl = async (): Promise<boolean> => {
 	try {
-		const { stdout } = await execa('git', ['remote', '-v'])
+		const { stdout } = await executeGitCommand(['remote', '-v'])
 
 		console.log('Git Remote URLs:')
 		console.log(stdout)
