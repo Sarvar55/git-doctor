@@ -44,7 +44,7 @@ export const gitaddFilesToStagedArea = async (
 	logger.info('running:gitaddFilesToStagedArea with' + JSON.stringify(files))
 	if (!checkIfGitIgnoreExists()) {
 		await executeGitCommand(['add', ...files])
-		process.exit(1)
+		return
 	}
 	/**Ancak, asenkron bir işlem içeriyorsa, map,filter fonksiyonu tamamlanmadan önce işlemleri beklemek için Promise.all kullanman gerekebilir. */
 	const trackingFiles = await Promise.all(
