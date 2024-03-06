@@ -44,6 +44,6 @@ export class ConfigManager {
 		}
 	}
 	public all() {
-		return this.config.all
+		logger.success(JSON.stringify(this.config.all, null, 2))
 	}
 }
