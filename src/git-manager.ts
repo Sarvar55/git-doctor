@@ -23,7 +23,7 @@ export class GitManager {
 		const isGitRepo = checkIsGitRepository()
 
 		if (!isGitRepo) {
-			const isConfirmGitInit = isConfirm(
+			const isConfirmGitInit = await isConfirm(
 				'Do you want to create a git repo?'
 			)
 			if (isConfirmGitInit && isCancel(isConfirmGitInit)) {

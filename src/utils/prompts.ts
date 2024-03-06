@@ -1,6 +1,6 @@
 import { APP_CONSTANTS, ConfigManager } from '../config/config'
 
-const config = ConfigManager.getInstance()
+const config = new ConfigManager()
 
 const language: string =
 	(config.get(APP_CONSTANTS.targetLang) as string) || 'en'

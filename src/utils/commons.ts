@@ -94,7 +94,7 @@ const checkIsGitRepository = () => {
 }
 
 const hasApiKey = (): boolean => {
-	const config = ConfigManager.getInstance()
+	const config = new ConfigManager()
 
 	const apiKey = config.get(APP_CONSTANTS.api_key)
 
