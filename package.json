@@ -7,7 +7,7 @@
 		"url": "https://github.com/Sarvar55/git-doctor"
 	},
 	"bin": {
-		"git-doctor": "./build/index.js"
+		"git-doctor": "src.js"
 	},
 	"keywords": [
 		"git",
