@@ -225,9 +225,6 @@ export const checkRemoteUrl = async (): Promise<boolean> => {
 	try {
 		const { stdout } = await executeGitCommand(['remote', '-v'])
 
-		console.log('Git Remote URLs:')
-		console.log(stdout)
-
 		const hasRemoteUrl = stdout.includes('origin')
 		return hasRemoteUrl
 	} catch (error) {

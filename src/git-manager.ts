@@ -83,7 +83,7 @@ export class GitManager {
 			const isCommit = await commitWithAi(commitMessage)
 
 			if (isCommit) {
-				if (!checkRemoteUrl()) {
+				if (!(await checkRemoteUrl())) {
 					logger.error('There is no remote URL in Git repositories.')
 					process.exit(1)
 				}
