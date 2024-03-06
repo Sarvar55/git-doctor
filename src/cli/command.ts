@@ -5,7 +5,7 @@ import { logger } from '../utils/logger'
 
 const gitManager = new GitManager()
 
-const config = new ConfigManager()
+const config = ConfigManager.getInstance()
 
 export const program = new Command()
 	.version('0.0.1', '-v, --vers', 'current version')
@@ -17,7 +17,7 @@ export const program = new Command()
 program
 	.option('-s, --source-lang <string>', 'set source language', 'tr')
 	.option('-t, --target-lang <string>', 'set target language', 'en')
-	.option('-a, --auto-trans', 'enable auto-translate', false)
+	.option('-a, --auto-trans <boolean>', 'enable auto-translate', false)
 	.option('-k, --api-key <string>', 'set API key')
 	.option('-c, --config', 'retrive all configs')
 	.action(options => {
@@ -42,6 +42,7 @@ program
 		if (options.apiKey) {
 			config.set(APP_CONSTANTS.api_key, options.apiKey)
 			logger.info(`Api key set to: ${options.apiKey}`)
+			logger.info('gelen key' + config.get(APP_CONSTANTS.api_key))
 		}
 		if (options.config) {
 			config.all()

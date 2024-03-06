@@ -3,6 +3,7 @@ import { logger } from './logger'
 import cliSelect from 'cli-select'
 import { execSync } from 'child_process'
 import chalk from 'chalk'
+import { APP_CONSTANTS, ConfigManager } from '../config/config'
 
 /**
  * Checks if a given string is not undefined, not 'unknown', and not an empty string.
@@ -92,6 +93,19 @@ const checkIsGitRepository = () => {
 	}
 }
 
+const hasApiKey = (): boolean => {
+	const config = ConfigManager.getInstance()
+
+	const apiKey = config.get(APP_CONSTANTS.api_key)
+
+	logger.info('api key' + apiKey)
+
+	const hasApiKey = has(apiKey)
+
+	logger.info('hasapiky:' + hasApiKey)
+	return hasApiKey
+}
+
 export {
 	logAsyncMethodResult,
 	isConfirm,
@@ -99,4 +113,5 @@ export {
 	customCliSelect,
 	getCommitSubject,
 	checkIsGitRepository,
+	hasApiKey,
 }
