@@ -44,7 +44,7 @@ program
 			logger.info(`Api key set to: ${options.apiKey}`)
 		}
 		if (options.config) {
-			logger.success(JSON.parse(config.all()))
+			logger.success(JSON.stringify(config.all(), null, 2))
 		}
 	})
 
