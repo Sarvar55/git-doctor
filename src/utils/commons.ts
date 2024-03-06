@@ -98,11 +98,8 @@ const hasApiKey = (): boolean => {
 
 	const apiKey = config.get(APP_CONSTANTS.api_key)
 
-	logger.info('api key' + apiKey)
-
 	const hasApiKey = has(apiKey)
 
-	logger.info('hasapiky:' + hasApiKey)
 	return hasApiKey
 }
 

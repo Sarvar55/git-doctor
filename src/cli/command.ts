@@ -42,7 +42,6 @@ program
 		if (options.apiKey) {
 			config.set(APP_CONSTANTS.api_key, options.apiKey)
 			logger.info(`Api key set to: ${options.apiKey}`)
-			logger.info('gelen key' + config.get(APP_CONSTANTS.api_key))
 		}
 		if (options.config) {
 			config.all()
