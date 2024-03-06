@@ -15,9 +15,9 @@ export const program = new Command()
 	)
 
 program
-	.option('-s, --source-lang <string>', 'set source language')
-	.option('-t, --target-lang <string>', 'set target language')
-	.option('-a, --auto-trans', 'enable auto-translate')
+	.option('-s, --source-lang <string>', 'set source language', 'tr')
+	.option('-t, --target-lang <string>', 'set target language', 'en')
+	.option('-a, --auto-trans', 'enable auto-translate', false)
 	.option('-k, --api-key <string>', 'set API key')
 	.option('-c, --config', 'retrive all configs')
 	.action(options => {
@@ -44,7 +44,7 @@ program
 			logger.info(`Api key set to: ${options.apiKey}`)
 		}
 		if (options.config) {
-			logger.success(JSON.stringify(config.all(), null, 2))
+			config.all()
 		}
 	})
 

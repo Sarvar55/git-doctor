@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { generateCommitWithAi } from './utils/generate-commit-with-ai'
 import {
 	checkIsGitRepository,
