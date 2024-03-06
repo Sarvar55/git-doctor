@@ -17,7 +17,7 @@
 		"cli"
 	],
 	"scripts": {
-		"start": "node build/index.js",
+		"start": "rm -rf build && npm run build &&  node build/cli/bin.js",
 		"build": "tsc-esm",
 		"lint": "eslint . --ext ts --max-warnings  0 --report-unused-disable-directives",
 		"lint:fix": "eslint . --ext .ts --fix",

@@ -16,6 +16,7 @@ export class ConfigManager {
 
 	constructor() {
 		this.config = new Configstore(pkg.name)
+		this.config.clear()
 		this.validkeys = Object.values(APP_CONSTANTS)
 	}
 
