@@ -43,4 +43,7 @@ export class ConfigManager {
 			logger.error(`Key "${key}" not found in the configuration.`)
 		}
 	}
+	public all() {
+		return this.config.all()
+	}
 }

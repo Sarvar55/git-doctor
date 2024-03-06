@@ -19,6 +19,7 @@ program
 	.option('-t, --target-lang <string>', 'set target language')
 	.option('-a, --auto-trans', 'enable auto-translate')
 	.option('-k, --api-key <string>', 'set API key')
+	.option('-c, --config', 'retrive all configs')
 	.action(options => {
 		if (options.sourceLang) {
 			config.set(APP_CONSTANTS.source_lang, options.sourceLang)
@@ -41,6 +42,9 @@ program
 		if (options.apiKey) {
 			config.set(APP_CONSTANTS.api_key, options.apiKey)
 			logger.info(`Api key set to: ${options.apiKey}`)
+		}
+		if (options.config) {
+			config.all()
 		}
 	})
 
