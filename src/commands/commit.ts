@@ -79,9 +79,6 @@ const commitWithAi = async (commitMessage: string) => {
 	}
 	const changedFiles = await gitGetModifiedFiles()
 
-	if (changedFiles.length == 0)
-		return logger.info('commit için herhangi bir değişiklik yok.')
-
 	try {
 		logger.info(commitMessage)
 		const isConfirmedCommit = await isConfirm('Commit mesajını onaylayın?')

@@ -44,6 +44,7 @@ export const gitaddFilesToStagedArea = async (
 	logger.info('running:gitaddFilesToStagedArea with' + JSON.stringify(files))
 	if (!checkIfGitIgnoreExists()) {
 		await executeGitCommand(['add', ...files])
+		process.exit(1)
 	}
 	/**Ancak, asenkron bir işlem içeriyorsa, map,filter fonksiyonu tamamlanmadan önce işlemleri beklemek için Promise.all kullanman gerekebilir. */
 	const trackingFiles = await Promise.all(
@@ -147,7 +148,7 @@ export const gitGetCurrentBranch = async (): Promise<string> => {
  * @returns {Promise<string>} A promise that resolves to the output of the 'git diff' command.
  */
 export const gitDiff = async (): Promise<string> => {
-	const { stdout } = await executeGitCommand(['diff', '.', ':!*.js'])
+	const { stdout } = await executeGitCommand(['diff'])
 	return stdout
 }
 
