@@ -1,7 +1,11 @@
 import { Command } from 'commander'
 import { GitManager } from '../git-manager'
+import { APP_CONSTANTS, ConfigManager } from '../config/config'
+import { logger } from '../utils/logger'
 
 const gitManager = new GitManager()
+
+const config = new ConfigManager()
 
 export const program = new Command()
 	.version('0.0.1', '-v, --vers', 'current version')
@@ -17,19 +21,26 @@ program
 	.option('-k, --api-key <string>', 'set API key')
 	.action(options => {
 		if (options.sourceLang) {
-			console.log('')
+			config.set(APP_CONSTANTS.source_lang, options.sourceLang)
+			logger.info(`Source language set to: ${options.sourceLang}`)
 		}
 
 		if (options.targetLang) {
-			console.log(`Target language set to: ${options.targetLang}`)
+			config.set(APP_CONSTANTS.targetLang, options.targetLang)
+			logger.info(`Target language set to: ${options.targetLang}`)
 		}
 
 		if (options.autoTrans) {
-			// Burada otomatik çeviri özelliğini kullanabilirsin.
+			config.set(
+				APP_CONSTANTS.translate_auto_to_target_lang,
+				options.autoTrans
+			)
+			logger.info(`Auto translate feature set to: ${options.autoTrans}`)
 		}
 
 		if (options.apiKey) {
-			// Burada API anahtarını kullanabilirsin.
+			config.set(APP_CONSTANTS.api_key, options.apiKey)
+			logger.info(`Api key set to: ${options.apiKey}`)
 		}
 	})
 
