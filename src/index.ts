@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { APP_CONSTANTS, ConfigManager } from './config/config'
 import { generateCommitWithAi } from './utils/generate-commit-with-ai'
 import {

@@ -7,7 +7,7 @@
 		"url": "https://github.com/Sarvar55/git-doctor"
 	},
 	"bin": {
-		"git-doctor": "./src/index.ts"
+		"git-doctor": "./build/index.js"
 	},
 	"keywords": [
 		"git",
@@ -34,10 +34,11 @@
 	"author": "Sarvar55",
 	"license": "ISC",
 	"devDependencies": {
-		"@types/config": "^3.3.3",
+		"@types/configstore": "^6.0.2",
 		"@typescript-eslint/eslint-plugin": "^7.0.2",
 		"@typescript-eslint/parser": "^7.0.2",
 		"axios": "^1.6.7",
+		"configstore": "^6.0.0",
 		"eslint": "^8.56.0",
 		"husky": "^9.0.11",
 		"lint-staged": "^15.2.2",
