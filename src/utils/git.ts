@@ -1,6 +1,8 @@
 import { ExecaChildProcess, execa } from 'execa'
 import { logger } from './logger'
 import { GitError } from '../types/errors'
+import fs from 'fs'
+import { resolve, dirname } from 'path'
 
 /**
  * Utility functions for interacting with Git repositories.
@@ -40,7 +42,9 @@ export const gitaddFilesToStagedArea = async (
 	files: string[]
 ): Promise<void> => {
 	logger.info('running:gitaddFilesToStagedArea with' + JSON.stringify(files))
-
+	if (!checkIfGitIgnoreExists()) {
+		await executeGitCommand(['add', ...files])
+	}
 	/**Ancak, asenkron bir işlem içeriyorsa, map,filter fonksiyonu tamamlanmadan önce işlemleri beklemek için Promise.all kullanman gerekebilir. */
 	const trackingFiles = await Promise.all(
 		files.filter(async file => {
@@ -196,6 +200,17 @@ const checkIfFileIsIgnored = async (filePath: string): Promise<boolean> => {
 		return ignoredFiles.includes(filePath)
 	} catch (error) {
 		console.error('Error checking file poll status:', error)
+		return false
+	}
+}
+
+const checkIfGitIgnoreExists = (): boolean => {
+	const gitIgnorePath = `${resolve(dirname(''))}/.gitignore`
+
+	try {
+		return fs.existsSync(gitIgnorePath)
+	} catch (error) {
+		console.error('Error checking .gitignore file:', error)
 		return false
 	}
 }
