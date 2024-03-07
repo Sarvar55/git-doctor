@@ -113,11 +113,6 @@ export const gitPush = async (
 	logger.info('branch' + branch)
 	logger.warning('origin' + origin)
 
-	if (!checkRemoteUrl()) {
-		logger.error('There is no remote URL in Git repositories.')
-		process.exit(1)
-	}
-
 	const { stdout } = await executeGitCommand([
 		'push',
 		'--verbose',
@@ -221,6 +216,7 @@ const checkIfGitIgnoreExists = (): boolean => {
 		return false
 	}
 }
+
 export const checkRemoteUrl = async (): Promise<boolean> => {
 	try {
 		const { stdout } = await executeGitCommand(['remote', '-v'])

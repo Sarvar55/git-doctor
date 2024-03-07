@@ -9,7 +9,7 @@ const config = new ConfigManager()
 
 export const program = new Command()
 	.version('0.0.1', '-v, --vers', 'current version')
-	.name('git-doc')
+	.name('git-doctor')
 	.description(
 		'GitDoc, a TypeScript-powered CLI tool for streamlined Git workflows.'
 	)
