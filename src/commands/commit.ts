@@ -45,7 +45,7 @@ const manuelCommit = async () => {
 	const message = `${commitType}: ${commitSubject.toString()}`
 
 	try {
-		const isConfirmedCommit = await isConfirm('Commit mesajını onaylayın?')
+		const isConfirmedCommit = await isConfirm('Confirm commit message?')
 
 		if (!isConfirmedCommit || isCancel(isConfirmedCommit)) {
 			logger.error('Commit mesajı iptal edildi.')
