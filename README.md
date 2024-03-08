@@ -34,14 +34,30 @@ GitDoctor CLI, çeşitli seçenekler sunar:
 
 -   `-s, --source-lang <string>`: Kaynak dilini belirtir. Varsayılan değer `tr` (Türkçe).
 -   `-t, --target-lang <string>`: Hedef dilini belirtir. Varsayılan değer `en` (İngilizce).
--   `-a, --auto-trans <boolean>`: Otomatik çeviri özelliğini etkinleştirir veya devre dışı bırakır.(Bu manuel commit tafında sizin yazdığınız commit mesajın -t belli etseniz bile yine o dile dönüştürmez.) Varsayılan değer `false`.
--   `-k, --api-key <string>`: Google API key'ini belirtir.(AI destekli commit mesajları için gerekli)
+-   `-a, --auto-trans <boolean>`: Otomatik çeviri özelliğini etkinleştirir veya devre dışı bırakır. Varsayılan değer `false`. (Manuel commit tafında yazdığınız mesajın dilini değiştirmez. AI destekli commit mesajlarında bu seçenek geçerlidir.)
+-   `-k, --api-key <string>`: Google Translate API key'ini belirtir. (AI destekli commit mesajları için gerekli.)
 -   `-c, --config`: Tüm yapılandırmaları gösterir.
 
 ## Örnek kullanım
 
 ```bash
 git-doctor -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
+```
+
+```bash
+gitd -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
+```
+
+Manuel olarak commit mesajı yazmanız için prefix destekli cli ekranı sunar.
+
+```bash
+gitd cm
+```
+
+ve ya
+
+```bash
+gitd commit
 ```
 
 Bu komut, kaynak dil olarak Türkçe (tr), hedef dil olarak İngilizce (en), otomatik çeviri özelliğini etkinleştirir ve Google API key'ini belirtir.
