@@ -42,7 +42,7 @@ const manuelCommit = async () => {
 		commitSubject = await translateCommit(commitSubject?.toString())
 	}
 
-	const message = `${commitType}: ${commitSubject.toString()}`
+	const message = `${commitType}: ${commitSubject?.toString()}`
 
 	try {
 		const isConfirmedCommit = await isConfirm('Confirm commit message?')

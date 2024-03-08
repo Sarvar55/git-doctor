@@ -20,6 +20,8 @@ GitDoctor, Git kullanımınızı kolaylaştıran ve verimli hale getiren bir Typ
 
 GitDoctor CLI, git-doctor veya gitd komutları ile çağrılabilir. Bu komutlar, projenin `build/cli/bin.js` dosyasını çalıştırır.
 
+-   Bu comutlar ai destekli commit mesajı oluşturur.
+
 ```bash
 git-doctor
 ```
@@ -48,7 +50,7 @@ git-doctor -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
 gitd -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
 ```
 
-Manuel olarak commit mesajı yazmanız için prefix destekli cli ekranı sunar.
+-   Manuel olarak commit mesajı yazmanız için, aşağıdaki komutları kullanabilirsiniz:
 
 ```bash
 gitd cm
