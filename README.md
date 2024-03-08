@@ -42,6 +42,8 @@ GitDoctor CLI, çeşitli seçenekler sunar:
 
 ## Örnek kullanım
 
+Bu komut, kaynak dil olarak Türkçe (tr), hedef dil olarak İngilizce (en), otomatik çeviri özelliğini etkinleştirir ve Google API key'ini belirtir.
+
 ```bash
 git-doctor -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
 ```
@@ -49,8 +51,6 @@ git-doctor -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
 ```bash
 gitd -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
 ```
-
-Bu komut, kaynak dil olarak Türkçe (tr), hedef dil olarak İngilizce (en), otomatik çeviri özelliğini etkinleştirir ve Google API key'ini belirtir.
 
 -   Manuel olarak commit mesajı yazmanız için, aşağıdaki komutları kullanabilirsiniz:
 
