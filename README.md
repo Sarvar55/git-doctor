@@ -50,6 +50,8 @@ git-doctor -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
 gitd -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
 ```
 
+Bu komut, kaynak dil olarak Türkçe (tr), hedef dil olarak İngilizce (en), otomatik çeviri özelliğini etkinleştirir ve Google API key'ini belirtir.
+
 -   Manuel olarak commit mesajı yazmanız için, aşağıdaki komutları kullanabilirsiniz:
 
 ```bash
@@ -61,8 +63,6 @@ ve ya
 ```bash
 gitd commit
 ```
-
-Bu komut, kaynak dil olarak Türkçe (tr), hedef dil olarak İngilizce (en), otomatik çeviri özelliğini etkinleştirir ve Google API key'ini belirtir.
 
 -   [GOOGLE API KEY](https://makersuite.google.com/app/apikey) Google API KEY'i burada ala bilirsiniz.
 
