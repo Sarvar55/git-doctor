@@ -23,7 +23,7 @@ const manuelCommit = async () => {
 
 	if (changedFiles.length === 0) {
 		logger.info('There is no change for Commit.')
-		return
+		return false
 	}
 
 	const hasEmoji = config.get(APP_CONSTANTS.hasEmoji) || false
@@ -49,14 +49,14 @@ const manuelCommit = async () => {
 
 		if (!isConfirmedCommit || isCancel(isConfirmedCommit)) {
 			logger.error('Commit message has been cancelled.')
-			return
+			return false
 		}
 
 		const status = await gitStatus()
 
 		if (!has(status)) {
 			logger.error('There is no change for Commit.')
-			return
+			return false
 		}
 
 		await gitaddFilesToStagedArea(changedFiles)
@@ -67,7 +67,7 @@ const manuelCommit = async () => {
 		return true
 	} catch (err) {
 		logger.error(err)
-		process.exit(1)
+		return false
 	}
 }
 
