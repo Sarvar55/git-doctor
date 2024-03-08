@@ -72,7 +72,7 @@ export class GitManager {
 		return has(diffFromStagedArea) ? diffFromStagedArea : await gitDiff()
 	}
 	private commitAndPushIfRemoteExists = async (
-		callback: () => Promise<any>
+		callback: () => Promise<boolean>
 	) => {
 		if (await callback()) {
 			if (!(await checkRemoteUrl())) {

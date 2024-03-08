@@ -22,7 +22,7 @@ const manuelCommit = async () => {
 	const changedFiles = await gitGetModifiedFiles()
 
 	if (changedFiles.length === 0) {
-		logger.info('Commit için herhangi bir değişiklik yok.')
+		logger.info('There is no change for Commit.')
 		return
 	}
 
@@ -42,27 +42,27 @@ const manuelCommit = async () => {
 		commitSubject = await translateCommit(commitSubject?.toString())
 	}
 
-	const message = `${commitType}: ${commitSubject?.toString()}`
+	const message = `${commitType}: ${commitSubject.toString()}`
 
 	try {
 		const isConfirmedCommit = await isConfirm('Confirm commit message?')
 
 		if (!isConfirmedCommit || isCancel(isConfirmedCommit)) {
-			logger.error('Commit mesajı iptal edildi.')
+			logger.error('Commit message has been cancelled.')
 			return
 		}
 
 		const status = await gitStatus()
 
 		if (!has(status)) {
-			logger.error('Commit için herhangi bir değişiklik yok.')
+			logger.error('There is no change for Commit.')
 			return
 		}
 
 		await gitaddFilesToStagedArea(changedFiles)
 
 		const commitOutput = await gitCommit(message)
-		logger.success('✔ Commit başarılı.')
+		logger.success('✔ Commit successful.')
 		logger.info(commitOutput)
 		return true
 	} catch (err) {
@@ -74,24 +74,24 @@ const manuelCommit = async () => {
 const commitWithAi = async (commitMessage: string) => {
 	if (!has(commitMessage)) {
 		logger.info(commitMessage)
-		logger.warning('commit mesajı boş olamaz.')
+		logger.warning('commit message cannot be empty.')
 		process.exit(1)
 	}
 	const changedFiles = await gitGetModifiedFiles()
 
 	try {
 		logger.info(commitMessage)
-		const isConfirmedCommit = await isConfirm('Commit mesajını onaylayın?')
+		const isConfirmedCommit = await isConfirm('Confirm commit message?')
 
 		if (!isConfirmedCommit || isCancel(isConfirmedCommit)) {
-			logger.error(' commit mesajı iptal edildi')
+			logger.error('Commit message canceled')
 			return false
 		}
 
 		await gitaddFilesToStagedArea(changedFiles)
 
 		const commitOutput = await gitCommit(commitMessage)
-		logger.success('✔ commit başarılı.')
+		logger.success('✔ commit successful.')
 		logger.info(commitOutput)
 
 		return true
