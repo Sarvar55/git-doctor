@@ -11,49 +11,42 @@ GitDoctor, Git kullanımınızı kolaylaştıran ve verimli hale getiren bir Typ
 
 ## Nasıl Kullanılır?
 
-1. **Çeviri Yardımcısı**: Commit mesajlarınızı Türkçe yazın ve GitDoctor, bu mesajları otomatik olarak sizin istediğiniz dile çevirsin.
+1. **Çeviri Yardımcısı**: Commit mesajlarınızı istediğini dilde yazın ve GitDoctor, bu mesajları otomatik olarak sizin istediğiniz dile çevirsin.
 2. **Emoji Destekli Commit Mesajları**: Commit mesajlarınızın başına emoji ekleyin ve GitDoctor, bu emojiyi kullanarak commit mesajınızı daha anlaşılır hale getirir.
 3. **AI Destekli Commit Mesajları**: Commit mesajlarınızın içeriğine göre otomatik olarak uygun bir commit mesajı oluşturur.
 4. **Otomatik Commit ve Push**: Commit mesajınızı ve değişikliklerinizi otomatik olarak belirlenen bir brancha push eder.
 
-## Kurulum
+## CLI Kullanımı
 
-Projeyi klonlamak ve bağımlılıkları yüklemek için aşağıdaki komutları kullanın:
-
-```bash
-git clone https://github.com/Sarvar55/git-doctor.git
-cd git-doctor
-npm install
-```
-
-## Kullanım
-
-GitDoctor'ı kullanmak için, terminalde aşağıdaki komutu çalıştırın:
+GitDoctor CLI, git-doctor veya gitd komutları ile çağrılabilir. Bu komutlar, projenin `build/cli/bin.js` dosyasını çalıştırır.
 
 ```bash
-npm start
+git-doctor
 ```
-
-## Yapılandırma
-
-GitDoctor'ın davranışını özelleştirmek için `config.json` dosyasını düzenleyin. Örneğin, çeviri ve emoji seçeneklerini aşağıdaki gibi ayarlayabilirsiniz:
-
-```json
-{
-	"translate": true,
-	"emoji": true,
-	"autoPush": true,
-	"branch": "dev"
-}
-```
-
-## Örnek Kullanım
 
 ```bash
-
+gitd
 ```
 
-GitDoctor, bu commit mesajını otomatik olarak çevirir ve emoji ekler.
+### Seçenekler
+
+GitDoctor CLI, çeşitli seçenekler sunar:
+
+-   `-s, --source-lang <string>`: Kaynak dilini belirtir. Varsayılan değer `tr` (Türkçe).
+-   `-t, --target-lang <string>`: Hedef dilini belirtir. Varsayılan değer `en` (İngilizce).
+-   `-a, --auto-trans <boolean>`: Otomatik çeviri özelliğini etkinleştirir veya devre dışı bırakır. Varsayılan değer `false`.
+-   `-k, --api-key <string>`: Google API key'ini belirtir.(AI destekli commit mesajları için gerekli)
+-   `-c, --config`: Tüm yapılandırmaları gösterir.
+
+## Örnek kullanım
+
+```bash
+git-doctor -s tr -t en -a true -k YOUR_GOOGLE_API_KEY
+```
+
+Bu komut, kaynak dil olarak Türkçe (tr), hedef dil olarak İngilizce (en), otomatik çeviri özelliğini etkinleştirir ve Google API key'ini belirtir.
+
+-   [GOOGLE API KEY](https://makersuite.google.com/app/apikey) Google API KEY'i burada ala bilirsiniz.
 
 ## Katkıda Bulunma
 
