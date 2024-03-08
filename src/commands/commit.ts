@@ -84,7 +84,8 @@ const commitWithAi = async (commitMessage: string) => {
 		const isConfirmedCommit = await isConfirm('Commit mesajını onaylayın?')
 
 		if (!isConfirmedCommit || isCancel(isConfirmedCommit)) {
-			return logger.error(' commit mesajı iptal edildi')
+			logger.error(' commit mesajı iptal edildi')
+			return false
 		}
 
 		await gitaddFilesToStagedArea(changedFiles)

@@ -71,6 +71,17 @@ export class GitManager {
 		)
 		return has(diffFromStagedArea) ? diffFromStagedArea : await gitDiff()
 	}
+	private commitAndPushIfRemoteExists = async (
+		callback: () => Promise<any>
+	) => {
+		if (await callback()) {
+			if (!(await checkRemoteUrl())) {
+				logger.error('There is no remote URL in Git repositories.')
+				process.exit(1)
+			}
+			await push()
+		}
+	}
 
 	async aiCommit() {
 		await this.initializeGitRepository()
@@ -80,15 +91,7 @@ export class GitManager {
 		if (has(diff)) {
 			logger.info(diff + '')
 			const commitMessage = await generateCommitWithAi(diff)
-			const isCommit = await commitWithAi(commitMessage)
-
-			if (isCommit) {
-				if (!(await checkRemoteUrl())) {
-					logger.error('There is no remote URL in Git repositories.')
-					process.exit(1)
-				}
-				await push()
-			}
+			this.commitAndPushIfRemoteExists(() => commitWithAi(commitMessage))
 		} else {
 			logger.info('There are no changes for git diff')
 		}
@@ -96,7 +99,6 @@ export class GitManager {
 
 	async manualCommit() {
 		await this.initializeGitRepository()
-
-		await manuelCommit()
+		this.commitAndPushIfRemoteExists(() => manuelCommit())
 	}
 }
