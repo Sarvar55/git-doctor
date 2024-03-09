@@ -36,7 +36,7 @@ GitDoctor CLI, çeşitli seçenekler sunar:
 
 -   `-s, --source-lang <string>`: Kaynak dilini belirtir. Varsayılan değer `tr` (Türkçe).
 -   `-t, --target-lang <string>`: Hedef dilini belirtir. Varsayılan değer `en` (İngilizce).
--   `-a, --auto-trans <boolean>`: Otomatik çeviri özelliğini etkinleştirir veya devre dışı bırakır. Varsayılan değer `false`. (Manuel commit tafında yazdığınız mesajın dilini değiştirmez. AI destekli commit mesajlarında bu seçenek geçerlidir.)
+-   `-a, --auto-trans <boolean>`: Otomatik çeviri özelliğini etkinleştirir veya devre dışı bırakır. Varsayılan değer `false`. (Manuel commit tafında yazdığınız mesajın için geçerlidir. AI destekli commit mesajlarında bu seçenek geçerli değildir. Zaten otomatık o hedef dilde yazacaktır.)
 -   `-k, --api-key <string>`: Google Translate API key'ini belirtir. (AI destekli commit mesajları için gerekli.)
 -   `-c, --config`: Tüm yapılandırmaları gösterir.
 
