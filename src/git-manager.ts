@@ -30,9 +30,10 @@ export class GitManager {
 			if (isConfirmGitInit && !isCancel(isConfirmGitInit)) {
 				await gitInit()
 			} else {
-				return logger.info(
+				logger.info(
 					"If you want to create a git repo, use this command 'git init .'"
 				)
+				process.exit(1)
 			}
 		}
 	}
