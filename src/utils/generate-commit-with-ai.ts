@@ -6,11 +6,9 @@ import { logger } from './logger'
 
 class AIManager {
 	private model: GenerativeModel
-
 	constructor() {
 		this.model = createAIModel()
 	}
-
 	public async generateCommitMessage(message: string): Promise<string> {
 		const chat = this.prepareChat()
 
