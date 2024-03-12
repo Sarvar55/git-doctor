@@ -7,15 +7,11 @@ export const translateCommit = async (commitmessage: string) => {
 	const sourceLang = config.get(APP_CONSTANTS.source_lang) ?? 'tr'
 	const targetLang = config.get(APP_CONSTANTS.targetLang) ?? 'en'
 
-	logger.info('source lang:' + sourceLang)
-	logger.info('target lang:' + targetLang)
-
 	try {
 		const response = await axios.get(
 			`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURI(commitmessage)}`
 		)
 		const data = response.data[0][0][0]
-		logger.success('data' + data)
 		return data
 	} catch (error) {
 		return logger.error(error)
