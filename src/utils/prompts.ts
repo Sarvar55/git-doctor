@@ -8,26 +8,29 @@ const language: string =
 const hasEmoji: boolean = !!config.get(APP_CONSTANTS.hasEmoji) || false
 
 export const generatePrompt = (diff: string) => {
+	const emojiPrompt = hasEmoji
+		? ' **Select an emoji based on the given diff for the commit prefix:** :diff (use lowercase):emoji:'
+		: ' **Do not preface the commit with any emoji or symbol.**'
+
 	const prompt = `
-	- I want you to act as a commit message generator.
-	- I will give you git diff file, and your job is to convert it into useful commit message .
-	- Use this language ${language} for the write commit message pay attention to this.
-	- ${
-		hasEmoji
-			? ' Use GitMoji convention to preface the commit.'
-			: ' Do not preface the commit with any emoji or symbol.'
-	}
-	- Do not preface the commit with anything, use the present tense, return the full sentence, and use the conventional commits specification.
-	- Changes:
-	- Summarize this git diff into a useful, 10 words commit message.
+	- You are a commit message generator.
+	- Receive a git diff file and convert it into a useful commit message.
+	- Utilize the ${language} for the commit message and follow the given rules:
+	  - Do not preface the commit with anything.
+	  - Use the present tense.
+	  - Follow the conventional commits specification.
+	  ${emojiPrompt}
+	- **Summarize the provided git diff into a concise, 10-word commit message.**
 	 ${diff}
-    Examples:
-      "The commit message will be placed here according to all changes in the project."
-	-  Do not write any explanations or other words, just reply with the commit message.  
-	-  Do not include any additional text or explanations.
-	-  You must return the commit message to me as a string.
-	- Output:
-	 - sana verdiğim diff'e göre bir emoji seç ona göre commit başında :diff türüne göre eklenıcek olan emoji kuçuk har olucak: burasi ise commit mesajı ekle.
-	`
+	Examples:
+	  "The commit message will be placed here according to all changes in the project."
+	- **Do not provide explanations, only reply with the commit message.**
+	- **Return the commit message as a string.**
+	- **Output:**
+	  - **Select an emoji based on the given diff for the commit prefix, then provide the commit message.**
+	  - Example:
+		- :update: Update prompts for commit message generation
+  `
+
 	return prompt
 }
