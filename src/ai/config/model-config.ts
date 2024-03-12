@@ -2,7 +2,7 @@ import { HarmBlockThreshold, HarmCategory } from '@google/generative-ai'
 
 export const modelConfig = {
 	generationConfig: {
-		maxOutputTokens: 75,
+		maxOutputTokens: 50,
 		temperature: 0.9,
 		topP: 0.8,
 	},
