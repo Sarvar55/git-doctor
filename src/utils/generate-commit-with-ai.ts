@@ -44,5 +44,5 @@ export const generateCommitWithAi = async (diff: string): Promise<string> => {
 	const aiManager = new AIManager()
 	const commitMessage = await aiManager.generateCommitMessage(diff)
 	logger.success('commit message: ' + commitMessage)
-	return commitMessage
+	return ':' + commitMessage
 }

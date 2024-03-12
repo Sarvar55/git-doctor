@@ -9,7 +9,7 @@ const hasEmoji: boolean = !!config.get(APP_CONSTANTS.hasEmoji) || false
 
 export const generatePrompt = (diff: string) => {
 	const emojiPrompt = hasEmoji
-		? ' **Select an emoji based on the given diff for the commit prefix (use lowercase):emoji**'
+		? ' **Select an emoji based on the given diff for the commit prefix (use lowercase)'
 		: ' **Do not preface the commit with any emoji or symbol.**'
 
 	const prompt = `
@@ -29,7 +29,7 @@ export const generatePrompt = (diff: string) => {
   - **Output:**
     - **Select an emoji based on the given diff for the commit prefix, then provide the commit message.**
     - Example:
-      - :emoji:: commit message will come here
+      - :emoji: commit message will come here
 `
 	return prompt
 }
