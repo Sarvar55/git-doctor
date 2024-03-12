@@ -26,6 +26,8 @@ export const generatePrompt = (diff: string) => {
 	-  Do not write any explanations or other words, just reply with the commit message.  
 	-  Do not include any additional text or explanations.
 	-  You must return the commit message to me as a string.
+	- Output:
+	 - sana verdiğim diff'e göre bir emoji seç ona göre commit başında :diff türüne göre eklenıcek olan emoji kuçuk har olucak: burasi ise commit mesajı ekle.
 	`
 	return prompt
 }
