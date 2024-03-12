@@ -31,6 +31,5 @@ export const generatePrompt = (diff: string) => {
     - Example:
       - :emoji:: commit message will come here
 `
-
 	return prompt
 }
