@@ -20,12 +20,16 @@ program
 	.option('-a, --auto-trans <boolean>', 'enable auto-translate', false)
 	.option('-k, --api-key <string>', 'set API key')
 	.option('-c, --config', 'retrive all configs')
+	.option('-e, --emoji <boolean>', 'set emoji', true)
 	.action(options => {
 		if (options.sourceLang) {
 			config.set(APP_CONSTANTS.source_lang, options.sourceLang)
 			logger.info(`Source language set to: ${options.sourceLang}`)
 		}
-
+		if (options.emoji) {
+			config.set(APP_CONSTANTS.hasEmoji, options.emoji)
+			logger.info(`Emoji set to: ${options.emoji}`)
+		}
 		if (options.targetLang) {
 			config.set(APP_CONSTANTS.targetLang, options.targetLang)
 			logger.info(`Target language set to: ${options.targetLang}`)
