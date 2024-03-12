@@ -28,8 +28,8 @@ export const generatePrompt = (diff: string) => {
 	- **Return the commit message as a string.**
 	- **Output:**
 	  - **Select an emoji based on the given diff for the commit prefix, then provide the commit message.**
-	  - Example:
-		- :update: Update prompts for commit message generation
+	  - The correct commit message should be like this. This is just an example. Don't use this.
+		- :: commit message
   `
 
 	return prompt
