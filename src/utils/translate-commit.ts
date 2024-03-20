@@ -11,8 +11,9 @@ const translateService: ITranslateService = new TranslateService(
 
 export const translateCommit = async (commitmessage: string) => {
 	try {
-		return translateService.translate(commitmessage)
+		return await translateService.translate(commitmessage)
 	} catch (error) {
-		return logger.error(error)
+		logger.error(error)
+		throw error
 	}
 }

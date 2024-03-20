@@ -38,7 +38,9 @@ const manuelCommit = async () => {
 	)
 
 	if (isAutoTranslate) {
-		commitSubject = await translateCommit(commitSubject?.toString())
+		commitSubject = (await translateCommit(
+			commitSubject?.toString()
+		)) as string
 	}
 
 	const message = `${commitType}: ${commitSubject.toString()}`
