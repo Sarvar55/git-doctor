@@ -43,7 +43,7 @@ const manuelCommit = async () => {
 
 	const message = `${commitType}: ${commitSubject.toString()}`
 
-	logger.info('commit message: ' + message)
+	logger.info('Commit Message: ' + message)
 
 	try {
 		const isConfirmedCommit = await isConfirm('Confirm commit message?')
