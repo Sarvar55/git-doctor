@@ -12,8 +12,14 @@ export enum APP_CONSTANTS {
 
 export class ConfigManager {
 	private config: Configstore
+	private static configmanager: ConfigManager
 	constructor() {
 		this.config = new Configstore(pkg.name)
+	}
+
+	public static getInstance() {
+		if (this.configmanager == null) return new ConfigManager()
+		return this.configmanager
 	}
 
 	public set(key: APP_CONSTANTS, value: string | boolean): void {

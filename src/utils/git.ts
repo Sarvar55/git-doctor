@@ -64,15 +64,6 @@ export const gitaddFilesToStagedArea = async (
 }
 
 /**
- * Retrieves the root directory of the current Git repository.
- * @returns {Promise<string>} A promise that resolves to the root directory path.
- */
-export const gitDir = async (): Promise<string> => {
-	const { stdout } = await executeGitCommand(['rev-parse', '--show-toplevel'])
-	return stdout
-}
-
-/**
  * Lists all local branches in the current Git repository.
  * @returns {Promise<string>} A promise that resolves to the list of local branches.
  */

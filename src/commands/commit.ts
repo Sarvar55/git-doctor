@@ -16,7 +16,7 @@ import {
 import { logger } from '../utils/logger'
 import { translateCommit } from '../utils/translate-commit'
 
-const config = new ConfigManager()
+const config = ConfigManager.getInstance()
 const manuelCommit = async () => {
 	const changedFiles = await gitGetModifiedFiles()
 
