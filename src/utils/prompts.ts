@@ -9,7 +9,7 @@ const hasEmoji: boolean = !!config.get(APP_CONSTANTS.hasEmoji) || false
 
 export const generatePrompt = (diff: string) => {
 	const emojiPrompt = hasEmoji
-		? ' **Select an emoji based on the given diff for the commit prefix (use lowercase)'
+		? ' **Select an emoji based on the given diff for the commit prefix (use lowercase). '
 		: ' **Do not preface the commit with any emoji or symbol.**'
 
 	const prompt = `
@@ -20,16 +20,19 @@ export const generatePrompt = (diff: string) => {
     - Use the present tense.
     - Follow the conventional commits specification.
     ${emojiPrompt}
-  - **Summarize the provided git diff into a concise, 10-word commit message.**
+  - **Summarize the provided git diff into a concise, 10 word commit message.**
    ${diff}
   Examples:
     "The commit message will be placed here according to all changes in the project."
   - **Do not provide explanations, only reply with the commit message.**
   - **Return the commit message as a string.**
-  - **Output:**
+   ${
+		hasEmoji &&
+		`- **Output:**
     - **Select an emoji based on the given diff for the commit prefix, then provide the commit message.**
     - Example:
-      - :emoji: commit message will come here
+      - :emoji: commit message will come here`
+   }
 `
 	return prompt
 }
