@@ -75,9 +75,7 @@ const getCommitSubject = async () => {
 	return await text({
 		message: 'Enter commit subject:',
 		validate(value) {
-			if (value.length === 0) {
-				return logger.error('commit is required')
-			}
+			if (value.length === 0) return logger.error('commit is required')
 		},
 	})
 }
@@ -96,11 +94,7 @@ const checkIsGitRepository = () => {
 const hasApiKey = (): boolean => {
 	const config = ConfigManager.getInstance()
 
-	const apiKey = config.get(APP_CONSTANTS.api_key)
-
-	const hasApiKey = has(apiKey)
-
-	return hasApiKey
+	return has(config.get(APP_CONSTANTS.api_key))
 }
 
 export {
