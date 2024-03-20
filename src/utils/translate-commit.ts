@@ -1,17 +1,17 @@
-import axios from 'axios'
 import { logger } from './logger'
 import { APP_CONSTANTS, ConfigManager } from '../config/config'
-const config = new ConfigManager()
+import { ITranslateService } from '../types/types'
+import { TranslateService } from '../translate-service'
+const config = ConfigManager.getInstance()
+
+const translateService: ITranslateService = new TranslateService(
+	config.get(APP_CONSTANTS.source_lang) as string,
+	config.get(APP_CONSTANTS.targetLang) as string
+)
 
 export const translateCommit = async (commitmessage: string) => {
-	const sourceLang = config.get(APP_CONSTANTS.source_lang) ?? 'tr'
-	const targetLang = config.get(APP_CONSTANTS.targetLang) ?? 'en'
 	try {
-		const response = await axios.get(
-			`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURI(commitmessage)}`
-		)
-		const data = response.data[0][0][0]
-		return data
+		return translateService.translate(commitmessage)
 	} catch (error) {
 		return logger.error(error)
 	}
