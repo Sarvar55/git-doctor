@@ -1,12 +1,30 @@
 import { Command } from 'commander'
 import { GitManager } from '../git-manager'
-import { APP_CONSTANTS, ConfigManager } from '../config/config'
+import {
+	APP_CONSTANTS,
+	APP_CONSTANTS_KEYS,
+	ConfigManager,
+} from '../config/config'
 import { logger } from '../utils/logger'
 
 const gitManager = new GitManager()
 
 const config = ConfigManager.getInstance()
 
+function handleOptions(options: any) {
+	Object.keys(options).forEach(key => {
+		const value = options[key]
+		if (value !== undefined) {
+			const configKey = APP_CONSTANTS_KEYS.find(
+				k => k === key.toUpperCase().replace(/-/g, '_')
+			)
+			if (configKey) {
+				config.set(configKey, value)
+				logger.info(`${key.replace(/-/g, ' ')} set to: ${value}`)
+			}
+		}
+	})
+}
 export const program = new Command()
 	.version('0.0.1', '-v, --vers', 'current version')
 	.name('git-doctor')
@@ -22,34 +40,8 @@ program
 	.option('-c, --config', 'retrive all configs')
 	.option('-e, --emoji <boolean>', 'set emoji', true)
 	.action(options => {
-		if (options.sourceLang) {
-			config.set(APP_CONSTANTS.source_lang, options.sourceLang)
-			logger.info(`Source language set to: ${options.sourceLang}`)
-		}
-		if (options.emoji) {
-			config.set(APP_CONSTANTS.hasEmoji, options.emoji)
-			logger.info(`Emoji set to: ${options.emoji}`)
-		}
-		if (options.targetLang) {
-			config.set(APP_CONSTANTS.targetLang, options.targetLang)
-			logger.info(`Target language set to: ${options.targetLang}`)
-		}
-
-		if (options.autoTrans) {
-			config.set(
-				APP_CONSTANTS.translate_auto_to_target_lang,
-				options.autoTrans
-			)
-			logger.info(`Auto translate feature set to: ${options.autoTrans}`)
-		}
-
-		if (options.apiKey) {
-			config.set(APP_CONSTANTS.api_key, options.apiKey)
-			logger.info(`Api key set to: ${options.apiKey}`)
-		}
-		if (options.config) {
-			config.all()
-		}
+		handleOptions(options)
+		if (options.config) config.all()
 	})
 
 program

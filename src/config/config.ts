@@ -5,10 +5,14 @@ import { logger } from '../utils/logger'
 export enum APP_CONSTANTS {
 	api_key = 'api_key',
 	source_lang = 'source_lang',
-	hasEmoji = 'hasEmoji',
-	targetLang = 'targetLang',
+	has_emoji = 'has_emoji',
+	target_lang = 'target_lang',
 	translate_auto_to_target_lang = 'translate_auto_to_target_lang',
 }
+
+export const APP_CONSTANTS_KEYS = Object.keys(APP_CONSTANTS).map(
+	key => APP_CONSTANTS[key as keyof typeof APP_CONSTANTS]
+)
 
 export class ConfigManager {
 	private config: Configstore

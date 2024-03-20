@@ -25,7 +25,7 @@ const manuelCommit = async () => {
 		return false
 	}
 
-	const hasEmoji = config.get(APP_CONSTANTS.hasEmoji) || false
+	const hasEmoji = config.get(APP_CONSTANTS.has_emoji) || false
 
 	const commitType = await customCliSelect(
 		hasEmoji ? commitTypesWithEmoji : commitTypes

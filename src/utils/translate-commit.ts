@@ -6,7 +6,7 @@ const config = ConfigManager.getInstance()
 
 const translateService: ITranslateService = new TranslateService(
 	config.get(APP_CONSTANTS.source_lang) as string,
-	config.get(APP_CONSTANTS.targetLang) as string
+	config.get(APP_CONSTANTS.target_lang) as string
 )
 
 export const translateCommit = async (commitmessage: string) => {
