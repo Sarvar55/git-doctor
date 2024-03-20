@@ -16,7 +16,7 @@ import {
 import { logger } from '../utils/logger'
 import { translateCommit } from '../utils/translate-commit'
 
-const config = ConfigManager.getInstance()
+const config = new ConfigManager()
 const manuelCommit = async () => {
 	const changedFiles = await gitGetModifiedFiles()
 
@@ -42,6 +42,8 @@ const manuelCommit = async () => {
 	}
 
 	const message = `${commitType}: ${commitSubject.toString()}`
+
+	logger.info('commit message: ' + message)
 
 	try {
 		const isConfirmedCommit = await isConfirm('Confirm commit message?')

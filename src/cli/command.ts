@@ -5,7 +5,7 @@ import { logger } from '../utils/logger'
 
 const gitManager = new GitManager()
 
-const config = ConfigManager.getInstance()
+const config = new ConfigManager()
 
 export const program = new Command()
 	.version('0.0.1', '-v, --vers', 'current version')
