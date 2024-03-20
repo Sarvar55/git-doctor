@@ -11,29 +11,13 @@ export enum APP_CONSTANTS {
 }
 
 export class ConfigManager {
-	private static instance: ConfigManager
 	private config: Configstore
-	private validkeys: APP_CONSTANTS[]
-
 	constructor() {
 		this.config = new Configstore(pkg.name)
-		this.validkeys = Object.values(APP_CONSTANTS)
 	}
 
 	public set(key: APP_CONSTANTS, value: string | boolean): void {
-		if (this.validkeys.includes(key)) {
-			this.config.set(key, value)
-		} else {
-			logger.error(
-				`Invalid key "${key}". Please use one of the following keys: ${this.validkeys.join(', ')}`
-			)
-		}
-	}
-	public static getInstance(): ConfigManager {
-		if (!ConfigManager.instance)
-			ConfigManager.instance = new ConfigManager()
-
-		return ConfigManager.instance
+		this.config.set(key, value)
 	}
 
 	public get(key: APP_CONSTANTS): string | boolean | undefined {

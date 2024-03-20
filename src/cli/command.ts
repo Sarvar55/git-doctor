@@ -15,8 +15,8 @@ export const program = new Command()
 	)
 
 program
-	.option('-s, --source-lang <string>', 'set source language', 'tr')
-	.option('-t, --target-lang <string>', 'set target language', 'en')
+	.option('-s, --source-lang <string>', 'set source language')
+	.option('-t, --target-lang <string>', 'set target language')
 	.option('-a, --auto-trans <boolean>', 'enable auto-translate', false)
 	.option('-k, --api-key <string>', 'set API key')
 	.option('-c, --config', 'retrive all configs')

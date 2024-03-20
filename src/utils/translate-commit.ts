@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { logger } from './logger'
 import { APP_CONSTANTS, ConfigManager } from '../config/config'
-const config = ConfigManager.getInstance()
+const config = new ConfigManager()
 
 export const translateCommit = async (commitmessage: string) => {
 	const sourceLang = config.get(APP_CONSTANTS.source_lang) ?? 'tr'
