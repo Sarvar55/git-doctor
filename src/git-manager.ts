@@ -1,4 +1,4 @@
-import { generateCommitWithAi } from './utils/generate-commit-with-ai'
+import { generateCommitWithAi } from './utils/generate-commit'
 import {
 	checkIsGitRepository,
 	has,
