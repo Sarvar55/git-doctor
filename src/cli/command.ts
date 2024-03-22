@@ -1,7 +1,8 @@
 import { Command } from 'commander'
 import { GitManager } from '../git-manager'
-import { APP_CONSTANTS, ConfigManager } from '../config/config'
+import { ConfigManager } from '../config/config'
 import { logger } from '../utils/logger'
+import { OPTION_ACTIONS } from '../types/options'
 
 const gitManager = new GitManager()
 
@@ -15,40 +16,34 @@ export const program = new Command()
 	)
 
 program
-	.option('-s, --source-lang <string>', 'set source language')
-	.option('-t, --target-lang <string>', 'set target language')
-	.option('-a, --auto-trans <boolean>', 'enable auto-translate', false)
-	.option('-k, --api-key <string>', 'set API key')
-	.option('-c, --config', 'retrive all configs')
-	.option('-e, --emoji <boolean>', 'set emoji', true)
+	.option('-s, --source-lang <string>', OPTION_ACTIONS.sourceLang.description)
+	.option('-t, --target-lang <string>', OPTION_ACTIONS.targetLang.description)
+	.option(
+		'-a, --auto-trans <boolean>',
+		OPTION_ACTIONS.autoTrans.description,
+		false
+	)
+	.option('-k, --api-key <string>', OPTION_ACTIONS.apiKey.description)
+	.option('-c, --config', OPTION_ACTIONS.config.description)
+	.option('-e, --emoji <boolean>', OPTION_ACTIONS.emoji.description, true)
 	.action(options => {
-		if (options.sourceLang) {
-			config.set(APP_CONSTANTS.source_lang, options.sourceLang)
-			logger.info(`Source language set to: ${options.sourceLang}`)
-		}
-		if (options.emoji) {
-			config.set(APP_CONSTANTS.has_emoji, options.emoji)
-			logger.info(`Emoji set to: ${options.emoji}`)
-		}
-		if (options.targetLang) {
-			config.set(APP_CONSTANTS.target_lang, options.targetLang)
-			logger.info(`Target language set to: ${options.targetLang}`)
-		}
-
-		if (options.autoTrans) {
-			config.set(
-				APP_CONSTANTS.translate_auto_to_target_lang,
-				options.autoTrans
-			)
-			logger.info(`Auto translate feature set to: ${options.autoTrans}`)
-		}
-
-		if (options.apiKey) {
-			config.set(APP_CONSTANTS.api_key, options.apiKey)
-			logger.info(`Api key set to: ${options.apiKey}`)
-		}
-		if (options.config) {
-			config.all()
+		for (const key in options) {
+			if (Object.prototype.hasOwnProperty.call(options, key)) {
+				const optionValue = options[key]
+				const optionAction =
+					OPTION_ACTIONS[key as keyof typeof OPTION_ACTIONS]
+				if (optionValue) {
+					if ('configKey' in optionAction && optionAction.configKey) {
+						config.set(optionAction.configKey, optionValue)
+						logger.info(`${optionAction.logMessage} ${optionValue}`)
+					} else if (
+						'action' in optionAction &&
+						optionAction.action
+					) {
+						optionAction.action()
+					}
+				}
+			}
 		}
 	})
 
