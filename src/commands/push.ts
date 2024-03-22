@@ -5,7 +5,7 @@ import {
 	gitGetRemoteUrl,
 	gitPush,
 } from '../utils/git'
-import { outro, spinner, isCancel } from '@clack/prompts'
+import { spinner, isCancel } from '@clack/prompts'
 import chalk from 'chalk'
 import { logger } from '../utils/logger'
 

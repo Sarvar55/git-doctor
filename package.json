@@ -1,6 +1,6 @@
 {
 	"name": "git-doctor",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "GitDoctor, a TypeScript-powered command-line marvel, revolutionizes your Git experience with a range of unique features tailored for efficient version control.",
 	"main": "src/index.ts",
 	"repository": {
