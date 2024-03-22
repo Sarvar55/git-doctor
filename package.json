@@ -14,7 +14,9 @@
 		"git",
 		"command-line",
 		"typescript",
-		"cli"
+		"cli",
+		"cli-git",
+		"git-doctor"
 	],
 	"scripts": {
 		"start": "rm -rf build && npm run build &&  node build/cli/bin.js",
