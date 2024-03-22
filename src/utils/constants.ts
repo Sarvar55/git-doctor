@@ -30,8 +30,3 @@ export const commitTypes = types.map(commitType => {
 export const commitTypesWithEmoji = types.map(commitType => {
 	return `${emojis[commitType.value as keyof typeof emojis]} ${commitType.value}`
 })
-
-export const commitTypesWithDesc = () =>
-	types.map(commitType => {
-		return `\n	- For example , if this is the commit type ${commitType?.label?.toLowerCase()} then use this emoji ${emojis[commitType.value as keyof typeof emojis]}.\n`
-	})
