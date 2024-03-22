@@ -15,6 +15,7 @@ import {
 } from '../utils/git'
 import { logger } from '../utils/logger'
 import { translateCommit } from '../utils/translate-commit'
+import { GoogleTranslateService } from '../google-translate-service'
 
 const config = ConfigManager.getInstance()
 const manuelCommit = async () => {
@@ -38,12 +39,15 @@ const manuelCommit = async () => {
 	)
 
 	if (isAutoTranslate) {
-		commitSubject = (await translateCommit(
+		const googleTranslateService = await GoogleTranslateService.build(
 			commitSubject?.toString()
+		)
+		commitSubject = (await translateCommit(
+			googleTranslateService
 		)) as string
 	}
 
-	const message = `${commitType}: ${commitSubject.toString()}`
+	const message = `${commitType}: ${commitSubject?.toString()}`
 
 	logger.info('Commit Message: ' + message)
 
