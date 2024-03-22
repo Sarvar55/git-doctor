@@ -38,7 +38,6 @@ export const push = async () => {
 const processPush = async (branch: string) => {
 	const pushProgress = spinner()
 	try {
-		logger.info('branch:' + branch)
 		pushProgress.start('⏰ Push operation is taking place')
 
 		const origin = await gitGetRemoteUrl()
