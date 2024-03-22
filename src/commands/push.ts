@@ -42,13 +42,11 @@ const processPush = async (branch: string) => {
 		pushProgress.start('⏰ Push operation is taking place')
 
 		const origin = await gitGetRemoteUrl()
-		const stdout = await gitPush(origin, branch)
+		await gitPush(origin, branch)
 
 		pushProgress.stop(
 			`${chalk.green('✔')} successfully pushed all commits to ${origin}`
 		)
-
-		if (stdout) outro(stdout)
 	} catch (error) {
 		logger.error(error)
 	}

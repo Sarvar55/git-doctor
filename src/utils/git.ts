@@ -101,8 +101,7 @@ export const gitPush = async (
 	origin: string,
 	branch: string
 ): Promise<string> => {
-	logger.info('branch' + branch)
-	logger.warning('origin' + origin)
+	logger.success('Branch: ' + branch)
 
 	const { stdout } = await executeGitCommand([
 		'push',
