@@ -6,7 +6,6 @@ import {
 	has,
 	isConfirm,
 } from '../utils/commons'
-import { commitTypes, commitTypesWithEmoji } from '../utils/constants'
 import {
 	gitCommit,
 	gitGetModifiedFiles,
@@ -16,6 +15,7 @@ import {
 import { logger } from '../utils/logger'
 import { translateCommit } from '../utils/translate-commit'
 import { GoogleTranslateService } from '../google-translate-service'
+import { commitTypes, commitTypesWithEmoji } from '../types/options'
 
 const config = ConfigManager.getInstance()
 const manuelCommit = async () => {
