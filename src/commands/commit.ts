@@ -52,7 +52,7 @@ const manuelCommit = async () => {
 	logger.info('Commit Message: ' + message)
 
 	try {
-		const isConfirmedCommit = await isConfirm('Confirm commit message?')
+		const isConfirmedCommit = await isConfirm('Confirm commit message ?')
 
 		if (!isConfirmedCommit || isCancel(isConfirmedCommit)) {
 			logger.error('Commit message has been cancelled.')
