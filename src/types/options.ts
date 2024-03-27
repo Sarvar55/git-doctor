@@ -61,6 +61,7 @@ const emojis = {
 export const commitTypes = types.map(commitType => {
 	return commitType.value
 })
+
 export const commitTypesWithEmoji = types.map(commitType => {
 	return `${emojis[commitType.value as keyof typeof emojis]} ${commitType.value}`
 })
