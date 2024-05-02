@@ -16,8 +16,6 @@ GitDoctor, Git kullanımınızı kolaylaştıran ve verimli hale getiren bir Typ
 3. **AI Destekli Commit Mesajları**: Projede olan değişikliklere göre otomatik olarak uygun bir commit mesajı oluşturur.
 4. **Otomatik Commit ve Push**: Commit mesajınızı ve değişikliklerinizi otomatik olarak belirlenen bir brancha push eder.
 
-## Kurulum
-
 ## CLI Kullanımı
 
 GitDoctor CLI, git-doctor veya gitd komutları ile çağrılabilir. Bu komutlar, projenin `build/cli/bin.js` dosyasını çalıştırır.
