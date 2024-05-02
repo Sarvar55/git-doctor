@@ -44,7 +44,7 @@ export class GitManager {
 		const diff = await this.getDiffFromGit()
 
 		if (has(diff)) {
-			logger.info(diff + ' ')
+			logger.info(diff + '')
 			const commitMessage = await generateCommitWithAi(diff)
 			const isConfirm = await commitWithAi(commitMessage)
 			if (isConfirm) {

@@ -1,6 +1,6 @@
 {
 	"name": "git-doctor",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "GitDoctor, a TypeScript-powered command-line marvel, revolutionizes your Git experience with a range of unique features tailored for efficient version control.",
 	"main": "src/index.ts",
 	"repository": {
@@ -61,7 +61,6 @@
 		"cli-select": "^1.1.2",
 		"commander": "^12.0.0",
 		"config": "^3.3.11",
-		"dotenv": "^16.4.5",
 		"execa": "^8.0.1",
 		"timers-promises": "^1.0.1"
 	}
