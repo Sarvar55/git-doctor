@@ -31,7 +31,7 @@ export class GitManager {
 				await gitInit()
 			} else {
 				logger.info(
-					"If you want to create a git repo, use this command 'git init .'"
+					"If you want to create a git repo  this command 'git init .'"
 				)
 				process.exit(1)
 			}
